@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chg_rowheader"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/content_minheight"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/keyline"
+    android:paddingRight="@dimen/keyline">
+
+    <!-- ChangeLog Header [Version] You have to use the id="chg_headerVersion" -->
+    <TextView
+        android:id="@+id/chg_headerVersion"
+        style="@style/AppTheme.TextAppearance.ChangeLogHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="VERSION 1.0" />
+
+    <!-- ChangeLog Header [Date] You have to use the id="chg_headerDate" -->
+    <TextView
+        android:id="@+id/chg_headerDate"
+        style="@style/AppTheme.TextAppearance.ChangeLogHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        tools:text="JAN 8, 2017" />
+</LinearLayout>

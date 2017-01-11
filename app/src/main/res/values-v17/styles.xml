@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.TextAppearance.FabText" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">?attr/textColorTertiary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingEnd">@dimen/fab_text_padding</item>
+        <item name="android:paddingStart">@dimen/fab_text_padding</item>
+    </style>
+</resources>

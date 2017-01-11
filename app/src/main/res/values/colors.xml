@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/md_deep_purple_500</color>
+    <color name="colorPrimaryDark">@color/md_deep_purple_700</color>
+    <color name="colorPrimaryLight">@color/md_deep_purple_200</color>
+    <color name="colorAccent">@color/md_green_500</color>
+    <color name="colorAccentDark">@color/md_green_800</color>
+    <color name="colorAccentLight">@color/md_green_100</color>
+    <color name="colorAlternative">@color/md_amber_500</color>
+
+    <!-- AboutLibraries colors -->
+    <color name="about_libraries_card">#f6f3fb</color><!-- equivalent to md_deep_purple_25 -->
+    <color name="about_libraries_title_openSource">@color/colorPrimary</color>
+    <color name="about_libraries_text_openSource">@color/md_secondary_text_light</color>
+    <color name="about_libraries_special_button_openSource">@color/colorAccent</color>
+    <color name="about_libraries_dividerDark_openSource">@color/colorAccentLight</color>
+    <color name="about_libraries_dividerLight_openSource">@color/colorAccentLight</color>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_taptargetprompt">year;owner</string>
+    <string name="library_taptargetprompt_author">Samuel Wall</string>
+    <string name="library_taptargetprompt_authorWebsite">https://github.com/sjwall</string>
+    <string name="library_taptargetprompt_libraryName">Material Tap Target Prompt</string>
+    <string name="library_taptargetprompt_libraryDescription">A Tap Target implementation in Android based on Material Design Onboarding guidelines.</string>
+    <string name="library_taptargetprompt_libraryVersion">1.7.0</string>
+    <string name="library_taptargetprompt_libraryWebsite">https://github.com/sjwall/MaterialTapTargetPrompt</string>
+    <string name="library_taptargetprompt_licenseId">apache_2_0</string>
+    <string name="library_taptargetprompt_isOpenSource">true</string>
+    <string name="library_taptargetprompt_repositoryLink">https://github.com/sjwall/MaterialTapTargetPrompt</string>
+    <string name="library_tagtargetprompt_classPath">uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt</string>
+    <string name="library_taptargetprompt_owner">Samuel Wall</string>
+    <string name="library_taptargetprompt_year">2016</string>
+</resources>

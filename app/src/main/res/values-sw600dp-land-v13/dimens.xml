@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Material design guidelines -->
+    <dimen name="content_minheight">64dp</dimen>
+    <dimen name="keyline">24dp</dimen>
+    <dimen name="keyline_button">20dp</dimen>
+
+</resources>

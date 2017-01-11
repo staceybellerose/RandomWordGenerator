@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Random Word Generator</string>
+    <string name="app_description">This app generates randomly selected words from a large
+        English (American) dictionary of over 28,000 entries.
+    </string>
+    <string name="app_header">Your Generated Words</string>
+    <string name="app_font_family">sans-serif</string>
+    <string name="app_long_desc"><![CDATA[<p>The inspiration for this app was xkcd\'s comic
+        <a href="https://m.xkcd.com/936/">"Password Strength"</a>, and by
+        <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>.</p>
+        <p>By using a large English (American) dictionary with over 28,000 entries, a randomly
+        selected word will have nearly 14.8 bits of entropy. A phrase made up of 6 words will
+        have over 88.6 bits of entropy, more than enough for a very strong password.</p>
+        <p>This app uses the 6of12 word list from 12dicts, along with the neol2016 list.
+        The random number generator uses the cryptographically secure java.security.SecureRandom
+        class.</p>
+        ]]></string>
+
+    <string name="sample_words">
+        lorem
+        \nipsum
+        \ndolor
+        \nsit
+        \namet
+        \nconsectetur
+        \nadipiscing
+        \nelit
+        \ncras
+        \neuismod
+        \nconsequat
+        \nfelis</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_changelog">Change Log</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_tour_help">View Help</string>
+    <string name="header_libraries">Third Party Libraries</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh Words</string>
+    <string name="action_about">About</string>
+    <string name="action_changelog">Change Log</string>
+
+    <string name="changelog_row_bullet">\u25cf</string>
+
+    <string name="tour_clipboard_primary">Copy to Clipboard</string>
+    <string name="tour_clipboard_secondary">Tap the button to copy your word list to the clipboard</string>
+    <string name="tour_refresh_primary">Pull to Refresh</string>
+    <string name="tour_refresh_secondary">To generate a new set of words, swipe down to refresh.</string>
+
+    <!-- AboutLibraries extra definitions -->
+    <string name="define_int_gradle_retrolambda">year;owner</string>
+    <string name="library_gradle_retrolambda_owner">Evan Tatarka</string>
+    <string name="library_gradle_retrolambda_year">2013</string>
+
+    <string name="define_int_LeakCanary">year;owner</string>
+    <string name="library_LeakCanary_owner">Square, Inc.</string>
+    <string name="library_LeakCanary_year">2015</string>
+
+    <string name="define_int_retrolambda">year;owner</string>
+    <string name="library_retrolambda_owner">Esko Luontola</string>
+    <string name="library_retrolambda_year">2013</string>
+
+    <string name="define_int_rxandroid">year;owner</string>
+    <string name="library_rxandroid_owner">The RxAndroid authors</string>
+    <string name="library_rxandroid_year">2015</string>
+
+    <string name="define_int_rxjava">year;owner</string>
+    <string name="library_rxjava_owner">RxJava Contributors</string>
+    <string name="library_rxjava_year">2016-present</string>
+
+    <string name="define_int_appcompat_v7">owner</string>
+    <string name="library_appcompat_v7_owner">AOSP</string>
+
+    <string name="define_int_design">owner</string>
+    <string name="library_design_owner">AOSP</string>
+
+    <string name="define_int_recyclerview_v7">owner</string>
+    <string name="library_recyclerview_v7_owner">AOSP</string>
+
+    <string name="define_int_support_v4">owner</string>
+    <string name="library_support_v4_owner">AOSP</string>
+</resources>

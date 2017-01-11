@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_rxjavastring">year;owner</string>
+    <string name="library_rxjavastring_author">ReactiveX</string>
+    <string name="library_rxjavastring_authorWebsite">http://reactivex.io/</string>
+    <string name="library_rxjavastring_libraryName">RxJavaString</string>
+    <string name="library_rxjavastring_libraryDescription"><![CDATA[String and Byte operators for <b>RxJava</b>.]]></string>
+    <string name="library_rxjavastring_libraryVersion">1.1.1</string>
+    <string name="library_rxjavastring_libraryWebsite">https://github.com/ReactiveX/RxJavaString</string>
+    <string name="library_rxjavastring_licenseId">apache_2_0</string>
+    <string name="library_rxjavastring_isOpenSource">true</string>
+    <string name="library_rxjavastring_repositoryLink">https://github.com/ReactiveX/RxJavaString</string>
+    <string name="library_rxjavastring_classPath">rx.observables.StringObservable</string>
+    <string name="library_rxjavastring_owner">ReactiveX</string>
+    <string name="library_rxjavastring_year">2014</string>
+</resources>

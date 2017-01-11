@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- dimensions for FloatingActionButton -->
+    <dimen name="fab_margin">32dp</dimen>
+    <dimen name="fab_text_padding">16dp</dimen>
+
+    <!-- Text sizes and margins -->
+    <dimen name="text_size_header">20sp</dimen>
+    <dimen name="text_size_subhead">18sp</dimen>
+    <dimen name="text_size_body">14sp</dimen>
+    <dimen name="text_size_button">14sp</dimen>
+    <dimen name="text_size_changelog_row">16sp</dimen>
+    <dimen name="text_size_changelog_header">14sp</dimen>
+    <dimen name="text_size_changelog_bullet">22sp</dimen>
+
+    <dimen name="text_margin_header">16sp</dimen>
+    <dimen name="text_margin_subhead">14sp</dimen>
+    <dimen name="text_margin_body">12sp</dimen>
+
+    <!-- Material design guidelines -->
+    <dimen name="content_minheight">56dp</dimen>
+    <dimen name="keyline">16dp</dimen>
+    <dimen name="keyline_button">12dp</dimen>
+
+    <!-- tap target sizes -->
+    <dimen name="tap_target_menu_max_width">350dp</dimen>
+</resources>

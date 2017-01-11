@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="md_primary_text_light">#DE000000</color>
+    <color name="md_secondary_text_light">#8A000000</color>
+    <color name="md_disabled_text_light">#61000000</color>
+
+    <color name="md_primary_text_dark">#FFFFFFFF</color>
+    <color name="md_secondary_text_dark">#46FFFFFF</color>
+    <color name="md_disabled_text_dark">#80FFFFFF</color>
+</resources>

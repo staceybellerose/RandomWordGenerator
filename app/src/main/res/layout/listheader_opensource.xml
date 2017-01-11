@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/aboutIcon"
+        android:layout_width="@dimen/aboutImage_openSource"
+        android:layout_height="@dimen/aboutImage_openSource"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/aboutName"
+        style="@style/AppTheme.TextAppearance.Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="4dp"
+        tools:text="@string/app_name" />
+
+    <TextView
+        android:id="@+id/aboutVersion"
+        style="@style/AppTheme.TextAppearance.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="0dp"
+        tools:text="About version" />
+
+    <LinearLayout
+        android:id="@+id/aboutSpecialContainer"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="@dimen/keyline_button"
+        android:layout_marginLeft="@dimen/keyline_button"
+        android:layout_marginRight="@dimen/keyline_button"
+        android:layout_marginStart="@dimen/keyline_button"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/aboutSpecial1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textAppearance="@style/AppTheme.TextAppearance.Button"
+            tools:text="Special 1" />
+
+        <Button
+            android:id="@+id/aboutSpecial2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textAppearance="@style/AppTheme.TextAppearance.Button"
+            tools:text="Special 2" />
+
+        <Button
+            android:id="@+id/aboutSpecial3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textAppearance="@style/AppTheme.TextAppearance.Button"
+            tools:text="Special 3" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/aboutDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/keyline"
+        android:layout_marginLeft="@dimen/keyline"
+        android:layout_marginRight="@dimen/keyline"
+        android:layout_marginStart="@dimen/keyline"
+        android:layout_marginTop="0dp" />
+
+    <TextView
+        android:id="@+id/aboutDescription"
+        style="@style/AppTheme.TextAppearance.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="0dp"
+        android:paddingEnd="@dimen/keyline"
+        android:paddingLeft="@dimen/keyline"
+        android:paddingRight="@dimen/keyline"
+        android:paddingStart="@dimen/keyline"
+        android:paddingTop="0dp"
+        tools:text="About description" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="@dimen/keyline"
+        android:layout_marginLeft="@dimen/keyline"
+        android:layout_marginRight="@dimen/keyline"
+        android:layout_marginStart="@dimen/keyline"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        style="@style/AppTheme.TextAppearance.Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/header_libraries" />
+
+</LinearLayout>

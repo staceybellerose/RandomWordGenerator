@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chg_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/content_minheight"
+    android:orientation="horizontal">
+
+    <!-- ChangeLog Row [Bullet Point] You have to use the id="chg_textbullet" -->
+    <TextView
+        android:id="@+id/chg_textbullet"
+        style="@style/AppTheme.TextAppearance.ChangeLogRow"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/keyline"
+        android:paddingStart="@dimen/keyline"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
+        android:text="@string/changelog_row_bullet" />
+
+    <!-- ChangeLog Row [Text] You have to use the id="chg_text" -->
+    <TextView
+        android:id="@+id/chg_text"
+        style="@style/AppTheme.TextAppearance.ChangeLogRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/keyline"
+        tools:text="Use DashClock with Android 4.2's Daydream feature; great for use with desktop docks!" />
+</LinearLayout>
