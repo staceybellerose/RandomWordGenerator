@@ -1,6 +1,11 @@
 Random Word Generator
 =====================
 
+![Build](https://travis-ci.org/staceybellerose/RandomWordGenerator.svg?branch=master)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/staceybellerose/RandomWordGenerator/master/LICENSE)
+[![Android](https://img.shields.io/badge/platform-android-green.svg)](https://developer.android.com/develop/index.html)
+[![Latest Version](https://img.shields.io/github/release/staceybellerose/RandomWordGenerator.svg)](https://github.com/staceybellerose/RandomWordGenerator/releases)
+
 The **Random Word Generator** Android app generates
 randomly selected words from a large English (American)
 dictionary of over 28,000 entries.
