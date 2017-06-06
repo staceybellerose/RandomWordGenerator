@@ -3,9 +3,13 @@ package com.staceybellerose.randomwordgenerator;
 import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.staceybellerose.randomwordgenerator.utils.PRNGFixes;
 
 import jonathanfinerty.once.Once;
 
+/**
+ * Main Application class
+ */
 public class MyApplication extends Application {
     @Override
     public void onCreate() {
@@ -17,5 +21,6 @@ public class MyApplication extends Application {
         }
         LeakCanary.install(this);
         Once.initialise(this);
+        PRNGFixes.apply();
     }
 }
