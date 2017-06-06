@@ -19,13 +19,8 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.staceybellerose.randomwordgenerator.listeners.SimpleLibsListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +30,6 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -205,35 +199,11 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * show the About activity
+     */
     private void showAbout() {
-        new LibsBuilder()
-                .withFields(R.string.class.getFields())
-                .withAutoDetect(true)
-                .withAboutAppName(mAppName)
-                .withAboutIconShown(true)
-                .withAboutVersionShownName(true)
-                .withAboutDescription(mAppLongDesc)
-                // TODO uncomment following line when Settings activity created
-                //.withAboutSpecial1(mSettingsActivityTitle)
-                .withAboutSpecial2(mChangelogActivityTitle)
-                .withListener(new SimpleLibsListener() {
-                    @Override
-                    public boolean onExtraClicked(View v, Libs.SpecialButton specialButton) {
-                        if (specialButton == Libs.SpecialButton.SPECIAL1) {
-                            // TODO start Settings activity here
-                            return true;
-                        } else if (specialButton == Libs.SpecialButton.SPECIAL2) {
-                            Intent intent = new Intent(MainActivity.this, ChangelogActivity.class);
-                            startActivity(intent);
-                            return true;
-                        }
-                        return super.onExtraClicked(v, specialButton);
-                    }
-                })
-                .withExcludedLibraries("AndroidIconics")
-                .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "taptargetprompt")
-                .withLicenseShown(true)
-                .withOwnLibsActivityClass(MyLibsActivity.class)
-                .start(this);
+        Intent intent = new Intent(this, MyLibsActivity.class);
+        startActivity(intent);
     }
 }
