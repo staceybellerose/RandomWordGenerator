@@ -15,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -40,28 +42,69 @@ import rx.observables.StringObservable;
 import rx.schedulers.Schedulers;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
+/**
+ * The main activity for this app
+ */
 public class MainActivity extends AppCompatActivity {
+    /**
+     * size of the swipe to refresh help icon
+     */
     private static final int TOUR_REFRESH_ICON_SIZE_DP = 48;
+    /**
+     * tag string for error logging
+     */
+    private static final String TAG = "RandomWordGenerator";
 
-    @BindView(R.id.fab) FloatingActionButton mFab;
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.random_content) TextView mRandomContent;
-    @BindView(R.id.swiperefresh) SwipeRefreshLayout mSwipeLayout;
-    @BindColor(R.color.colorPrimary) int mColorPrimary;
-    @BindColor(R.color.colorAccent) int mColorAccent;
-    @BindColor(R.color.colorAlternative) int mColorAlternative;
-    @BindString(R.string.title_activity_changelog) String mChangelogActivityTitle;
-    @BindString(R.string.title_activity_settings) String mSettingsActivityTitle;
-    @BindString(R.string.app_name) String mAppName;
-    @BindString(R.string.app_long_desc) String mAppLongDesc;
-
-    SecureRandom secureRandom = new SecureRandom();
-    ArrayList<String> mWordList = new ArrayList<>();
-    int mRandomRange;
-    int mCount;
+    /**
+     * the floating action button
+     */
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
+    /**
+     * the toolbar
+     */
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    /**
+     * textview containing the randomly selected word list
+     */
+    @BindView(R.id.random_content)
+    TextView mRandomContent;
+    /**
+     * swipe down to refresh layout
+     */
+    @BindView(R.id.swiperefresh)
+    SwipeRefreshLayout mSwipeLayout;
+    /**
+     * the primary color for the app
+     */
+    @BindColor(R.color.colorPrimary)
+    int mColorPrimary;
+    /**
+     * the accent color for the app
+     */
+    @BindColor(R.color.colorAccent)
+    int mColorAccent;
+    /**
+     * a third color for the app, used in the swipe to refresh progress animation
+     */
+    @BindColor(R.color.colorAlternative)
+    int mColorAlternative;
+    /**
+     * cryptographically secure random number generator
+     */
+    private SecureRandom mSecureRandom = new SecureRandom();
+    /**
+     * the word list, from which random words are selected
+     */
+    private ArrayList<String> mWordList = new ArrayList<>();
+    /**
+     * number of random words to display
+     */
+    private int mCount;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -87,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * copy list of random words (space separated) to clipboard
+     */
     @OnClick(R.id.fab)
     public void copyToClipboard() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -96,28 +142,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_settings) {
             // TODO start Settings activity here
             return true;
-        } else if (id == R.id.action_refresh) {
+        } else if (itemId == R.id.action_refresh) {
             refreshWords();
             return true;
-        } else if (id == R.id.action_changelog) {
+        } else if (itemId == R.id.action_changelog) {
             Intent intent = new Intent(this, ChangelogActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_help) {
+        } else if (itemId == R.id.action_help) {
             startTour();
             return true;
-        } else if (id == R.id.action_about) {
+        } else if (itemId == R.id.action_about) {
             showAbout();
             return true;
         }
@@ -125,36 +171,49 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * refresh the list of random words
+     */
     private void refreshWords() {
         mRandomContent.setText("");
         Observable.interval(100, TimeUnit.MILLISECONDS, Schedulers.io())
-                .map(i -> secureRandom.nextInt(mRandomRange))
-                .map(i -> mWordList.get(i))
-                .filter(s -> s != null)
-                .map(s -> s + "\n")
+                .map(number -> mSecureRandom.nextInt(mWordList.size()))
+                .map(number -> mWordList.get(number))
+                .filter(substring -> substring != null)
+                .map(substring -> substring + "\n")
                 .distinct()
                 .take(mCount)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> mRandomContent.append(s));
+                .subscribe(substring -> mRandomContent.append(substring));
     }
 
+    /**
+     * read the list of words from a raw resource file
+     */
     private void readWordList() {
-        InputStream in = getResources().openRawResource(R.raw.wordlist);
-        InputStreamReader reader = new InputStreamReader(in);
+        InputStream inputStream = getResources().openRawResource(R.raw.wordlist);
+        InputStreamReader reader = null;
+        try {
+            reader = new InputStreamReader(inputStream, "UTF8");
+        } catch (UnsupportedEncodingException exception) {
+            Log.e(TAG, exception.getMessage(), exception);
+        }
 
         StringObservable.byLine(StringObservable.from(reader))
-                .filter(s -> !TextUtils.isEmpty(s))
-                .subscribe(s -> mWordList.add(s));
-        mRandomRange = mWordList.size();
+                .filter(substring -> !TextUtils.isEmpty(substring))
+                .subscribe(substring -> mWordList.add(substring));
 
         try {
             reader.close();
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            inputStream.close();
+        } catch (IOException exception) {
+            Log.e(TAG, exception.getMessage(), exception);
         }
     }
 
+    /**
+     * start the help tour by highlighting the "copy to clipboard" button
+     */
     private void startTour() {
         new MaterialTapTargetPrompt.Builder(this)
                 .setPrimaryText(R.string.tour_clipboard_primary)
@@ -165,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 .setBackgroundColourFromRes(R.color.colorPrimaryLight)
                 .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                     @Override
-                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                    public void onHidePrompt(final MotionEvent event, final boolean tappedTarget) {
                     }
 
                     @Override
@@ -176,6 +235,9 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * continue the help tour by highlighting the "swipe down to refresh" functionality
+     */
     private void showTourPullRefresh() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();

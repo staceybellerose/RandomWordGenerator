@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.staceybellerose.randomwordgenerator">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:name="com.staceybellerose.randomwordgenerator.MyApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+    <activity
             android:name="com.staceybellerose.randomwordgenerator.MainActivity"
             android:label="@string/app_name">
             <intent-filter>

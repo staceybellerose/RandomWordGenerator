@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
     android:clickable="true"
-    android:foreground="?selectableItemBackground"
-    android:layoutDirection="ltr">
+    android:foreground="?selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"

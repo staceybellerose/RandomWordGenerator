@@ -81,4 +81,7 @@
 
     <string name="define_int_support_v4">owner</string>
     <string name="library_support_v4_owner">AOSP</string>
+
+    <string name="leak_canary_display_activity_label">Random Word Generator Leaks</string>
+
 </resources>
