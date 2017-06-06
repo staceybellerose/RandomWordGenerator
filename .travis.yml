@@ -33,7 +33,7 @@ before_script:
 
 script:
   - android list target
-  - ./gradlew connectedAndroidTest -PdisablePreDex
+  - ./gradlew connectedDebugAndroidTest -PdisablePreDex
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
