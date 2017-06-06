@@ -2,9 +2,17 @@
 <changelog bulletedList="true">
 
     <changelogversion
-        changeDate="Jan 8, 2017"
+        changeDate="June 6, 2017"
+        versionName="1.0.1">
+        <changelogtext>Update build tools and add code quality checks</changelogtext>
+        <changelogtext>Resolve issues identified by code quality tools</changelogtext>
+        <changelogbug>Patch random number generator to have high entropy seed</changelogbug>
+        <changelogbug>Fix memory leak</changelogbug>
+    </changelogversion>
+    <changelogversion
+        changeDate="Jan 10, 2017"
         versionName="1.0">
-        <changelogtext>Initial release.</changelogtext>
+        <changelogtext>Initial release</changelogtext>
     </changelogversion>
 
 </changelog>
