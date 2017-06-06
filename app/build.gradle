@@ -3,17 +3,29 @@ apply plugin: 'me.tatarka.retrolambda'
 apply from: '../config/quality.gradle'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.staceybellerose.randomwordgenerator"
         minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 25
+        versionCode gitVersion.version
+        versionName "1.0.1." + gitVersion.version
+    }
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -22,24 +34,36 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            def appName = rootProject.ext.appName
+            def fileName = appName + "-" + variant.buildType.name + "-" + variant.versionName.replaceAll("[.]","-") + ".apk"
+            output.outputFile = new File(file.parent, fileName)
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
+    ext {
+        support_library_version = '25.3.1'
+    }
+    compile "com.android.support:appcompat-v7:${support_library_version}"
+    compile "com.android.support:design:${support_library_version}"
+    compile "com.android.support:cardview-v7:${support_library_version}"
+    compile "com.android.support:recyclerview-v7:${support_library_version}"
+    compile "com.android.support:support-v4:${support_library_version}"
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.5'
     compile 'io.reactivex:rxjava-string:1.1.1'
     compile 'com.jonathanfinerty.once:once:1.2.1'
-    compile 'uk.co.samuelwall:material-tap-target-prompt:1.7.0'
+    compile 'uk.co.samuelwall:material-tap-target-prompt:1.10.0'
     compile ('com.mikepenz:aboutlibraries:5.9.1@aar') {
         transitive = true
     }

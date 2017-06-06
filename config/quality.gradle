@@ -3,13 +3,19 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 // Add checkstyle, findbugs, pmd and lint to the check task.
-check.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
+check.dependsOn 'codeChecks'
 
 def configDir = "${project.rootDir}/config/quality"
 def reportsDir = "${project.buildDir}/reports"
 
 checkstyle {
     toolVersion = '6.7'
+}
+
+task codeChecks {
+    group = 'verification'
+    description 'Runs all code analysis checks'
+    dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
 }
 
 task checkstyle(type: Checkstyle) {
