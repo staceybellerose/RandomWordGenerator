@@ -4,6 +4,7 @@ android:
   components:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
+    - tools
     - platform-tools
     - tools
 
@@ -33,6 +34,16 @@ env:
     #- API=android-22 ABI=armeabi-v7a
     #- API=android-24 ABI=armeabi-v7a
     #- API=android-24 ABI=arm64-v8a
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
 
 before_install:
  - chmod +x gradlew
