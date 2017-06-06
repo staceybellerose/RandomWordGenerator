@@ -15,7 +15,7 @@ checkstyle {
 task codeChecks {
     group = 'verification'
     description 'Runs all code analysis checks'
-    dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
+    dependsOn 'checkstyle', 'findbugs', 'pmd', 'lintDebug'
 }
 
 task checkstyle(type: Checkstyle) {
