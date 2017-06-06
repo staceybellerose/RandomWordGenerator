@@ -82,10 +82,13 @@ task pmd(type: Pmd) {
 android {
     lintOptions {
         abortOnError true
+        explainIssues true
         xmlReport false
         htmlReport true
+        textReport true
         lintConfig file("$configDir/lint/lint.xml")
         htmlOutput file("$reportsDir/lint/lint-result.html")
         xmlOutput file("$reportsDir/lint/lint-result.xml")
+        textOutput "stdout"
     }
 }
