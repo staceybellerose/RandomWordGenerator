@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="define_license_Public_Domain"></string>
+    <string name="define_license_Public_Domain" />
     <string name="license_Public_Domain_licenseName">Public Domain</string>
     <string name="license_Public_Domain_licenseWebsite">http://unlicense.org/</string>
     <string name="license_Public_Domain_licenseShortDescription">

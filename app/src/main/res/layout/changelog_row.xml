@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:minHeight="@dimen/content_minheight"
     android:orientation="horizontal">
 
     <!-- ChangeLog Row [Bullet Point] You have to use the id="chg_textbullet" -->
@@ -29,6 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:padding="@dimen/keyline"
+        android:padding="8dp"
         tools:text="Use DashClock with Android 4.2's Daydream feature; great for use with desktop docks!" />
 </LinearLayout>

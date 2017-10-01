@@ -10,11 +10,11 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode gitVersion.version
-        versionName "1.0.1." + gitVersion.version
+        versionName "1.1.0." + gitVersion.name
     }
     signingConfigs {
         release {
-            if (hasProperty('RELEASE_STORE_FILE')) {
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
                 storeFile file(RELEASE_STORE_FILE)
                 storePassword RELEASE_STORE_PASSWORD
                 keyAlias RELEASE_KEY_ALIAS
@@ -25,11 +25,26 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
         }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        def BOOLEAN = "boolean"
+        def TRUE = "true"
+        def FALSE = "false"
+        def CLEAN_WORDS_ONLY = "CLEAN_WORDS_ONLY"
+        full {
+            buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, FALSE
+        }
+        clean {
+            buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, TRUE
+            applicationIdSuffix ".clean"
+            versionNameSuffix "-clean"
         }
     }
     compileOptions {

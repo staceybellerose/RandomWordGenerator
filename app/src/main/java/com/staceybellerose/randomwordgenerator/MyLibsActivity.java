@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
-import com.staceybellerose.randomwordgenerator.listeners.ChangeLogButtonListener;
+import com.staceybellerose.randomwordgenerator.listeners.SpecialButtonListener;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -33,8 +33,10 @@ public class MyLibsActivity extends AppCompatActivity {
      * Long description for the app
      */
     @BindString(R.string.app_long_desc) String mAppLongDesc;
-    // TODO uncomment following line when Settings activity created
-    // @BindString(R.string.title_activity_settings) String mSettingsActivityTitle;
+    /**
+     * Title string for the Settings activity
+     */
+    @BindString(R.string.title_activity_settings) String mSettingsActivityTitle;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -53,10 +55,9 @@ public class MyLibsActivity extends AppCompatActivity {
                 .withAboutIconShown(true)
                 .withAboutVersionShownName(true)
                 .withAboutDescription(mAppLongDesc)
-                // TODO uncomment following line when Settings activity created
-                //.withAboutSpecial1(mSettingsActivityTitle)
+                .withAboutSpecial1(mSettingsActivityTitle)
                 .withAboutSpecial2(mChangelogActivityTitle)
-                .withListener(new ChangeLogButtonListener())
+                .withListener(new SpecialButtonListener())
                 .withExcludedLibraries("AndroidIconics")
                 .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "taptargetprompt")
                 .withLicenseShown(true)

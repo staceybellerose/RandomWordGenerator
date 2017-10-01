@@ -4,11 +4,14 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.RawRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -50,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
      * size of the swipe to refresh help icon
      */
     private static final int TOUR_REFRESH_ICON_SIZE_DP = 48;
+    /**
+     * Time in milliseconds to delay between new words displaying
+     */
+    private static final int TIME_BETWEEN_WORD_DISPLAY_MS = 100;
+    /**
+     * Request code to indicate Settings Activity called
+     */
+    private static final int SETTINGS_REQUEST_CODE = 42;
+    /**
+     * key used for saving instance state
+     */
+    private static final String STATE_WORD_LIST_KEY = "stateWordList";
     /**
      * tag string for error logging
      */
@@ -94,14 +109,6 @@ public class MainActivity extends AppCompatActivity {
      * cryptographically secure random number generator
      */
     private SecureRandom mSecureRandom = new SecureRandom();
-    /**
-     * the word list, from which random words are selected
-     */
-    private ArrayList<String> mWordList = new ArrayList<>();
-    /**
-     * number of random words to display
-     */
-    private int mCount;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -109,15 +116,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        readWordList();
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mSwipeLayout.setColorSchemeColors(mColorAlternative, mColorPrimary, mColorAccent);
         mSwipeLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
             refreshWords();
             mSwipeLayout.setRefreshing(false);
-        }, 1000));
-        // TODO Read this count from preferences once Settings activity is built
-        mCount = 12;
-        refreshWords();
+        }, TIME_BETWEEN_WORD_DISPLAY_MS));
+        if (savedInstanceState != null) {
+            mRandomContent.setText(savedInstanceState.getString(STATE_WORD_LIST_KEY));
+        } else {
+            refreshWords();
+        }
     }
 
     @Override
@@ -128,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
             startTour();
             Once.markDone(showAppTour);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle savedInstanceState) {
+        savedInstanceState.putString(STATE_WORD_LIST_KEY, mRandomContent.getText().toString());
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     /**
@@ -151,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_settings) {
-            // TODO start Settings activity here
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, SETTINGS_REQUEST_CODE);
             return true;
         } else if (itemId == R.id.action_refresh) {
             refreshWords();
@@ -171,27 +187,79 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (requestCode == SETTINGS_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                refreshWords();
+                return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * refresh the list of random words
      */
     private void refreshWords() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int count = sharedPref.getInt(getString(R.string.pref_display_count),
+                getResources().getInteger(R.integer.default_display_count));
+        boolean cleanWordsOnly = sharedPref.getBoolean(getString(R.string.pref_clean_words_flag),
+                BuildConfig.CLEAN_WORDS_ONLY);
+        boolean unlimitedWordSize = sharedPref.getBoolean(getString(R.string.pref_unlimited_length_flag), true);
+        int minLength;
+        int maxLength;
+        if (unlimitedWordSize) {
+            minLength = getResources().getInteger(R.integer.default_min_word_length);
+            maxLength = getResources().getInteger(R.integer.default_max_word_length);
+        } else {
+            minLength = sharedPref.getInt(getString(R.string.pref_min_word_length),
+                    getResources().getInteger(R.integer.default_min_word_length));
+            maxLength = sharedPref.getInt(getString(R.string.pref_max_word_length),
+                    getResources().getInteger(R.integer.default_max_word_length));
+        }
+        if (minLength > maxLength) {
+            // swap values and store the corrected values in shared preferences
+            int temp = minLength;
+            minLength = maxLength;
+            maxLength = temp;
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(getString(R.string.pref_min_word_length), minLength);
+            editor.putInt(getString(R.string.pref_max_word_length), maxLength);
+            editor.apply();
+        }
+        int wordListId;
+        if (BuildConfig.CLEAN_WORDS_ONLY || cleanWordsOnly) {
+            wordListId = R.raw.cleanwordlist;
+        } else {
+            wordListId = R.raw.wordlist;
+        }
+        ArrayList<String> wordList = readWordList(wordListId, minLength, maxLength);
         mRandomContent.setText("");
-        Observable.interval(100, TimeUnit.MILLISECONDS, Schedulers.io())
-                .map(number -> mSecureRandom.nextInt(mWordList.size()))
-                .map(number -> mWordList.get(number))
+        Observable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())
+                .map(number -> mSecureRandom.nextInt(wordList.size()))
+                .map(wordList::get)
                 .filter(substring -> substring != null)
                 .map(substring -> substring + "\n")
                 .distinct()
-                .take(mCount)
+                .take(count)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(substring -> mRandomContent.append(substring));
     }
 
     /**
      * read the list of words from a raw resource file
+     *
+     * @param wordlistResource A raw resource containing the word list to process
+     * @param minLength The minimum word length
+     * @param maxLength The maximum word length
+     * @return The list of words present in the word list
      */
-    private void readWordList() {
-        InputStream inputStream = getResources().openRawResource(R.raw.wordlist);
+    private ArrayList<String> readWordList(@RawRes final int wordlistResource, final int minLength,
+                                           final int maxLength) {
+        ArrayList<String> wordList = new ArrayList<>();
+        InputStream inputStream = getResources().openRawResource(wordlistResource);
         InputStreamReader reader = null;
         try {
             reader = new InputStreamReader(inputStream, "UTF8");
@@ -201,14 +269,19 @@ public class MainActivity extends AppCompatActivity {
 
         StringObservable.byLine(StringObservable.from(reader))
                 .filter(substring -> !TextUtils.isEmpty(substring))
-                .subscribe(substring -> mWordList.add(substring));
+                .filter(substring -> substring.length() >= minLength)
+                .filter(substring -> substring.length() <= maxLength)
+                .subscribe(wordList::add);
 
         try {
-            reader.close();
+            if (reader != null) {
+                reader.close();
+            }
             inputStream.close();
         } catch (IOException exception) {
             Log.e(TAG, exception.getMessage(), exception);
         }
+        return wordList;
     }
 
     /**

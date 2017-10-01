@@ -5,20 +5,20 @@ Random Word Generator
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/staceybellerose/RandomWordGenerator/master/LICENSE)
 [![Android](https://img.shields.io/badge/platform-android-green.svg)](https://developer.android.com/develop/index.html)
 [![Latest Version](https://img.shields.io/github/release/staceybellerose/RandomWordGenerator.svg)](https://github.com/staceybellerose/RandomWordGenerator/releases)
+[![Known Vulnerabilities](https://snyk.io/test/github/staceybellerose/randomwordgenerator/badge.svg)](https://snyk.io/test/github/staceybellerose/randomwordgenerator)
 
 The **Random Word Generator** Android app generates
-randomly selected words from a large English (American)
+randomly selected words from a large American English
 dictionary of over 28,000 entries.
 
 The inspirations for this app were
 [Diceware](http://world.std.com/~reinhold/diceware.html)
 and the xkcd comic [Password Strength](https://m.xkcd.com/936/).
 
-By using a large English (American) dictionary with over
-28,000 entries, a randomly selected word will have nearly
-14.8 bits of entropy. A phrase made up of 6 words will have
-over 88.6 bits of entropy, more than enough for a very
-strong password.
+By using a large dictionary with over 28,000 entries, a randomly
+selected word will have nearly 14.8 bits of entropy. A phrase
+made up of 6 words will have over 88.6 bits of entropy, more
+than enough for a very strong password.
 
 This app uses the 6of12 word list from
 [12dicts](wordlist.aspell.net/12dicts/), along with

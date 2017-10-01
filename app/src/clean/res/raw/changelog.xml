@@ -4,10 +4,10 @@
     <changelogversion
         changeDate="September 30, 2017"
         versionName="1.1.0">
+        <changelogtext>Initial release of clean words version</changelogtext>
         <changelogimprovement>Application Settings screen</changelogimprovement>
         <changelogtext>Choose maximum and minimum word lengths</changelogtext>
         <changelogtext>Choose the number of words to display</changelogtext>
-        <changelogtext>Option to only display non-vulgar words</changelogtext>
         <changelogbug>Keep current word list when rotating screen</changelogbug>
     </changelogversion>
 
@@ -23,7 +23,7 @@
     <changelogversion
         changeDate="Jan 10, 2017"
         versionName="1.0">
-        <changelogtext>Initial release</changelogtext>
+        <changelogtext>Initial release of original version</changelogtext>
     </changelogversion>
 
 </changelog>

@@ -2,14 +2,13 @@
 <resources>
     <string name="app_name">Random Word Generator</string>
     <string name="app_description">This app generates randomly selected words from a large
-        English (American) dictionary of over 28,000 entries.
+        American English dictionary of over 28,000 entries.
     </string>
     <string name="app_header">Your Generated Words</string>
-    <string name="app_font_family">sans-serif</string>
     <string name="app_long_desc"><![CDATA[<p>The inspiration for this app was xkcd\'s comic
         <a href="https://m.xkcd.com/936/">"Password Strength"</a>, and by
         <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>.</p>
-        <p>By using a large English (American) dictionary with over 28,000 entries, a randomly
+        <p>By using a large American English dictionary with over 28,000 entries, a randomly
         selected word will have nearly 14.8 bits of entropy. A phrase made up of 6 words will
         have over 88.6 bits of entropy, more than enough for a very strong password.</p>
         <p>This app uses the 6of12 word list from 12dicts, along with the neol2016 list.
@@ -34,7 +33,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_changelog">Change Log</string>
     <string name="title_activity_about">About</string>
-    <string name="title_tour_help">View Help</string>
+    <string name="title_tour_help">Help</string>
     <string name="header_libraries">Third Party Libraries</string>
 
     <string name="action_settings">Settings</string>
@@ -48,6 +47,29 @@
     <string name="tour_clipboard_secondary">Tap the button to copy your word list to the clipboard</string>
     <string name="tour_refresh_primary">Pull to Refresh</string>
     <string name="tour_refresh_secondary">To generate a new set of words, swipe down to refresh.</string>
+
+    <!-- Settings definitions -->
+    <string name="pref_display_count">DISPLAY_COUNT</string>
+    <string name="pref_min_word_length">MIN_WORD_LENGTH</string>
+    <string name="pref_max_word_length">MAX_WORD_LENGTH</string>
+    <string name="pref_unlimited_length_flag">UNLIMITED_LENGTH_FLAG</string>
+    <string name="pref_clean_words_flag">CLEAN_WORDS_FLAG</string>
+
+    <!-- Preferences strings -->
+    <string name="pref_display_header">Display</string>
+    <string name="pref_display_count_title">Number of random words to display</string>
+    <string name="pref_filters_header">Filters</string>
+    <string name="pref_clean_words_title">Hide vulgar words?</string>
+    <string name="pref_unlimited_words_title">Show all words, regardless of length?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="pref_min_word_length_title">Minimum Word Length</string>
+    <string name="pref_max_word_length_title">Maximum Word Length</string>
+
+    <plurals name="pref_display_count_summary">
+        <item quantity="one">%d word will be displayed</item>
+        <item quantity="other">%d words will be displayed</item>
+    </plurals>
 
     <!-- AboutLibraries extra definitions -->
     <string name="define_int_gradle_retrolambda">year;owner</string>

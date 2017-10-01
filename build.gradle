@@ -32,6 +32,10 @@ task clean(type: Delete) {
 ext {
     appName = "RandomWordsGenerator"
 }
+ext.gitVersioner = [
+        snapshotEnabled          : false,
+        localChangesCountEnabled : false
+]
 
 apply plugin: 'com.kageiit.url-cache'
 apply from: urlCache.get('https://raw.githubusercontent.com/staceybellerose/gradle-GitVersioner/master/git-versioner.gradle')

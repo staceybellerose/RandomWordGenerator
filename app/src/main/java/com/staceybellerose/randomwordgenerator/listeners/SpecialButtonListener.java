@@ -6,16 +6,18 @@ import android.view.View;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.staceybellerose.randomwordgenerator.ChangelogActivity;
+import com.staceybellerose.randomwordgenerator.SettingsActivity;
 
 /**
- * Listener to handle clicks on the ChangeLog button
+ * Listener to handle clicks on the Special buttons
  */
-public class ChangeLogButtonListener extends SimpleLibsListener {
+public class SpecialButtonListener extends SimpleLibsListener {
     @Override
     public boolean onExtraClicked(final View view, final Libs.SpecialButton specialButton) {
         Activity context = (Activity) view.getContext();
         if (specialButton == Libs.SpecialButton.SPECIAL1) {
-            // TODO start Settings activity here
+            Intent intent = new Intent(context, SettingsActivity.class);
+            context.startActivity(intent);
             return true;
         } else if (specialButton == Libs.SpecialButton.SPECIAL2) {
             Intent intent = new Intent(context, ChangelogActivity.class);

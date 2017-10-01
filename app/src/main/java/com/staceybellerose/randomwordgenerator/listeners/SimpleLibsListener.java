@@ -10,7 +10,7 @@ import com.mikepenz.aboutlibraries.entity.Library;
  * A simple "do nothing" implementation of LibsListener, for when only a handful of methods need
  * to be implemented
  */
-public class SimpleLibsListener implements LibsConfiguration.LibsListener {
+class SimpleLibsListener implements LibsConfiguration.LibsListener {
     @Override
     public void onIconClicked(final View view) {
     }
