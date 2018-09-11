@@ -38,13 +38,18 @@ android {
         def TRUE = "true"
         def FALSE = "false"
         def CLEAN_WORDS_ONLY = "CLEAN_WORDS_ONLY"
-        full {
+        basic {
             buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, FALSE
         }
         clean {
             buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, TRUE
             applicationIdSuffix ".clean"
             versionNameSuffix "-clean"
+        }
+        full {
+            buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, FALSE
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
         }
     }
     compileOptions {

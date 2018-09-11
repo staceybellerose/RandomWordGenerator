@@ -251,15 +251,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * read the list of words from a raw resource file
      *
-     * @param wordlistResource A raw resource containing the word list to process
+     * @param wordListResource A raw resource containing the word list to process
      * @param minLength The minimum word length
      * @param maxLength The maximum word length
      * @return The list of words present in the word list
      */
-    private ArrayList<String> readWordList(@RawRes final int wordlistResource, final int minLength,
+    private ArrayList<String> readWordList(@RawRes final int wordListResource, final int minLength,
                                            final int maxLength) {
         ArrayList<String> wordList = new ArrayList<>();
-        InputStream inputStream = getResources().openRawResource(wordlistResource);
+        InputStream inputStream = getResources().openRawResource(wordListResource);
         InputStreamReader reader = null;
         try {
             reader = new InputStreamReader(inputStream, "UTF8");
