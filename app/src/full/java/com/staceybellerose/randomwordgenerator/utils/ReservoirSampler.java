@@ -18,13 +18,12 @@ import java.util.Scanner;
  * 16:56, September 10, 2018, from https://en.wikipedia.org/w/index.php?title=Reservoir_sampling&oldid=856932419
  */
 public class ReservoirSampler {
+    /**
+     * A listener to receive progress updates on the sampling process.
+     */
     private ReservoirUpdateListener mListener = null;
 
-    public interface ReservoirUpdateListener {
-        void onReservoirUpdated(List<String> currentReservoir);
-    }
-
-    public void setListener(ReservoirUpdateListener listener) {
+    public void setListener(final ReservoirUpdateListener listener) {
         mListener = listener;
     }
     /**
@@ -35,7 +34,7 @@ public class ReservoirSampler {
      * @param weighted      flag indicating whether the sampling should be weighted or not
      * @return a randomly chosen list of strings
      */
-    public List<String> sample(int reservoirSize, InputStream inputStream, boolean weighted) {
+    public List<String> sample(final int reservoirSize, final InputStream inputStream, final boolean weighted) {
         if (weighted) {
             return weightedSample(reservoirSize, inputStream, 1, Integer.MAX_VALUE);
         } else {
@@ -53,8 +52,8 @@ public class ReservoirSampler {
      * @param maxLength     the maximum string length
      * @return a randomly chosen list of strings
      */
-    public List<String> sample(int reservoirSize, InputStream inputStream, boolean weighted, int minLength,
-                                      int maxLength) {
+    public List<String> sample(final int reservoirSize, final InputStream inputStream, final boolean weighted,
+                               final int minLength, final int maxLength) {
         if (weighted) {
             return weightedSample(reservoirSize, inputStream, minLength, maxLength);
         } else {
@@ -74,12 +73,12 @@ public class ReservoirSampler {
      * @param maxLength     the maximum string length
      * @return a randomly chosen list of strings
      */
-    private List<String> unweightedSample(int reservoirSize, InputStream inputStream, int minLength,
-                                                 int maxLength) {
+    private List<String> unweightedSample(final int reservoirSize, final InputStream inputStream, final int minLength,
+                                          final int maxLength) {
         List<String> reservoirList = new ArrayList<>(reservoirSize);
         int count = 0;
         SecureRandom secureRandom = new SecureRandom();
-        Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
+        Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
         while (scanner.hasNext()) {
             String currentLine = scanner.next();
             String currentWord = currentLine.split("\t")[0];
@@ -117,13 +116,13 @@ public class ReservoirSampler {
      * @param maxLength     the maximum string length
      * @return a randomly chosen list of strings
      */
-    private List<String> weightedSample(int reservoirSize, InputStream inputStream, int minLength,
-                                               int maxLength) {
+    private List<String> weightedSample(final int reservoirSize, final InputStream inputStream, final int minLength,
+                                        final int maxLength) {
         List<String> reservoirList = new ArrayList<>(reservoirSize);
         long count = 0;
         double totalWeight = 0;
         SecureRandom secureRandom = new SecureRandom();
-        Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
+        Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
         while (scanner.hasNext()) {
             String currentLine = scanner.next();
             String[] splitLine = currentLine.split("\t");
@@ -154,5 +153,18 @@ public class ReservoirSampler {
         }
         scanner.close();
         return reservoirList;
+    }
+
+    /**
+     * Interface to receive updates from the Sampler
+     */
+    public interface ReservoirUpdateListener {
+        /**
+         * Send an update to the listener, containing a partially filled reservoir.
+         *
+         * @param currentReservoir The current state of the reservoir. This should NOT be used as the final result
+         *                         of the sampling, but allows the user to monitor the progress of the sampling.
+         */
+        void onReservoirUpdated(List<String> currentReservoir);
     }
 }
