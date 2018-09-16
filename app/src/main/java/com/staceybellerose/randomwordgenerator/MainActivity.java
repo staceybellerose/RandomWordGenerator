@@ -22,9 +22,10 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.github.davidmoten.rx.Strings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,10 +40,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jonathanfinerty.once.Once;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.observables.StringObservable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 /**
@@ -109,6 +109,22 @@ public class MainActivity extends AppCompatActivity {
      * cryptographically secure random number generator
      */
     private SecureRandom mSecureRandom = new SecureRandom();
+    /**
+     * The word list to use in generating randomly selected words.
+     */
+    private ArrayList<String> mWordList = new ArrayList<>();
+    /**
+     * The list of slur words to filter from the final selection.
+     */
+    private ArrayList<String> mFilterList = new ArrayList<>();
+    /**
+     * The list of vulgar words to filter from the final selection.
+     */
+    private ArrayList<String> mCleanFilter;
+    /**
+     * Flag to indicate that we are using a downloaded list rather than a built-in list.
+     */
+    private boolean mUsingDownloadedList;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -125,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             mRandomContent.setText(savedInstanceState.getString(STATE_WORD_LIST_KEY));
         } else {
+            reloadWordList();
+            reloadCleanFilter();
             refreshWords();
         }
     }
@@ -191,6 +209,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == SETTINGS_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                if (data.getBooleanExtra(getString(R.string.pref_word_list_changed), false)) {
+                    reloadWordList();
+                }
+                if (data.getBooleanExtra(getString(R.string.pref_clean_filter_changed), false)) {
+                    reloadCleanFilter();
+                }
                 refreshWords();
                 return;
             }
@@ -199,14 +223,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * refresh the list of random words
+     * Get the maximum and minimum word lengths to display from shared preferences.
+     *
+     * @return an int array containing the min and max lengths as {min, max}
      */
-    private void refreshWords() {
+    private int[] getWordLengths() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int count = sharedPref.getInt(getString(R.string.pref_display_count),
-                getResources().getInteger(R.integer.default_display_count));
-        boolean cleanWordsOnly = sharedPref.getBoolean(getString(R.string.pref_clean_words_flag),
-                BuildConfig.CLEAN_WORDS_ONLY);
         boolean unlimitedWordSize = sharedPref.getBoolean(getString(R.string.pref_unlimited_length_flag), true);
         int minLength;
         int maxLength;
@@ -229,27 +251,74 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt(getString(R.string.pref_max_word_length), maxLength);
             editor.apply();
         }
-        int wordListId;
-        if (BuildConfig.CLEAN_WORDS_ONLY || cleanWordsOnly) {
-            wordListId = R.raw.cleanwordlist;
-        } else {
-            wordListId = R.raw.wordlist;
-        }
-        ArrayList<String> wordList = readWordList(wordListId, minLength, maxLength);
-        mRandomContent.setText("");
-        Observable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())
-                .map(number -> mSecureRandom.nextInt(wordList.size()))
-                .map(wordList::get)
-                .filter(substring -> substring != null)
-                .map(substring -> substring + "\n")
-                .distinct()
-                .take(count)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(substring -> mRandomContent.append(substring));
+        return new int[] {minLength, maxLength};
     }
 
     /**
-     * read the list of words from a raw resource file
+     * Reload the word list based on the one set in shared preferences.
+     */
+    private void reloadWordList() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        int wordListId;
+        String wordListName = sharedPref.getString(getString(R.string.pref_word_list),
+                getString(R.string.pref_word_list_default));
+        mUsingDownloadedList = (wordListName.equalsIgnoreCase(getString(R.string.pref_word_list_download)));
+        if (!mUsingDownloadedList) {
+            wordListId = getResources().getIdentifier(wordListName, "raw", this.getPackageName());
+            if (wordListId == 0) {
+                // something bad happened and we don't have a proper resource name; default to original word list
+                wordListId = R.raw.wordlist;
+            }
+            int[] wordLengths = getWordLengths();
+            mWordList = readWordList(wordListId, wordLengths[0], wordLengths[1]);
+            mFilterList = readWordList(R.raw.filter_slurs, 0, Integer.MAX_VALUE);
+        }
+    }
+
+    /**
+     * Reload the clean words filter based on shared preferences setting.
+     */
+    private void reloadCleanFilter() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean cleanWordsOnly = sharedPref.getBoolean(getString(R.string.pref_clean_words_flag),
+                BuildConfig.CLEAN_WORDS_ONLY);
+
+        if (BuildConfig.CLEAN_WORDS_ONLY || cleanWordsOnly) {
+            mCleanFilter = readWordList(R.raw.filter_clean, 0, Integer.MAX_VALUE);
+        } else {
+            mCleanFilter = null;
+        }
+    }
+
+    /**
+     * Refresh the list of random words.
+     */
+    private void refreshWords() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int count = sharedPref.getInt(getString(R.string.pref_display_count),
+                getResources().getInteger(R.integer.default_display_count));
+
+        if (mUsingDownloadedList) {
+            mRandomContent.setText("Downloadable content coming soon!");
+        } else {
+            mRandomContent.setText("");
+            Observable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())
+                    .map(number -> mSecureRandom.nextInt(mWordList.size()))
+                    .map(mWordList::get)
+                    .filter(substring -> substring != null)
+                    .filter(substring -> mFilterList.indexOf(substring) == -1)
+                    .filter(substring -> (mCleanFilter == null) || mCleanFilter.indexOf(substring) == -1)
+                    .map(substring -> substring + "\n")
+                    .distinct()
+                    .take(count)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(substring -> mRandomContent.append(substring));
+        }
+    }
+
+    /**
+     * Read the list of words from a raw resource file.
      *
      * @param wordListResource A raw resource containing the word list to process
      * @param minLength The minimum word length
@@ -267,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, exception.getMessage(), exception);
         }
 
-        StringObservable.byLine(StringObservable.from(reader))
+        Strings.split(Strings.from(reader), "\n")
                 .filter(substring -> !TextUtils.isEmpty(substring))
                 .filter(substring -> substring.length() >= minLength)
                 .filter(substring -> substring.length() <= maxLength)
@@ -285,23 +354,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * start the help tour by highlighting the "copy to clipboard" button
+     * Start the help tour by highlighting the "copy to clipboard" button.
      */
     private void startTour() {
-        new MaterialTapTargetPrompt.Builder(this)
+        new MaterialTapTargetPrompt.Builder(this, R.style.AppTheme_Light)
                 .setPrimaryText(R.string.tour_clipboard_primary)
                 .setSecondaryText(R.string.tour_clipboard_secondary)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setTarget(mFab)
-                .setBackgroundColourFromRes(R.color.colorPrimaryLight)
-                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                    @Override
-                    public void onHidePrompt(final MotionEvent event, final boolean tappedTarget) {
-                    }
-
-                    @Override
-                    public void onHidePromptComplete() {
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
                         showTourPullRefresh();
                     }
                 })
@@ -309,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * continue the help tour by highlighting the "swipe down to refresh" functionality
+     * Continue the help tour by highlighting the "swipe down to refresh" functionality.
      */
     private void showTourPullRefresh() {
         Display display = getWindowManager().getDefaultDisplay();
@@ -323,19 +387,18 @@ public class MainActivity extends AppCompatActivity {
         int iconHeight = (int) (Resources.getSystem().getDisplayMetrics().density
                 * TOUR_REFRESH_ICON_SIZE_DP);
         int targetTop = mToolbar.getHeight() + statusBarHeight + iconHeight;
-        new MaterialTapTargetPrompt.Builder(this)
+        new MaterialTapTargetPrompt.Builder(this, R.style.AppTheme_Light)
                 .setPrimaryText(R.string.tour_refresh_primary)
                 .setSecondaryText(R.string.tour_refresh_secondary)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setTarget(targetLeft, targetTop)
                 .setIcon(R.drawable.ic_pulldown)
-                .setBackgroundColourFromRes(R.color.colorPrimaryLight)
                 .show();
     }
 
     /**
-     * show the About activity
+     * Show the About activity.
      */
     private void showAbout() {
         Intent intent = new Intent(this, MyLibsActivity.class);

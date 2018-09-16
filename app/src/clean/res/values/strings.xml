@@ -5,4 +5,5 @@
         American English dictionary of over 28,000 entries. No obscene words are knowingly
         included in this dictionary.
     </string>
+    <bool name="pref_clean_words_default">true</bool>
 </resources>

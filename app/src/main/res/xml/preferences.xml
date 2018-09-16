@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/pref_display_header">
+        <ListPreference
+            android:defaultValue="@string/pref_word_list_default"
+            android:entries="@array/word_list_descriptions"
+            android:entryValues="@array/word_list_resources"
+            android:key="@string/pref_word_list"
+            android:summary="%s"
+            android:title="@string/pref_word_list_header"/>
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_display_count"
             android:key="@string/pref_display_count"
             android:max="@integer/max_display_count"
             android:title="@string/pref_display_count_title"
             app:min="@integer/min_display_count"
-            app:summaryPlural="@plurals/pref_display_count_summary" />
+            app:summaryPlural="@plurals/pref_display_count_summary"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_filters_header">
+    <PreferenceCategory
+        android:key="@string/pref_filters_header"
+        android:title="@string/pref_filters_header">
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="@bool/pref_clean_words_default"
             android:key="@string/pref_clean_words_flag"
             android:summaryOff="@string/no"
             android:summaryOn="@string/yes"
-            android:title="@string/pref_clean_words_title" />
+            android:title="@string/pref_clean_words_title"/>
         <SwitchPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="@string/pref_unlimited_length_flag"
             android:summaryOff="@string/no"
             android:summaryOn="@string/yes"
-            android:title="@string/pref_unlimited_words_title" />
+            android:title="@string/pref_unlimited_words_title"/>
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_min_word_length"
             android:dependency="@string/pref_unlimited_length_flag"
             android:key="@string/pref_min_word_length"
             android:max="@integer/default_max_word_length"
             android:title="@string/pref_min_word_length_title"
-            app:min="@integer/default_min_word_length" />
+            app:min="@integer/default_min_word_length"/>
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_max_word_length"
             android:dependency="@string/pref_unlimited_length_flag"
             android:key="@string/pref_max_word_length"
             android:max="@integer/default_max_word_length"
             android:title="@string/pref_max_word_length_title"
-            app:min="@integer/default_min_word_length" />
+            app:min="@integer/default_min_word_length"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -54,8 +54,16 @@
     <string name="pref_max_word_length">MAX_WORD_LENGTH</string>
     <string name="pref_unlimited_length_flag">UNLIMITED_LENGTH_FLAG</string>
     <string name="pref_clean_words_flag">CLEAN_WORDS_FLAG</string>
+    <string name="pref_word_list">WORD_LIST</string>
+    <string name="pref_word_list_changed">WORD_LIST_CHANGED</string>
+    <string name="pref_clean_filter_changed">CLEAN_FILTER_CHANGED</string>
+
+    <bool name="pref_clean_words_default">false</bool>
 
     <!-- Preferences strings -->
+    <string name="pref_word_list_header">Word List</string>
+    <string name="pref_word_list_default">wordlist</string>
+    <string name="pref_word_list_download">download</string>
     <string name="pref_display_header">Display</string>
     <string name="pref_display_count_title">Number of random words to display</string>
     <string name="pref_filters_header">Filters</string>
