@@ -42,6 +42,10 @@ captures/
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
+# Python bytecode caching
+__pycache__/
+*.pyc
+
 # OS-specific files
 .DS_Store
 .DS_Store?

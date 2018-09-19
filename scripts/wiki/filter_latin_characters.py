@@ -9,9 +9,9 @@ import time
 import re
 import argparse
 
-parser = argparse.ArgumentParser('filter_latin_characters')
-parser.add_argument('inputfile', help='word list file', type=argparse.FileType('r'))
-parser.add_argument('outputfile', help='filtered word list file', type=argparse.FileType('w'))
+parser = argparse.ArgumentParser(prog='filter_latin_characters', description='Filter out words containing Latin characters from a word list.')
+parser.add_argument('inputfile', help='word list file', type=argparse.FileType('r', encoding='utf-8'))
+parser.add_argument('outputfile', help='filtered word list file', type=argparse.FileType('w', encoding='utf-8'))
 args = parser.parse_args()
 
 print('Processing started at  ' + time.ctime())

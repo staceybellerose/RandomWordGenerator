@@ -33,7 +33,7 @@ def write_wordlist(wordlist, wordlist_file):
 	
 	wordlist_file.close()
 
-parser = argparse.ArgumentParser('build_wiki_wordlist')
+parser = argparse.ArgumentParser(prog='build_wiki_wordlist', description='Build a word list from a text corpus.')
 parser.add_argument('inputfile', help='corpus text file', type=argparse.FileType('r', encoding='utf-8'))
 parser.add_argument('outputfile', help='generated word list file', type=argparse.FileType('w', encoding='utf-8'))
 args = parser.parse_args()
