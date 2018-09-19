@@ -17,7 +17,10 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.TabStopSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -39,10 +42,10 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jonathanfinerty.once.Once;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import jonathanfinerty.once.Once;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 /**
@@ -125,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
      * Flag to indicate that we are using a downloaded list rather than a built-in list.
      */
     private boolean mUsingDownloadedList;
+    /**
+     * The width of mRandomContent, after rendering the layout, in pixels.
+     */
+    private int mContentWidth;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -145,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             reloadCleanFilter();
             refreshWords();
         }
+        mRandomContent.post(() -> mContentWidth = mRandomContent.getWidth());
     }
 
     @Override
@@ -216,8 +224,8 @@ public class MainActivity extends AppCompatActivity {
                     reloadCleanFilter();
                 }
                 refreshWords();
-                return;
             }
+            return;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -292,12 +300,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Count the number of words in a word list.
+     *
+     * @param wordlist A string of words to count
+     * @return the total number of words
+     */
+    private int countWords(final String wordlist) {
+        String trim = wordlist.trim();
+        if (trim.isEmpty()) {
+            return 0;
+        } else {
+            return trim.split("\\s+").length;
+        }
+    }
+
+    /**
+     * Add a new string to a list of words, making two tabbed columns of text.
+     *
+     * @param substring The new string to add
+     * @param maxCount The maximum number of strings to be added
+     */
+    private void makeTwoColumnText(final String substring, final int maxCount) {
+        String currentText = mRandomContent.getText().toString();
+        if (countWords(currentText) < maxCount / 2) {
+            mRandomContent.append(substring + "\n");
+        } else {
+            String[] lines = currentText.split("\n");
+            int lineToUpdate = countWords(currentText) - (maxCount / 2);
+            lines[lineToUpdate] = lines[lineToUpdate] + "\t" + substring;
+            SpannableString newContent = new SpannableString(TextUtils.join("\n", lines));
+            newContent.setSpan(new TabStopSpan.Standard(mContentWidth / 2), 0, newContent.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mRandomContent.setText(newContent);
+        }
+    }
+
+    /**
      * Refresh the list of random words.
      */
     private void refreshWords() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         int count = sharedPref.getInt(getString(R.string.pref_display_count),
                 getResources().getInteger(R.integer.default_display_count));
+        boolean twoColumn = sharedPref.getBoolean(getString(R.string.pref_two_column),
+                getResources().getBoolean(R.bool.pref_two_column_default));
 
         if (mUsingDownloadedList) {
             mRandomContent.setText("Downloadable content coming soon!");
@@ -309,11 +355,16 @@ public class MainActivity extends AppCompatActivity {
                     .filter(substring -> substring != null)
                     .filter(substring -> mFilterList.indexOf(substring) == -1)
                     .filter(substring -> (mCleanFilter == null) || mCleanFilter.indexOf(substring) == -1)
-                    .map(substring -> substring + "\n")
                     .distinct()
                     .take(count)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(substring -> mRandomContent.append(substring));
+                    .subscribe(substring -> {
+                        if (twoColumn) {
+                            makeTwoColumnText(substring, count);
+                        } else {
+                            mRandomContent.append(substring + "\n");
+                        }
+                    });
         }
     }
 
@@ -393,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setTarget(targetLeft, targetTop)
-                .setIcon(R.drawable.ic_pulldown)
+                .setIcon(R.drawable.ic_arrow_downward_black_24dp)
                 .show();
     }
 
