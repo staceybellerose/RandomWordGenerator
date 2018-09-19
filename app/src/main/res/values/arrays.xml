@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="word_list_descriptions">
-        <item>American English (no Inflections)</item>
-        <item>American English</item>
-        <item>International English</item>
-        <item>English as a Second Language</item>
-        <item>Word Game Tournament (American)</item>
-        <item>Word Game Tournament (International)</item>
+        <item>American English Dictionary (no Inflections)</item>
+        <item>American English Dictionary</item>
+        <item>International English Dictionary</item>
+        <item>English as a Second Language Dictionary</item>
+        <item>Word Game Tournament List (American)</item>
+        <item>Word Game Tournament List (International)</item>
     </string-array>
     <string-array name="word_list_resources">
         <item>wordlist</item>

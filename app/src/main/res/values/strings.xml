@@ -57,8 +57,10 @@
     <string name="pref_word_list">WORD_LIST</string>
     <string name="pref_word_list_changed">WORD_LIST_CHANGED</string>
     <string name="pref_clean_filter_changed">CLEAN_FILTER_CHANGED</string>
+    <string name="pref_two_column">TWO_COLUMN</string>
 
     <bool name="pref_clean_words_default">false</bool>
+    <bool name="pref_two_column_default">true</bool>
 
     <!-- Preferences strings -->
     <string name="pref_word_list_header">Word List</string>
@@ -68,11 +70,13 @@
     <string name="pref_display_count_title">Number of random words to display</string>
     <string name="pref_filters_header">Filters</string>
     <string name="pref_clean_words_title">Hide vulgar words?</string>
-    <string name="pref_unlimited_words_title">Show all words, regardless of length?</string>
+    <string name="pref_unlimited_words_title">Unrestricted word length</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="pref_min_word_length_title">Minimum Word Length</string>
     <string name="pref_max_word_length_title">Maximum Word Length</string>
+    <string name="pref_manage_downloads_title">Manage Downloads</string>
+    <string name="pref_two_column_title">Display in Two Columns?</string>
 
     <plurals name="pref_display_count_summary">
         <item quantity="one">%d word will be displayed</item>
