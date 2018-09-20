@@ -37,6 +37,10 @@
         <item name="android:paddingBottom">@dimen/text_margin_header</item>
     </style>
 
+    <style name="AppTheme.TextAppearance.Header.Tight" parent="AppTheme.TextAppearance.Header">
+        <item name="android:paddingBottom">@dimen/text_margin_header_tight</item>
+    </style>
+
     <style name="AppTheme.TextAppearance.Subhead" parent="AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/text_size_subhead</item>
         <item name="android:paddingBottom">@dimen/text_margin_subhead</item>

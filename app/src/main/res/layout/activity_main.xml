@@ -45,10 +45,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/AppTheme.TextAppearance.Header.Tight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/word_list_title" />
+
+                <TextView
+                    android:id="@+id/word_list_title"
                     style="@style/AppTheme.TextAppearance.Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_description" />
+                    tools:text="American English Dictionary (no Inflections)" />
 
                 <TextView
                     style="@style/AppTheme.TextAppearance.Header"

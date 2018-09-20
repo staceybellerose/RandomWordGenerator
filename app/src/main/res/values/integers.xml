@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="default_display_count">12</integer>
+    <integer name="default_display_count">24</integer>
     <integer name="max_display_count">99</integer>
     <integer name="min_display_count">1</integer>
     <integer name="default_max_word_length">99</integer>

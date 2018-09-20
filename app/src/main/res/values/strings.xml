@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Random Word Generator</string>
-    <string name="app_description">This app generates randomly selected words from a large
-        American English dictionary of over 28,000 entries.
-    </string>
     <string name="app_header">Your Generated Words</string>
     <string name="app_long_desc"><![CDATA[<p>The inspiration for this app was xkcd\'s comic
         <a href="https://m.xkcd.com/936/">"Password Strength"</a>, and by
@@ -48,6 +45,8 @@
     <string name="tour_refresh_primary">Pull to Refresh</string>
     <string name="tour_refresh_secondary">To generate a new set of words, swipe down to refresh.</string>
 
+    <string name="word_list_title">Selected Word List</string>
+
     <!-- Settings definitions -->
     <string name="pref_display_count">DISPLAY_COUNT</string>
     <string name="pref_min_word_length">MIN_WORD_LENGTH</string>
@@ -67,7 +66,7 @@
     <string name="pref_word_list_default">wordlist</string>
     <string name="pref_word_list_download">download</string>
     <string name="pref_display_header">Display</string>
-    <string name="pref_display_count_title">Number of random words to display</string>
+    <string name="pref_display_count_title">Number of random words</string>
     <string name="pref_filters_header">Filters</string>
     <string name="pref_clean_words_title">Hide vulgar words?</string>
     <string name="pref_unlimited_words_title">Unrestricted word length</string>
@@ -76,7 +75,7 @@
     <string name="pref_min_word_length_title">Minimum Word Length</string>
     <string name="pref_max_word_length_title">Maximum Word Length</string>
     <string name="pref_manage_downloads_title">Manage Downloads</string>
-    <string name="pref_two_column_title">Display in Two Columns?</string>
+    <string name="pref_two_column_title">Two Column Display</string>
 
     <plurals name="pref_display_count_summary">
         <item quantity="one">%d word will be displayed</item>

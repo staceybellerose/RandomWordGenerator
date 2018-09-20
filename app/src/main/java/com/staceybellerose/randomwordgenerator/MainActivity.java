@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final String STATE_WORD_LIST_KEY = "stateWordList";
     /**
+     * key used to save word list title to instance state
+     */
+    private static final String STATE_WORD_LIST_TITLE = "stateWordListTitle";
+    /**
      * tag string for error logging
      */
     private static final String TAG = "RandomWordGenerator";
@@ -88,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @BindView(R.id.random_content)
     TextView mRandomContent;
+    /**
+     * textview containing the name of the word list
+     */
+    @BindView(R.id.word_list_title)
+    TextView mWordListTitle;
     /**
      * swipe down to refresh layout
      */
@@ -146,11 +156,16 @@ public class MainActivity extends AppCompatActivity {
             mSwipeLayout.setRefreshing(false);
         }, TIME_BETWEEN_WORD_DISPLAY_MS));
         if (savedInstanceState != null) {
-            mRandomContent.setText(savedInstanceState.getString(STATE_WORD_LIST_KEY));
+            mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_KEY));
+            mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
         } else {
-            reloadWordList();
-            reloadCleanFilter();
-            refreshWords();
+            mSwipeLayout.setRefreshing(true);
+            new Handler().postDelayed(() -> {
+                reloadWordList();
+                reloadCleanFilter();
+                mSwipeLayout.setRefreshing(false);
+                refreshWords();
+            }, 250);
         }
         mRandomContent.post(() -> mContentWidth = mRandomContent.getWidth());
     }
@@ -167,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(final Bundle savedInstanceState) {
-        savedInstanceState.putString(STATE_WORD_LIST_KEY, mRandomContent.getText().toString());
+        savedInstanceState.putCharSequence(STATE_WORD_LIST_KEY, mRandomContent.getText());
+        savedInstanceState.putCharSequence(STATE_WORD_LIST_TITLE, mWordListTitle.getText());
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -217,12 +233,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == SETTINGS_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                mSwipeLayout.setRefreshing(true);
                 if (data.getBooleanExtra(getString(R.string.pref_word_list_changed), false)) {
                     reloadWordList();
                 }
                 if (data.getBooleanExtra(getString(R.string.pref_clean_filter_changed), false)) {
                     reloadCleanFilter();
                 }
+                mSwipeLayout.setRefreshing(false);
                 refreshWords();
             }
             return;
@@ -281,7 +299,28 @@ public class MainActivity extends AppCompatActivity {
             int[] wordLengths = getWordLengths();
             mWordList = readWordList(wordListId, wordLengths[0], wordLengths[1]);
             mFilterList = readWordList(R.raw.filter_slurs, 0, Integer.MAX_VALUE);
+            setWordListTitle(wordListName);
         }
+    }
+
+    /**
+     * Set the word list title to the selected word list
+     *
+     * @param wordListName name of the selected word list, from @array/word_list_resources
+     */
+    private void setWordListTitle(String wordListName) {
+        String[] listNames = getResources().getStringArray(R.array.word_list_resources);
+        String[] listTitles = getResources().getStringArray(R.array.word_list_descriptions);
+        String title = null;
+        for (int i = 0; i < listNames.length; i++) {
+            if (listNames[i].equalsIgnoreCase(wordListName)) {
+                title = listTitles[i];
+            }
+        }
+        if (title == null) {
+            title = listTitles[0];
+        }
+        mWordListTitle.setText(title);
     }
 
     /**

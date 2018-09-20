@@ -1,10 +1,11 @@
 package com.staceybellerose.randomwordgenerator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 
 /**
  * A Fragment to display the Settings
@@ -20,15 +21,23 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         Preference wordList = findPreference(getString(R.string.pref_word_list));
-        wordList.setOnPreferenceChangeListener((preference, newValue) -> {
+        Preference.OnPreferenceChangeListener wordListChangeListener = (preference, newValue) -> {
             mCallback.onWordListChanged();
             return true;
-        });
+        };
+
+        wordList.setOnPreferenceChangeListener(wordListChangeListener);
+        Preference unrestricted = findPreference(getString(R.string.pref_unlimited_length_flag));
+        unrestricted.setOnPreferenceChangeListener(wordListChangeListener);
+        Preference maxLength = findPreference(getString(R.string.pref_max_word_length));
+        maxLength.setOnPreferenceChangeListener(wordListChangeListener);
+        Preference minLength = findPreference(getString(R.string.pref_min_word_length));
+        minLength.setOnPreferenceChangeListener(wordListChangeListener);
+
         Preference cleanWordsPreference = findPreference(getString(R.string.pref_clean_words_flag));
         if (BuildConfig.CLEAN_WORDS_ONLY) {
-            PreferenceCategory preferenceCategory
-                    = (PreferenceCategory) findPreference(getString(R.string.pref_filters_header));
-            preferenceCategory.removePreference(cleanWordsPreference);
+            PreferenceGroup preferenceGroup = (PreferenceGroup) findPreference(getString(R.string.pref_filters_header));
+            preferenceGroup.removePreference(cleanWordsPreference);
         } else {
             cleanWordsPreference.setOnPreferenceChangeListener(((preference, newValue) -> {
                 mCallback.onCleanWordsChanged();
@@ -38,8 +47,24 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     @Override
-    public void onAttach(final Context context) {
+    @SuppressWarnings("deprecation")
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        setCallback(activity);
+    }
+
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
+        setCallback(context);
+    }
+
+    /**
+     * Set up the calling activity as a callback implementation.
+     *
+     * @param context The activity that is attaching this fragment
+     */
+    private void setCallback(Context context) {
         try {
             mCallback = (OnPreferenceChangeListener) context;
         } catch (ClassCastException e) {
