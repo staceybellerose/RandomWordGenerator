@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setTarget(targetLeft, targetTop)
-                .setIcon(R.drawable.ic_arrow_downward_black_24dp)
+                .setIcon(R.drawable.ic_arrow_downward_black_48dp)
                 .show();
     }
 

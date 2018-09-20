@@ -12,6 +12,7 @@ android {
         targetSdkVersion 26
         versionCode gitVersion.version
         versionName "2.0.0." + gitVersion.name
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         release {
@@ -66,7 +67,7 @@ android {
         }
     }
     lintOptions {
-        disable 'InvalidPackage','OldTargetApi','GoogleAppIndexingWarning','InconsistentArrays'
+        disable 'InvalidPackage', 'OldTargetApi', 'GoogleAppIndexingWarning', 'InconsistentArrays', 'VectorRaster'
     }
 }
 
