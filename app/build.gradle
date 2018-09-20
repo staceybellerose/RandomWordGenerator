@@ -40,16 +40,20 @@ android {
         def TRUE = "true"
         def FALSE = "false"
         def CLEAN_WORDS_ONLY = "CLEAN_WORDS_ONLY"
+        def CAN_DOWNLOAD = "CAN_DOWNLOAD"
         basic {
             buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, FALSE
+            buildConfigField BOOLEAN, CAN_DOWNLOAD, FALSE
         }
         clean {
             buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, TRUE
+            buildConfigField BOOLEAN, CAN_DOWNLOAD, FALSE
             applicationIdSuffix ".clean"
             versionNameSuffix "-clean"
         }
         full {
             buildConfigField BOOLEAN, CLEAN_WORDS_ONLY, FALSE
+            buildConfigField BOOLEAN, CAN_DOWNLOAD, TRUE
             applicationIdSuffix ".full"
             versionNameSuffix "-full"
         }
@@ -62,8 +66,21 @@ android {
         variant.outputs.each { output ->
             def file = output.outputFile
             def appName = rootProject.ext.appName
-            def fileName = appName + "-" + variant.buildType.name + "-" + variant.versionName.replaceAll("[.]","-") + ".apk"
+            def fileName = appName + "-" + variant.buildType.name + "-" + variant.versionName.replaceAll("[.]", "-") + ".apk"
             output.outputFile = new File(file.parent, fileName)
+        }
+        def applicationId = [variant.mergedFlavor.applicationId, variant.mergedFlavor.applicationIdSuffix, variant.buildType.applicationIdSuffix].findAll().join()
+        variant.resValue "string", "application_id", "${applicationId}"
+        task "open${variant.name.capitalize()}" {
+            group = 'verification'
+            description 'Open the launcher activity of the app on a connected device via adb'
+            dependsOn "install${variant.name.capitalize()}"
+
+            doLast {
+                exec {
+                    commandLine "cmd /c adb shell monkey -p ${variant.applicationId} -c android.intent.category.LAUNCHER 1".split(" ")
+                }
+            }
         }
     }
     lintOptions {
@@ -73,7 +90,7 @@ android {
 
 dependencies {
     ext {
-        support_library_version = '26.0.2'
+        support_library_version = '26.1.0'
     }
     compile "com.android.support:appcompat-v7:${support_library_version}"
     compile "com.android.support:design:${support_library_version}"
@@ -91,7 +108,7 @@ dependencies {
     compile 'com.github.davidmoten:rxjava-extras:0.8.0.17'
     compile 'com.jonathanfinerty.once:once:1.2.2'
     compile 'uk.co.samuelwall:material-tap-target-prompt:2.4.1'
-    compile ('com.mikepenz:aboutlibraries:5.9.7@aar') {
+    compile('com.mikepenz:aboutlibraries:5.9.7@aar') {
         transitive = true
     }
 }
