@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_material_tap_target_prompt">year;owner</string>
+    <string name="library_material_tap_target_libraryVersion">2.4.1</string>
+    <string name="library_material_tap_target_owner">Samuel Wall</string>
+    <string name="library_material_tap_target_year">2016</string>
+    <string name="library_rxandroid_libraryVersion">2.1.0</string>
+    <string name="library_rxandroid_classPath">io.reactivex.android.schedulers.AndroidSchedulers</string>
+    <string name="library_rxjava_libraryVersion">2.2.2</string>
+    <string name="library_rxjava_classPath">io.reactivex.Observable</string>
+</resources>

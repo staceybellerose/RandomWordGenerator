@@ -59,7 +59,7 @@ public class MyLibsActivity extends AppCompatActivity {
                 .withAboutSpecial2(mChangelogActivityTitle)
                 .withListener(new SpecialButtonListener())
                 .withExcludedLibraries("AndroidIconics")
-                .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "taptargetprompt")
+                .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "rxandroid")
                 .withLicenseShown(true)
                 .withOwnLibsActivityClass(MyLibsActivity.class)
                 .supportFragment();
