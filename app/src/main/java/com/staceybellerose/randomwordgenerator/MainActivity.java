@@ -36,7 +36,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindColor;
@@ -66,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final int SETTINGS_REQUEST_CODE = 42;
     /**
-     * key used for saving instance state
+     * key used for saving selected words to instance state
      */
-    private static final String STATE_WORD_LIST_KEY = "stateWordList";
+    private static final String STATE_WORDS = "stateWords";
     /**
      * key used to save word list title to instance state
      */
@@ -156,8 +155,12 @@ public class MainActivity extends AppCompatActivity {
             mSwipeLayout.setRefreshing(false);
         }, TIME_BETWEEN_WORD_DISPLAY_MS));
         if (savedInstanceState != null) {
-            mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_KEY));
+            mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORDS));
             mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
+            new Handler().postDelayed(() -> {
+                reloadWordList();
+                reloadCleanFilter();
+            }, 250);
         } else {
             mSwipeLayout.setRefreshing(true);
             new Handler().postDelayed(() -> {
@@ -167,7 +170,14 @@ public class MainActivity extends AppCompatActivity {
                 refreshWords();
             }, 250);
         }
-        mRandomContent.post(() -> mContentWidth = mRandomContent.getWidth());
+        // (re)set the tab stop for the random word content
+        mRandomContent.post(() -> {
+            mContentWidth = mRandomContent.getWidth();
+            SpannableString newContent = new SpannableString(mRandomContent.getText().toString());
+            newContent.setSpan(new TabStopSpan.Standard(mContentWidth / 2), 0, newContent.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mRandomContent.setText(newContent);
+        });
     }
 
     @Override
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(final Bundle savedInstanceState) {
-        savedInstanceState.putCharSequence(STATE_WORD_LIST_KEY, mRandomContent.getText());
+        savedInstanceState.putCharSequence(STATE_WORDS, mRandomContent.getText());
         savedInstanceState.putCharSequence(STATE_WORD_LIST_TITLE, mWordListTitle.getText());
         super.onSaveInstanceState(savedInstanceState);
     }
