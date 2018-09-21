@@ -196,3 +196,37 @@ Processing complete at Tue Sep 18 03:30:47 2018
 
 $ gzip wordlist_hi_filtered_20180901.txt
 ```
+
+### Japanese Wikipedia File
+
+```ShellSession
+$ python make_corpus_dict.py jawiki-20180901-pages-articles.xml.bz2 ja_wiki.dict -t japanese
+Processing wiki dump at Wed Sep 19 05:55:52 2018
+Using japanese tokenizer
+Stream built at Wed Sep 19 11:19:50 2018
+Processing complete at Wed Sep 19 11:19:54 2018
+
+$ python make_wiki_corpus.py jawiki-20180901-pages-articles.xml.bz2 ja_wiki.txt ja_wiki.dict -t japanese
+Processing wiki dump at Wed Sep 19 11:35:50 2018
+Dictionary found
+Using japanese tokenizer
+Stream built at Wed Sep 19 11:35:50 2018
+Processed 10000 articles
+Processed 20000 articles
+:::
+Processed 1090000 articles
+Processed 1100000 articles
+Total: 1105898 articles
+Processing complete at Wed Sep 19 16:38:16 2018
+
+$ python build_wiki_wordlist.py ja_wiki.txt wordlist_ja_20180901.txt
+Building wordlist at Wed Sep 19 17:38:40 2018
+Writing wordlist at Wed Sep 19 18:06:12 2018
+Processing complete at Wed Sep 19 18:06:31 2018
+
+$ python filter_latin_characters.py wordlist_ja_20180901.txt wordlist_ja_filtered_20180901.txt
+Processing started at  Wed Sep 19 18:07:04 2018
+Processing complete at Wed Sep 19 18:07:29 2018
+
+$ gzip wordlist_ja_filtered_20180901.txt
+```

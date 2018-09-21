@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 print('Processing started at  ' + time.ctime())
 
-latin_letters = re.compile(r"[a-z]")
+latin_letters = re.compile(r"[a-zA-Z]")
 for line in args.inputfile:
 	if not re.search(latin_letters, line):
 		args.outputfile.write(line)

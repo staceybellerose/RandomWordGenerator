@@ -438,6 +438,7 @@ public class MainActivity extends AppCompatActivity {
 
         Strings.split(Strings.from(reader), "\n")
                 .filter(substring -> !TextUtils.isEmpty(substring))
+                .map(substring -> substring.split("\t")[0])
                 .filter(substring -> substring.length() >= minLength)
                 .filter(substring -> substring.length() <= maxLength)
                 .subscribe(wordList::add);

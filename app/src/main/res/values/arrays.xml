@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="word_list_descriptions">
-        <item>American English Dictionary (no Inflections)</item>
-        <item>American English Dictionary</item>
-        <item>International English Dictionary</item>
-        <item>English as a Second Language Dictionary</item>
-        <item>Word Game Tournament List (American)</item>
-        <item>Word Game Tournament List (International)</item>
+        <item>American English Dictionary: no Inflections (12dicts)</item>
+        <item>American English Dictionary (12dicts)</item>
+        <item>International English Dictionary (12dicts)</item>
+        <item>English as a Second Language Dictionary (12dicts)</item>
+        <item>Word Game Tournament List: American (12dicts)</item>
+        <item>Word Game Tournament List: International (12dicts)</item>
+        <item>European Parliament Proceedings: Danish (nltk)</item>
+        <item>European Parliament Proceedings: Dutch (nltk)</item>
+        <item>European Parliament Proceedings: English (nltk)</item>
+        <item>European Parliament Proceedings: Finnish (nltk)</item>
+        <item>European Parliament Proceedings: French (nltk)</item>
+        <item>European Parliament Proceedings: German (nltk)</item>
+        <item>European Parliament Proceedings: Greek (nltk)</item>
+        <item>European Parliament Proceedings: Italian (nltk)</item>
+        <item>European Parliament Proceedings: Portuguese (nltk)</item>
+        <item>European Parliament Proceedings: Spanish (nltk)</item>
+        <item>European Parliament Proceedings: Swedish (nltk)</item>
     </string-array>
     <string-array name="word_list_resources">
         <item>wordlist</item>
@@ -15,5 +26,16 @@
         <item>words_esl</item>
         <item>twl06</item>
         <item>sowpods</item>
+        <item>wordlist_europarl_da</item>
+        <item>wordlist_europarl_nl</item>
+        <item>wordlist_europarl_en</item>
+        <item>wordlist_europarl_fi</item>
+        <item>wordlist_europarl_fr</item>
+        <item>wordlist_europarl_de</item>
+        <item>wordlist_europarl_el</item>
+        <item>wordlist_europarl_it</item>
+        <item>wordlist_europarl_pt</item>
+        <item>wordlist_europarl_es</item>
+        <item>wordlist_europarl_sv</item>
     </string-array>
 </resources>

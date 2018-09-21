@@ -14,18 +14,7 @@ The final processed word lists can be found in the *12dicts/processed* folder.
 
 ## Wiki
 
-Using the Python scripts located in the */scripts/wiki* folder, the following word lists were created.
-
-+ English
-+ French
-+ German
-+ Greek
-+ Hebrew
-+ Latin
-+ Spanish
-+ Simple English
-
-These files have **NOT** been processed in any way other than to convert the Wikipedia dump files into word lists using the above-mentioned scripts. The word lists are sorted by descending frequency (most commonly used first), and include word counts with each word. For more details about the processing, see the [README.md](../scripts/wiki/README.md) file in the */scripts/wiki* folder.
+Please see our [Wiki](https://github.com/staceybellerose/RandomWordGenerator/wiki/files/) for a list of files created for downloading.
 
 ## Filters
 
