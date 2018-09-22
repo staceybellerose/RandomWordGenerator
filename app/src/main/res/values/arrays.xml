@@ -7,6 +7,7 @@
         <item>English as a Second Language Dictionary (12dicts)</item>
         <item>Word Game Tournament List: American (12dicts)</item>
         <item>Word Game Tournament List: International (12dicts)</item>
+        <item>Complete Works of Shakespeare Word List</item>
         <item>European Parliament Proceedings: Danish (nltk)</item>
         <item>European Parliament Proceedings: Dutch (nltk)</item>
         <item>European Parliament Proceedings: English (nltk)</item>
@@ -26,6 +27,7 @@
         <item>words_esl</item>
         <item>twl06</item>
         <item>sowpods</item>
+        <item>shakespeare</item>
         <item>wordlist_europarl_da</item>
         <item>wordlist_europarl_nl</item>
         <item>wordlist_europarl_en</item>
