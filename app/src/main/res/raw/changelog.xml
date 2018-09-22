@@ -4,7 +4,7 @@
     <changelogversion
         changeDate="September 20, 2018"
         versionName="2.0">
-        <changelogimprovement>Added many new dictionaries to choose from</changelogimprovement>
+        <changelogimprovement>Added many new dictionaries to choose from: see Settings for list</changelogimprovement>
         <changelogimprovement>Option to display random words in two columns</changelogimprovement>
         <changelogimprovement>Added filtering of vulgar words to all word lists</changelogimprovement>
         <changelogtext>Increased performance of reading word lists</changelogtext>

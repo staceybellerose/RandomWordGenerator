@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_nltk" />
+    <string name="library_nltk_author">NLTK Project</string>
+    <string name="library_nltk_authorWebsite">http://nltk.org/</string>
+    <string name="library_nltk_libraryName">NLTK</string>
+    <string name="library_nltk_libraryDescription">
+        <![CDATA[NLTK — the Natural Language Toolkit — is a suite of open source Python modules, data sets,
+        and tutorials supporting research and development in Natural Language Processing.<br><br>
+        Cite: Bird, Steven, Edward Loper and Ewan Klein (2009). Natural Language Processing with Python.
+        O\'Reilly Media Inc.]]>
+    </string>
+    <string name="library_nltk_libraryVersion">3.3</string>
+    <string name="library_nltk_libraryWebsite">http://nltk.org/</string>
+    <string name="library_nltk_licenseId">apache_2_0</string>
+    <string name="library_nltk_isOpenSource">true</string>
+    <string name="library_nltk_repositoryLink">https://github.com/nltk/nltk</string>
+</resources>
