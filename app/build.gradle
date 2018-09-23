@@ -105,7 +105,7 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.1.0'
     compile 'io.reactivex.rxjava2:rxjava:2.2.2'
-    compile 'com.github.davidmoten:rxjava-extras:0.8.0.17'
+    compile 'com.github.davidmoten:rxjava2-extras:0.1.25'
     compile 'com.jonathanfinerty.once:once:1.2.2'
     compile 'uk.co.samuelwall:material-tap-target-prompt:2.4.1'
     compile('com.mikepenz:aboutlibraries:5.9.7@aar') {

@@ -28,7 +28,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.github.davidmoten.rx.Strings;
+import com.github.davidmoten.rx2.Strings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -235,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
             showAbout();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -295,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void reloadWordList() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
         int wordListId;
         String wordListName = sharedPref.getString(getString(R.string.pref_word_list),
                 getString(R.string.pref_word_list_default));
@@ -318,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param wordListName name of the selected word list, from @array/word_list_resources
      */
-    private void setWordListTitle(String wordListName) {
+    private void setWordListTitle(final String wordListName) {
         String[] listNames = getResources().getStringArray(R.array.word_list_resources);
         String[] listTitles = getResources().getStringArray(R.array.word_list_descriptions);
         String title = null;
@@ -368,10 +366,11 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param substring The new string to add
      * @param maxCount The maximum number of strings to be added
+     * @param isTwoColumn Flag indicating whether two columns should be displayed
      */
-    private void makeTwoColumnText(final String substring, final int maxCount) {
+    private void appendText(final String substring, final int maxCount, final boolean isTwoColumn) {
         String currentText = mRandomContent.getText().toString();
-        if (countWords(currentText) < maxCount / 2) {
+        if (!isTwoColumn || countWords(currentText) < maxCount / 2) {
             mRandomContent.append(substring + "\n");
         } else {
             String[] lines = currentText.split("\n");
@@ -407,13 +406,7 @@ public class MainActivity extends AppCompatActivity {
                     .distinct()
                     .take(count)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(substring -> {
-                        if (twoColumn) {
-                            makeTwoColumnText(substring, count);
-                        } else {
-                            mRandomContent.append(substring + "\n");
-                        }
-                    });
+                    .subscribe(substring -> appendText(substring, count, twoColumn));
         }
     }
 
@@ -435,14 +428,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException exception) {
             Log.e(TAG, exception.getMessage(), exception);
         }
-
         Strings.split(Strings.from(reader), "\n")
                 .filter(substring -> !TextUtils.isEmpty(substring))
                 .map(substring -> substring.split("\t")[0])
                 .filter(substring -> substring.length() >= minLength)
                 .filter(substring -> substring.length() <= maxLength)
                 .subscribe(wordList::add);
-
         try {
             if (reader != null) {
                 reader.close();

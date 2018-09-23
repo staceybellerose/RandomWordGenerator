@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_rxjava2extras">year;owner</string>
+    <string name="library_rxjava2extras_author">David Moten</string>
+    <string name="library_rxjava2extras_authorWebsite">https://davidmoten.github.io/</string>
+    <string name="library_rxjava2extras_libraryName">rxjava2-extras</string>
+    <string name="library_rxjava2extras_libraryDescription">Utilities for use with RxJava 2</string>
+    <string name="library_rxjava2extras_libraryVersion">0.1.25</string>
+    <string name="library_rxjava2extras_libraryWebsite">https://github.com/davidmoten/rxjava2-extras</string>
+    <string name="library_rxjava2extras_licenseId">apache_2_0</string>
+    <string name="library_rxjava2extras_isOpenSource">true</string>
+    <string name="library_rxjava2extras_repositoryLink">https://github.com/davidmoten/rxjava2-extras</string>
+    <string name="library_rxjava2extras_classPath">com.github.davidmoten.rx2.Strings</string>
+    <string name="library_rxjava2extras_owner">David Moten</string>
+    <string name="library_rxjava2extras_year">2016–2018</string>
+</resources>

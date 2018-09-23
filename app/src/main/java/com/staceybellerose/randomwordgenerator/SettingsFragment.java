@@ -54,7 +54,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         setCallback(context);
     }
@@ -64,7 +64,7 @@ public class SettingsFragment extends PreferenceFragment {
      *
      * @param context The activity that is attaching this fragment
      */
-    private void setCallback(Context context) {
+    private void setCallback(final Context context) {
         try {
             mCallback = (OnPreferenceChangeListener) context;
         } catch (ClassCastException e) {

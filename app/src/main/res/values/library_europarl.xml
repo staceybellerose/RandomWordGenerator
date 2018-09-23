@@ -9,10 +9,6 @@
         includes versions in 21 European languages: Romanic (French, Italian, Spanish, Portuguese, Romanian),
         Germanic (English, Dutch, German, Danish, Swedish), Slavik (Bulgarian, Czech, Polish, Slovak, Slovene),
         Finni-Ugric (Finnish, Hungarian, Estonian), Baltic (Latvian, Lithuanian), and Greek.<br><br>
-        The goal of the extraction and processing was to generate sentence aligned text for statistical machine
-        translation systems. For this purpose we extracted matching items and labeled them with corresponding
-        document IDs. Using a preprocessor we identified sentence boundaries. We sentence aligned the data using
-        a tool based on the Church and Gale algorithm.<br><br>
         Cite: Europarl: A Parallel Corpus for Statistical Machine Translation, Philipp Koehn, MT Summit 2005.]]>
     </string>
     <string name="library_europarl_libraryVersion">v7</string>
