@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
      * copy list of random words (space separated) to clipboard
      */
     @OnClick(R.id.fab)
+    @SuppressWarnings("unused")
     public void copyToClipboard() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         String randomWords = mRandomContent.getText().toString();

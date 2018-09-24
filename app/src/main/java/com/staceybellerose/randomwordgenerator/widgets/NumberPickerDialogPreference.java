@@ -85,6 +85,7 @@ public class NumberPickerDialogPreference extends DialogPreference
      *
      * @param context The activity context
      */
+    @SuppressWarnings("unused")
     public NumberPickerDialogPreference(final Context context)
     {
         super(context, null);
@@ -97,6 +98,7 @@ public class NumberPickerDialogPreference extends DialogPreference
      * @param context The activity context
      * @param attrs The style attributes
      */
+    @SuppressWarnings("unused")
     public NumberPickerDialogPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
@@ -147,10 +149,10 @@ public class NumberPickerDialogPreference extends DialogPreference
     {
         super.onBindDialogView(view);
 
-        TextView dialogMessageText = (TextView) view.findViewById(R.id.text_dialog_message);
+        TextView dialogMessageText = view.findViewById(R.id.text_dialog_message);
         dialogMessageText.setText(getDialogMessage());
 
-        mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
+        mNumberPicker = view.findViewById(R.id.number_picker);
         mNumberPicker.setMinValue(mMinValue);
         mNumberPicker.setMaxValue(mMaxValue);
         mNumberPicker.setValue(mValue);
