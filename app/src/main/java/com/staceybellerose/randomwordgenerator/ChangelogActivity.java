@@ -22,5 +22,6 @@ public class ChangelogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_changelog);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

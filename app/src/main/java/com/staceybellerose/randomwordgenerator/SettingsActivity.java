@@ -3,12 +3,21 @@ package com.staceybellerose.randomwordgenerator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Manage the Settings for this app
  */
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnPreferenceChangeListener {
 
+    /**
+     * the toolbar
+     */
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     /**
      * The result intent to be used when this activity called from startActivityForResult
      */
@@ -18,6 +27,10 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getFragmentManager().beginTransaction()
                 .replace(R.id.frame_container, new SettingsFragment()).commit();
     }

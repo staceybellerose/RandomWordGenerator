@@ -47,6 +47,7 @@ public class MyLibsActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setSubtitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LibsSupportFragment fragment = new LibsBuilder()
                 .withFields(R.string.class.getFields())
