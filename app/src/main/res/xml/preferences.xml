@@ -8,13 +8,13 @@
             android:defaultValue="@string/pref_word_list_default"
             android:entries="@array/word_list_descriptions"
             android:entryValues="@array/word_list_resources"
-            android:icon="@drawable/ic_library_books_black_24dp"
+            android:icon="@drawable/ic_library_books_black_36dp"
             android:key="@string/pref_word_list"
             android:summary="%s"
             android:title="@string/pref_word_list_header"/>
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_display_count"
-            android:icon="@drawable/ic_counter_black_24dp"
+            android:icon="@drawable/ic_counter_black_36dp"
             android:key="@string/pref_display_count"
             android:max="@integer/max_display_count"
             android:title="@string/pref_display_count_title"
@@ -22,7 +22,7 @@
             app:summaryPlural="@plurals/pref_display_count_summary"/>
         <SwitchPreference
             android:defaultValue="@bool/pref_two_column_default"
-            android:icon="@drawable/ic_format_columns_black_24dp"
+            android:icon="@drawable/ic_format_columns_black_36dp"
             android:key="@string/pref_two_column"
             android:summaryOff="@string/no"
             android:summaryOn="@string/yes"
@@ -33,7 +33,7 @@
         android:title="@string/pref_filters_header">
         <SwitchPreference
             android:defaultValue="@bool/pref_clean_words_default"
-            android:icon="@drawable/ic_alert_octagon_black_24dp"
+            android:icon="@drawable/ic_alert_octagon_black_36dp"
             android:key="@string/pref_clean_words_flag"
             android:summaryOff="@string/no"
             android:summaryOn="@string/yes"
@@ -41,7 +41,7 @@
         <SwitchPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
-            android:icon="@drawable/ic_dots_horizontal_black_24dp"
+            android:icon="@drawable/ic_dots_horizontal_black_36dp"
             android:key="@string/pref_unlimited_length_flag"
             android:summaryOff="@string/no"
             android:summaryOn="@string/yes"
@@ -49,7 +49,7 @@
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_min_word_length"
             android:dependency="@string/pref_unlimited_length_flag"
-            android:icon="@drawable/ic_arrow_expand_left_black_24dp"
+            android:icon="@drawable/ic_arrow_expand_left_black_36dp"
             android:key="@string/pref_min_word_length"
             android:max="@integer/default_max_word_length"
             android:title="@string/pref_min_word_length_title"
@@ -57,7 +57,7 @@
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_max_word_length"
             android:dependency="@string/pref_unlimited_length_flag"
-            android:icon="@drawable/ic_arrow_expand_right_black_24dp"
+            android:icon="@drawable/ic_arrow_expand_right_black_36dp"
             android:key="@string/pref_max_word_length"
             android:max="@integer/default_max_word_length"
             android:title="@string/pref_max_word_length_title"
