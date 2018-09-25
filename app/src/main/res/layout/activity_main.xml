@@ -68,6 +68,8 @@
                     style="@style/AppTheme.TextAppearance.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHighlight="@color/selected_text"
+                    android:textIsSelectable="true"
                     tools:text="@string/sample_words"/>
             </LinearLayout>
         </ScrollView>
