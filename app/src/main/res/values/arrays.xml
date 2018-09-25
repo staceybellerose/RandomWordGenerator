@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="word_list_descriptions">
-        <item>American English Dictionary: no Inflections (12dicts)</item>
-        <item>American English Dictionary (12dicts)</item>
-        <item>International English Dictionary (12dicts)</item>
-        <item>English as a Second Language Dictionary (12dicts)</item>
-        <item>Word Game Tournament List: American (12dicts)</item>
-        <item>Word Game Tournament List: International (12dicts)</item>
+        <item>American English Dictionary: no Inflections</item>
+        <item>American English Dictionary</item>
+        <item>International English Dictionary</item>
+        <item>English as a Second Language Dictionary</item>
+        <item>Word Game Tournament List: American</item>
+        <item>Word Game Tournament List: International</item>
         <item>Complete Works of Shakespeare Word List</item>
-        <item>European Parliament Proceedings: Danish (nltk)</item>
-        <item>European Parliament Proceedings: Dutch (nltk)</item>
-        <item>European Parliament Proceedings: English (nltk)</item>
-        <item>European Parliament Proceedings: Finnish (nltk)</item>
-        <item>European Parliament Proceedings: French (nltk)</item>
-        <item>European Parliament Proceedings: German (nltk)</item>
-        <item>European Parliament Proceedings: Greek (nltk)</item>
-        <item>European Parliament Proceedings: Italian (nltk)</item>
-        <item>European Parliament Proceedings: Portuguese (nltk)</item>
-        <item>European Parliament Proceedings: Spanish (nltk)</item>
-        <item>European Parliament Proceedings: Swedish (nltk)</item>
+        <item>European Parliament Proceedings: Danish</item>
+        <item>European Parliament Proceedings: Dutch</item>
+        <item>European Parliament Proceedings: English</item>
+        <item>European Parliament Proceedings: Finnish</item>
+        <item>European Parliament Proceedings: French</item>
+        <item>European Parliament Proceedings: German</item>
+        <item>European Parliament Proceedings: Greek</item>
+        <item>European Parliament Proceedings: Italian</item>
+        <item>European Parliament Proceedings: Portuguese</item>
+        <item>European Parliament Proceedings: Spanish</item>
+        <item>European Parliament Proceedings: Swedish</item>
     </string-array>
     <string-array name="word_list_resources">
         <item>wordlist</item>
@@ -39,5 +39,45 @@
         <item>wordlist_europarl_pt</item>
         <item>wordlist_europarl_es</item>
         <item>wordlist_europarl_sv</item>
+    </string-array>
+    <integer-array name="list_lengths">
+        <item>29751</item>
+        <item>81901</item>
+        <item>64597</item>
+        <item>20008</item>
+        <item>178690</item>
+        <item>267752</item>
+        <item>27988</item>
+        <item>25393</item>
+        <item>21203</item>
+        <item>14250</item>
+        <item>49788</item>
+        <item>20084</item>
+        <item>28897</item>
+        <item>30654</item>
+        <item>22737</item>
+        <item>22394</item>
+        <item>23189</item>
+        <item>27491</item>
+    </integer-array>
+    <string-array name="list_sources">
+        <item>12dicts</item>
+        <item>12dicts</item>
+        <item>12dicts</item>
+        <item>12dicts</item>
+        <item>12dicts</item>
+        <item>12dicts</item>
+        <item>public domain</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
+        <item>nltk</item>
     </string-array>
 </resources>

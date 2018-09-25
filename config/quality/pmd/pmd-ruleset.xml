@@ -49,4 +49,9 @@
         <exclude name="VariableNamingConventions" />
         -->
     </rule>
+    <rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals">
+        <properties>
+            <property name="skipAnnotations" value="true"/>
+        </properties>
+    </rule>
 </ruleset>

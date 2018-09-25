@@ -15,6 +15,10 @@
         android:title="@string/action_changelog"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_wordlists"
+        android:title="@string/action_wordlists"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         app:showAsAction="never" />

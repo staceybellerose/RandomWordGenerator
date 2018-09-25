@@ -23,9 +23,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="AppTheme.TextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/textColorPrimary</item>
@@ -46,10 +46,18 @@
         <item name="android:paddingBottom">@dimen/text_margin_subhead</item>
     </style>
 
+    <style name="AppTheme.TextAppearance.Subhead.Tight" parent="AppTheme.TextAppearance.Subhead">
+        <item name="android:paddingBottom">@dimen/text_margin_header_tight</item>
+    </style>
+
     <style name="AppTheme.TextAppearance.Body" parent="AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/text_size_body</item>
         <item name="android:textColor">?attr/textColorSecondary</item>
         <item name="android:paddingBottom">@dimen/text_margin_body</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Body.Tight" parent="AppTheme.TextAppearance.Body">
+        <item name="android:paddingBottom">@dimen/text_margin_body_tight</item>
     </style>
 
     <style name="AppTheme.TextAppearance.FabText" parent="AppTheme.TextAppearance">

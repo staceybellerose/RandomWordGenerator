@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              android:id="@+id/help_button"
+                                              android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:background="@drawable/help_button_background"
+                                              android:padding="16dp"
+                                              android:tint="@color/colorAccent"
+                                              app:srcCompat="@drawable/ic_help_circle_black_24dp"/>

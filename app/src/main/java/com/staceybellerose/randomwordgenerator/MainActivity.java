@@ -229,6 +229,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ChangelogActivity.class);
             startActivity(intent);
             return true;
+        } else if (itemId == R.id.action_wordlists) {
+            Intent intent = new Intent(this, WordListDetailsActivity.class);
+            startActivity(intent);
+            return true;
         } else if (itemId == R.id.action_help) {
             startTour();
             return true;
@@ -395,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getBoolean(R.bool.pref_two_column_default));
 
         if (mUsingDownloadedList) {
-            mRandomContent.setText("Downloadable content coming soon!");
+            mRandomContent.setText(getString(R.string.downloadable_content));
         } else {
             mRandomContent.setText("");
             Observable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())

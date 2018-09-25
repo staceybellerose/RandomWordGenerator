@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.staceybellerose.randomwordgenerator.MainActivity">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:id="@+id/coordinator_layout"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 tools:context="com.staceybellerose.randomwordgenerator.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/app_name" />
+            app:title="@string/app_name"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -48,27 +48,27 @@
                     style="@style/AppTheme.TextAppearance.Header.Tight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/word_list_title" />
+                    android:text="@string/word_list_title"/>
 
                 <TextView
                     android:id="@+id/word_list_title"
                     style="@style/AppTheme.TextAppearance.Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="American English Dictionary (no Inflections)" />
+                    tools:text="American English Dictionary (no Inflections)"/>
 
                 <TextView
                     style="@style/AppTheme.TextAppearance.Header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_header" />
+                    android:text="@string/app_header"/>
 
                 <TextView
                     android:id="@+id/random_content"
                     style="@style/AppTheme.TextAppearance.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="@string/sample_words" />
+                    tools:text="@string/sample_words"/>
             </LinearLayout>
         </ScrollView>
 
@@ -81,6 +81,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_content_copy_white_48dp" />
+        app:srcCompat="@drawable/ic_content_copy_white_48dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

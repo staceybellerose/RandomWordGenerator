@@ -37,6 +37,10 @@ public class MyLibsActivity extends AppCompatActivity {
      * Title string for the Settings activity
      */
     @BindString(R.string.title_activity_settings) String mSettingsActivityTitle;
+    /**
+     * Title string for the Word List Details activity
+     */
+    @BindString(R.string.title_activity_word_lists) String mWordListsActivityTitle;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -57,7 +61,8 @@ public class MyLibsActivity extends AppCompatActivity {
                 .withAboutVersionShownName(true)
                 .withAboutDescription(mAppLongDesc)
                 .withAboutSpecial1(mSettingsActivityTitle)
-                .withAboutSpecial2(mChangelogActivityTitle)
+                .withAboutSpecial2(mWordListsActivityTitle)
+                .withAboutSpecial3(mChangelogActivityTitle)
                 .withListener(new SpecialButtonListener())
                 .withExcludedLibraries("AndroidIconics")
                 .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "rxandroid", "nltk", "europarl")

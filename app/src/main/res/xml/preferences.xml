@@ -4,14 +4,15 @@
     <PreferenceCategory
         android:key="@string/pref_display_header"
         android:title="@string/pref_display_header">
-        <ListPreference
+        <com.staceybellerose.randomwordgenerator.widgets.ListDetailsPreference
             android:defaultValue="@string/pref_word_list_default"
             android:entries="@array/word_list_descriptions"
             android:entryValues="@array/word_list_resources"
             android:icon="@drawable/ic_library_books_black_36dp"
             android:key="@string/pref_word_list"
             android:summary="%s"
-            android:title="@string/pref_word_list_header"/>
+            android:title="@string/pref_word_list_header"
+            android:widgetLayout="@layout/preference_widget_help"/>
         <com.staceybellerose.randomwordgenerator.widgets.NumberPickerDialogPreference
             android:defaultValue="@integer/default_display_count"
             android:icon="@drawable/ic_counter_black_36dp"

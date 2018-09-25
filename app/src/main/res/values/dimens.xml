@@ -21,6 +21,7 @@
     <dimen name="text_margin_header_tight">0sp</dimen>
     <dimen name="text_margin_subhead">14sp</dimen>
     <dimen name="text_margin_body">12sp</dimen>
+    <dimen name="text_margin_body_tight">0sp</dimen>
 
     <!-- Material design guidelines -->
     <dimen name="content_minheight">56dp</dimen>

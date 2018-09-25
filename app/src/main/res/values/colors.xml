@@ -7,9 +7,11 @@
     <color name="colorAccentDark">@color/md_green_800</color>
     <color name="colorAccentLight">@color/md_green_100</color>
     <color name="colorAlternative">@color/md_amber_500</color>
+    <color name="card_background">#f6f3fb</color>
+    <color name="selected_text">@color/md_green_200</color>
 
     <!-- AboutLibraries colors -->
-    <color name="about_libraries_card">#f6f3fb</color><!-- equivalent to md_deep_purple_25 -->
+    <color name="about_libraries_card">@color/card_background</color><!-- equivalent to md_deep_purple_25 -->
     <color name="about_libraries_title_openSource">@color/colorPrimary</color>
     <color name="about_libraries_text_openSource">@color/md_secondary_text_light</color>
     <color name="about_libraries_special_button_openSource">@color/colorAccent</color>

@@ -7,6 +7,7 @@ import android.view.View;
 import com.mikepenz.aboutlibraries.Libs;
 import com.staceybellerose.randomwordgenerator.ChangelogActivity;
 import com.staceybellerose.randomwordgenerator.SettingsActivity;
+import com.staceybellerose.randomwordgenerator.WordListDetailsActivity;
 
 /**
  * Listener to handle clicks on the Special buttons
@@ -20,6 +21,10 @@ public class SpecialButtonListener extends SimpleLibsListener {
             context.startActivity(intent);
             return true;
         } else if (specialButton == Libs.SpecialButton.SPECIAL2) {
+            Intent intent = new Intent(context, WordListDetailsActivity.class);
+            context.startActivity(intent);
+            return true;
+        } else if (specialButton == Libs.SpecialButton.SPECIAL3) {
             Intent intent = new Intent(context, ChangelogActivity.class);
             context.startActivity(intent);
             return true;
