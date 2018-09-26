@@ -8,8 +8,8 @@ Random Word Generator
 [![Known Vulnerabilities](https://snyk.io/test/github/staceybellerose/randomwordgenerator/badge.svg)](https://snyk.io/test/github/staceybellerose/randomwordgenerator)
 
 The **Random Word Generator** Android app generates
-randomly selected words from a large American English
-dictionary of over 28,000 entries.
+randomly selected words from large word lists derived
+from dictionaries and published text corpora.
 
 The inspirations for this app were
 [Diceware](http://world.std.com/~reinhold/diceware.html)
@@ -20,10 +20,12 @@ selected word will have nearly 14.8 bits of entropy. A phrase
 made up of 6 words will have over 88.6 bits of entropy, more
 than enough for a very strong password.
 
-This app uses the 6of12 word list from
-[12dicts](wordlist.aspell.net/12dicts/), along with
-the neol2016 list. The random number generator uses the
-cryptographically secure java.security.SecureRandom class.
+The random number generator uses the cryptographically secure
+java.security.SecureRandom class.
+
+The app is available for download on Google Play.
+
+<a href='https://play.google.com/store/apps/details?id=com.staceybellerose.randomwordgenerator&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width='323px' height='125px'/></a>
 
 License
 =======
@@ -41,3 +43,5 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+Google Play and the Google Play logo are trademarks of Google LLC.
