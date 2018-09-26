@@ -1,0 +1,1 @@
+The 12dicts word lists are located [here](http://wordlist.aspell.net/12dicts/).
