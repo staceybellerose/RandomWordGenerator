@@ -458,13 +458,12 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressWarnings("deprecation")
     private void startTour() {
-        int focalColor = getResources().getColor(R.color.colorAccentDark);
         new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme)
                 .setPrimaryText(R.string.tour_clipboard_primary)
                 .setSecondaryText(R.string.tour_clipboard_secondary)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setTarget(mFab)
-                .setFocalColour(focalColor)
+                .setFocalColour(getResources().getColor(R.color.colorAccentDark))
                 .setIcon(R.drawable.ic_content_copy_white_24dp)
                 .setIconDrawableTintMode(null)
                 .setPromptBackground(new DimmedPromptBackground())
