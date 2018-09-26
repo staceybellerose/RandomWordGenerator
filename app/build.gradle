@@ -84,7 +84,7 @@ android {
         }
     }
     lintOptions {
-        disable 'InvalidPackage', 'OldTargetApi', 'GoogleAppIndexingWarning', 'InconsistentArrays', 'VectorRaster'
+        disable 'InvalidPackage', 'OldTargetApi', 'GoogleAppIndexingWarning', 'InconsistentArrays', 'VectorRaster', 'ResourceAsColor'
     }
 }
 
