@@ -6,7 +6,9 @@
         versionName="2.0">
         <changelogimprovement>Added many new dictionaries to choose from: see Settings for list</changelogimprovement>
         <changelogimprovement>Option to display random words in two columns</changelogimprovement>
-        <changelogimprovement>Added filtering of vulgar words to all word lists</changelogimprovement>
+        <changelogimprovement>Added optional filtering of vulgar words to all word lists</changelogimprovement>
+        <changelogimprovement>Added ability to copy individual words as well as the full list</changelogimprovement>
+        <changelogimprovement>Added details about each word list (source, word count, entropy available)</changelogimprovement>
         <changelogtext>Increased performance of reading word lists</changelogtext>
         <changelogtext>Added Android SDK 26 support</changelogtext>
         <changelogtext>Upgraded third-party libraries</changelogtext>

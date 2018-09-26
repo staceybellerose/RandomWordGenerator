@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.RawRes;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.github.davidmoten.rx2.Strings;
+import com.staceybellerose.randomwordgenerator.utils.DimmedPromptBackground;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -207,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         String randomWords = mRandomContent.getText().toString();
         ClipData clipData = ClipData.newPlainText("simple text", randomWords.replace("\n", " "));
         clipboard.setPrimaryClip(clipData);
+        Snackbar.make(mFab, R.string.copied, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -453,13 +456,18 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Start the help tour by highlighting the "copy to clipboard" button.
      */
+    @SuppressWarnings("deprecation")
     private void startTour() {
-        new MaterialTapTargetPrompt.Builder(this, R.style.AppTheme_Light)
+        int focalColor = getResources().getColor(R.color.colorAccentDark);
+        new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme)
                 .setPrimaryText(R.string.tour_clipboard_primary)
                 .setSecondaryText(R.string.tour_clipboard_secondary)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setTarget(mFab)
+                .setFocalColour(focalColor)
+                .setIcon(R.drawable.ic_content_copy_white_24dp)
+                .setIconDrawableTintMode(null)
+                .setPromptBackground(new DimmedPromptBackground())
                 .setPromptStateChangeListener((prompt, state) -> {
                     if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
                             || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
@@ -472,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Continue the help tour by highlighting the "swipe down to refresh" functionality.
      */
+    @SuppressWarnings("deprecation")
     private void showTourPullRefresh() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -484,13 +493,14 @@ public class MainActivity extends AppCompatActivity {
         int iconHeight = (int) (Resources.getSystem().getDisplayMetrics().density
                 * TOUR_REFRESH_ICON_SIZE_DP);
         int targetTop = mToolbar.getHeight() + statusBarHeight + iconHeight;
-        new MaterialTapTargetPrompt.Builder(this, R.style.AppTheme_Light)
+        new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme)
                 .setPrimaryText(R.string.tour_refresh_primary)
                 .setSecondaryText(R.string.tour_refresh_secondary)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setTarget(targetLeft, targetTop)
-                .setIcon(R.drawable.ic_arrow_downward_black_48dp)
+                .setIcon(R.drawable.ic_arrow_down_white_24dp)
+                .setIconDrawableTintMode(null)
+                .setPromptBackground(new DimmedPromptBackground())
                 .show();
     }
 

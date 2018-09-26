@@ -9,6 +9,7 @@
     <color name="colorAlternative">@color/md_amber_500</color>
     <color name="card_background">#f6f3fb</color>
     <color name="selected_text">@color/md_green_200</color>
+    <color name="help_background">#F4B39DDB</color>
 
     <!-- AboutLibraries colors -->
     <color name="about_libraries_card">@color/card_background</color><!-- equivalent to md_deep_purple_25 -->

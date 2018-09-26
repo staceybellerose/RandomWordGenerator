@@ -13,11 +13,6 @@
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
     </style>
 
-    <style name="AppTheme.Light" parent="AppTheme">
-        <item name="colorPrimary">@color/colorPrimaryLight</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-    </style>
-
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -90,5 +85,14 @@
         <item name="android:textColor">@color/colorAccentDark</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="MaterialTapTargetPromptTheme">
+        <item name="mttp_primaryTextColour">@color/md_primary_text_light</item>
+        <item name="mttp_secondaryTextColour">@color/md_secondary_text_light</item>
+        <item name="mttp_maxTextWidth">350dp</item>
+        <item name="mttp_backgroundColour">@color/help_background</item>
+        <item name="mttp_focalColour">@color/colorPrimary</item>
+        <item name="mttp_focalRadius">36dp</item>
     </style>
 </resources>

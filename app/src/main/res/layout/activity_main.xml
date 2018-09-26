@@ -83,6 +83,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_content_copy_white_48dp"/>
+        app:srcCompat="@drawable/ic_content_copy_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

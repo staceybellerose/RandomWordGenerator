@@ -27,6 +27,7 @@
         \nconsequat
         \nfelis</string>
     <string name="downloadable_content">Downloadable content coming soon!</string>
+    <string name="copied">Word list copied to clipboard</string>
 
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_changelog">Change Log</string>
