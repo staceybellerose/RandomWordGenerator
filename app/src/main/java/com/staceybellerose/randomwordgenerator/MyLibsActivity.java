@@ -1,6 +1,7 @@
 package com.staceybellerose.randomwordgenerator;
 
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -51,7 +52,9 @@ public class MyLibsActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setSubtitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         LibsSupportFragment fragment = new LibsBuilder()
                 .withFields(R.string.class.getFields())

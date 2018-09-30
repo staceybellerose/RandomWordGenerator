@@ -89,7 +89,8 @@ public class NumberPickerDialogPreference extends DialogPreference
     public NumberPickerDialogPreference(final Context context)
     {
         super(context, null);
-        init(context, null);
+        initAttributes(context, null);
+        setLayout();
     }
 
     /**
@@ -101,16 +102,17 @@ public class NumberPickerDialogPreference extends DialogPreference
     @SuppressWarnings("unused")
     public NumberPickerDialogPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        initAttributes(context, attrs);
+        setLayout();
     }
 
     /**
-     * Initialize the preference object
+     * Initialize the preference object's attributes
      *
      * @param context The activity context
      * @param attrs The style attributes
      */
-    private void init(final Context context, final AttributeSet attrs) {
+    private void initAttributes(final Context context, final AttributeSet attrs) {
         // get attributes specified in XML
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.NumberPickerDialogPreference, 0, 0);
@@ -124,8 +126,12 @@ public class NumberPickerDialogPreference extends DialogPreference
         {
             typedArray.recycle();
         }
+    }
 
-        // set layout
+    /**
+     * Set the layout of the preference
+     */
+    private void setLayout() {
         setDialogLayoutResource(R.layout.preference_number_picker_dialog);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);

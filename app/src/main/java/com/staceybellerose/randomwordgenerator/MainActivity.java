@@ -4,8 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -31,6 +29,7 @@ import android.widget.TextView;
 
 import com.github.davidmoten.rx2.Strings;
 import com.staceybellerose.randomwordgenerator.utils.DimmedPromptBackground;
+import com.staceybellerose.randomwordgenerator.utils.Settings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,8 +43,10 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.internal.functions.Functions;
 import io.reactivex.schedulers.Schedulers;
 import jonathanfinerty.once.Once;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
@@ -54,10 +55,6 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
  * The main activity for this app
  */
 public class MainActivity extends AppCompatActivity {
-    /**
-     * size of the swipe to refresh help icon
-     */
-    private static final int TOUR_REFRESH_ICON_SIZE_DP = 48;
     /**
      * Time in milliseconds to delay between new words displaying
      */
@@ -143,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
      * The width of mRandomContent, after rendering the layout, in pixels.
      */
     private int mContentWidth;
+    /**
+     * Utility object to manage reading our shared preferences
+     */
+    private Settings mSettings;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -151,27 +152,19 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        mSettings = Settings.getInstance(this);
+        mFilterList = readWordList(R.raw.filter_slurs, 0, Integer.MAX_VALUE);
         mSwipeLayout.setColorSchemeColors(mColorAlternative, mColorPrimary, mColorAccent);
-        mSwipeLayout.setOnRefreshListener(() -> new Handler().postDelayed(() -> {
-            refreshWords();
-            mSwipeLayout.setRefreshing(false);
-        }, TIME_BETWEEN_WORD_DISPLAY_MS));
+        mSwipeLayout.setOnRefreshListener(() -> new Handler().postDelayed(this::refreshWords, 250));
+
         if (savedInstanceState != null) {
             mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORDS));
             mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
-            new Handler().postDelayed(() -> {
-                reloadWordList();
-                reloadCleanFilter();
-            }, 250);
+            new Handler().postDelayed(() -> reloadLists(false), 250);
         } else {
-            mSwipeLayout.setRefreshing(true);
-            new Handler().postDelayed(() -> {
-                reloadWordList();
-                reloadCleanFilter();
-                mSwipeLayout.setRefreshing(false);
-                refreshWords();
-            }, 250);
+            new Handler().postDelayed(() -> reloadLists(true), 250);
         }
+
         // (re)set the tab stop for the random word content
         mRandomContent.post(() -> {
             mContentWidth = mRandomContent.getWidth();
@@ -240,7 +233,8 @@ public class MainActivity extends AppCompatActivity {
             startTour();
             return true;
         } else if (itemId == R.id.action_about) {
-            showAbout();
+            Intent intent = new Intent(this, MyLibsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -257,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
                 if (data.getBooleanExtra(getString(R.string.pref_clean_filter_changed), false)) {
                     reloadCleanFilter();
                 }
-                mSwipeLayout.setRefreshing(false);
                 refreshWords();
             }
             return;
@@ -266,45 +259,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Get the maximum and minimum word lengths to display from shared preferences.
+     * Reload the word lists and optionally the word display.
      *
-     * @return an int array containing the min and max lengths as {min, max}
+     * @param refreshWords Flag indicating whether to refresh the display of words as well
      */
-    private int[] getWordLengths() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean unlimitedWordSize = sharedPref.getBoolean(getString(R.string.pref_unlimited_length_flag), true);
-        int minLength;
-        int maxLength;
-        if (unlimitedWordSize) {
-            minLength = getResources().getInteger(R.integer.default_min_word_length);
-            maxLength = getResources().getInteger(R.integer.default_max_word_length);
+    private void reloadLists(final boolean refreshWords) {
+        mSwipeLayout.setRefreshing(true);
+        reloadWordList();
+        reloadCleanFilter();
+        if (refreshWords) {
+            refreshWords();
         } else {
-            minLength = sharedPref.getInt(getString(R.string.pref_min_word_length),
-                    getResources().getInteger(R.integer.default_min_word_length));
-            maxLength = sharedPref.getInt(getString(R.string.pref_max_word_length),
-                    getResources().getInteger(R.integer.default_max_word_length));
+            mSwipeLayout.setRefreshing(false);
         }
-        if (minLength > maxLength) {
-            // swap values and store the corrected values in shared preferences
-            int temp = minLength;
-            minLength = maxLength;
-            maxLength = temp;
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putInt(getString(R.string.pref_min_word_length), minLength);
-            editor.putInt(getString(R.string.pref_max_word_length), maxLength);
-            editor.apply();
-        }
-        return new int[] {minLength, maxLength};
     }
 
     /**
      * Reload the word list based on the one set in shared preferences.
      */
     private void reloadWordList() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         int wordListId;
-        String wordListName = sharedPref.getString(getString(R.string.pref_word_list),
-                getString(R.string.pref_word_list_default));
+        String wordListName = mSettings.getWordListName();
         mUsingDownloadedList = (wordListName.equalsIgnoreCase(getString(R.string.pref_word_list_download)));
         if (!mUsingDownloadedList) {
             wordListId = getResources().getIdentifier(wordListName, "raw", this.getPackageName());
@@ -312,9 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 // something bad happened and we don't have a proper resource name; default to original word list
                 wordListId = R.raw.wordlist;
             }
-            int[] wordLengths = getWordLengths();
-            mWordList = readWordList(wordListId, wordLengths[0], wordLengths[1]);
-            mFilterList = readWordList(R.raw.filter_slurs, 0, Integer.MAX_VALUE);
+            mWordList = readWordList(wordListId, mSettings.getMinLength(), mSettings.getMaxLength());
             setWordListTitle(wordListName);
         }
     }
@@ -343,11 +316,7 @@ public class MainActivity extends AppCompatActivity {
      * Reload the clean words filter based on shared preferences setting.
      */
     private void reloadCleanFilter() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean cleanWordsOnly = sharedPref.getBoolean(getString(R.string.pref_clean_words_flag),
-                BuildConfig.CLEAN_WORDS_ONLY);
-
-        if (BuildConfig.CLEAN_WORDS_ONLY || cleanWordsOnly) {
+        if (BuildConfig.CLEAN_WORDS_ONLY || mSettings.isCleanWordsOnly()) {
             mCleanFilter = readWordList(R.raw.filter_clean, 0, Integer.MAX_VALUE);
         } else {
             mCleanFilter = null;
@@ -395,26 +364,24 @@ public class MainActivity extends AppCompatActivity {
      * Refresh the list of random words.
      */
     private void refreshWords() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int count = sharedPref.getInt(getString(R.string.pref_display_count),
-                getResources().getInteger(R.integer.default_display_count));
-        boolean twoColumn = sharedPref.getBoolean(getString(R.string.pref_two_column),
-                getResources().getBoolean(R.bool.pref_two_column_default));
-
         if (mUsingDownloadedList) {
             mRandomContent.setText(getString(R.string.downloadable_content));
         } else {
+            mSwipeLayout.setRefreshing(true);
             mRandomContent.setText("");
-            Observable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())
+            Flowable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())
                     .map(number -> mSecureRandom.nextInt(mWordList.size()))
                     .map(mWordList::get)
                     .filter(substring -> substring != null)
                     .filter(substring -> mFilterList.indexOf(substring) == -1)
                     .filter(substring -> (mCleanFilter == null) || mCleanFilter.indexOf(substring) == -1)
                     .distinct()
-                    .take(count)
+                    .take(mSettings.getDisplayCount())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(substring -> appendText(substring, count, twoColumn));
+                    .subscribe(substring ->
+                        appendText(substring, mSettings.getDisplayCount(), mSettings.isDisplayTwoColumns()),
+                            Throwable::printStackTrace,
+                            () -> mSwipeLayout.setRefreshing(false));
         }
     }
 
@@ -458,12 +425,8 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressWarnings("deprecation")
     private void startTour() {
-        new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme)
-                .setPrimaryText(R.string.tour_clipboard_primary)
-                .setSecondaryText(R.string.tour_clipboard_secondary)
+        new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme_Fab)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setTarget(mFab)
-                .setFocalColour(getResources().getColor(R.color.colorAccentDark))
                 .setIcon(R.drawable.ic_content_copy_white_24dp)
                 .setIconDrawableTintMode(null)
                 .setPromptBackground(new DimmedPromptBackground())
@@ -479,24 +442,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Continue the help tour by highlighting the "swipe down to refresh" functionality.
      */
-    @SuppressWarnings("deprecation")
     private void showTourPullRefresh() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int targetLeft = size.x / 2;
-        Rect rect = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rect);
-        int statusBarHeight = rect.top;
-        int iconHeight = (int) (Resources.getSystem().getDisplayMetrics().density
-                * TOUR_REFRESH_ICON_SIZE_DP);
-        int targetTop = mToolbar.getHeight() + statusBarHeight + iconHeight;
-        new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme)
-                .setPrimaryText(R.string.tour_refresh_primary)
-                .setSecondaryText(R.string.tour_refresh_secondary)
+        Point target = calculateRefreshTourTarget();
+        new MaterialTapTargetPrompt.Builder(this, R.style.MaterialTapTargetPromptTheme_Refresh)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setTarget(targetLeft, targetTop)
+                .setTarget(target.x, target.y)
                 .setIcon(R.drawable.ic_arrow_down_white_24dp)
                 .setIconDrawableTintMode(null)
                 .setPromptBackground(new DimmedPromptBackground())
@@ -504,10 +454,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Show the About activity.
+     * Calculate the target point for "pull to refresh" in the help tour
+     *
+     * @return a Point containing the target location
      */
-    private void showAbout() {
-        Intent intent = new Intent(this, MyLibsActivity.class);
-        startActivity(intent);
+    @SuppressWarnings("deprecation")
+    private Point calculateRefreshTourTarget() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int iconSize = getResources().getDrawable(R.drawable.ic_arrow_down_white_24dp).getIntrinsicWidth();
+        int targetLeft = size.x / 2 - iconSize; //shift target point slightly to the left to prevent symmetric 'bubble'
+        Rect rect = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rect);
+        int statusBarHeight = rect.top;
+        int targetTop = mToolbar.getHeight() + statusBarHeight + (iconSize / 2);
+        return new Point(targetLeft, targetTop);
     }
 }
