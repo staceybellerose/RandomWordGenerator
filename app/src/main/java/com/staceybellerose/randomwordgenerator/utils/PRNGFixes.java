@@ -83,6 +83,7 @@ public final class PRNGFixes {
 
         try {
             // Mix in the device- and invocation-specific seed.
+            //noinspection PrimitiveArrayArgumentToVarargsMethod
             Class.forName("org.apache.harmony.xnet.provider.jsse.NativeCrypto")
                     .getMethod("RAND_seed", byte[].class)
                     .invoke(null, generateSeed());
@@ -306,6 +307,7 @@ public final class PRNGFixes {
                 synchronized (S_LOCK) {
                     inputStream = getUrandomInputStream();
                 }
+                //noinspection SynchronizationOnLocalVariableOrMethodParameter
                 synchronized (inputStream) {
                     inputStream.readFully(bytes);
                 }
