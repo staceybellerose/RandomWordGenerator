@@ -15,7 +15,7 @@ import com.staceybellerose.randomwordgenerator.WordListDetailsActivity;
 public class SpecialButtonListener extends SimpleLibsListener {
     @Override
     public boolean onExtraClicked(final View view, final Libs.SpecialButton specialButton) {
-        Context context = view.getContext();
+        final Context context = view.getContext();
         Intent intent = null;
         if (specialButton == Libs.SpecialButton.SPECIAL1) {
             intent = new Intent(context, SettingsActivity.class);

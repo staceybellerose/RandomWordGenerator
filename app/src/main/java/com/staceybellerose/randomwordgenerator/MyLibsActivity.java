@@ -52,11 +52,11 @@ public class MyLibsActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setSubtitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        LibsSupportFragment fragment = new LibsBuilder()
+        final LibsSupportFragment fragment = new LibsBuilder()
                 .withFields(R.string.class.getFields())
                 .withAutoDetect(true)
                 .withAboutAppName(mAppName)

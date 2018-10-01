@@ -5,77 +5,84 @@ apply plugin: 'pmd'
 // Add checkstyle, findbugs, pmd and lint to the check task.
 check.dependsOn 'codeChecks'
 
-def configDir = "${project.rootDir}/config/quality"
-def reportsDir = "${project.buildDir}/reports"
+def qualityConfigDir = "${project.rootDir}/config/quality"
+def qualityReportsDir = "${project.buildDir}/reports"
 
 checkstyle {
-    toolVersion = '6.7'
+    toolVersion ='8.12'
+    ignoreFailures = false
+    showViolations = true
+    reportsDir = file("${qualityReportsDir}/checkstyle/")
+    configFile = file("$qualityConfigDir/checkstyle/checkstyle.xml")
+}
+
+pmd {
+    toolVersion = '6.7.0'
+    ignoreFailures = false
+    consoleOutput = true
+    rulePriority = 3
+    ruleSets = []
+    reportsDir = file("${qualityReportsDir}/pmd/")
+    ruleSetFiles = files("$qualityConfigDir/pmd/pmd-ruleset.xml")
+}
+
+findbugs {
+    toolVersion = '3.0.1'
+    ignoreFailures = false
+    effort = 'max'
+    reportLevel = 'high'
+    reportsDir = file("${qualityReportsDir}/findbugs/")
 }
 
 task codeChecks {
-    group = 'verification'
+    group 'verification'
     description 'Runs all code analysis checks'
-    dependsOn 'checkstyle', 'findbugs', 'pmd', 'lintFullDebug', 'lintCleanDebug'
+    dependsOn 'checkstyle', 'pmd', 'findbugs', 'lintDebug'
 }
 
 task checkstyle(type: Checkstyle) {
-    group = 'verification'
+    group 'verification'
     description 'Runs the Checkstyle coding standards enforcement'
-    configFile file("$configDir/checkstyle/checkstyle.xml")
-    configProperties.checkstyleSuppressionsPath = file("$configDir/checkstyle/suppressions.xml").absolutePath
+
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
     classpath = files()
+
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-    group = 'verification'
+    group 'verification'
     description 'Runs the FindBugs analysis tool'
-    ignoreFailures = false
-    effort = "max"
-    reportLevel = "high"
-    excludeFilter = new File("$configDir/findbugs/findbugs-filter.xml")
+    excludeFilter new File("$qualityConfigDir/findbugs/findbugs-filter.xml")
     classes = files("${project.rootDir}/app/build/intermediates/classes")
 
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
+    classpath = files()
 
     reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination "$reportsDir/findbugs/findbugs.xml"
-        }
-        html {
-            destination "$reportsDir/findbugs/findbugs.html"
-        }
+        xml.enabled false
+        html.enabled true
     }
-
-    classpath = files()
 }
 
 task pmd(type: Pmd) {
-    group = 'verification'
+    group 'verification'
     description 'Runs the PMD source code analyzer'
-    ignoreFailures = false
-    ruleSetFiles = files("$configDir/pmd/pmd-ruleset.xml")
-    ruleSets = []
 
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
 
     reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination "$reportsDir/pmd/pmd.xml"
-        }
-        html {
-            destination "$reportsDir/pmd/pmd.html"
-        }
+        xml.enabled false
+        html.enabled true
     }
 }
 
@@ -86,9 +93,9 @@ android {
         xmlReport false
         htmlReport true
         textReport true
-        lintConfig file("$configDir/lint/lint.xml")
-        htmlOutput file("$reportsDir/lint/lint-result.html")
-        xmlOutput file("$reportsDir/lint/lint-result.xml")
+        lintConfig file("$qualityConfigDir/lint/lint.xml")
+        htmlOutput file("$qualityReportsDir/lint/lint-result.html")
+        xmlOutput file("$qualityReportsDir/lint/lint-result.xml")
         textOutput "stdout"
     }
 }

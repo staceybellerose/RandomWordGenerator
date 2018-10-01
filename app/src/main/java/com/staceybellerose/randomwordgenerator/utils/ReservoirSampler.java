@@ -26,15 +26,15 @@ public class ReservoirSampler {
     /**
      * A listener to receive progress updates on the sampling process.
      */
-    private ReservoirUpdateListener mListener = null;
+    private ReservoirUpdateListener mListener;
     /**
      * cryptographically secure random number generator
      */
-    private SecureRandom mSecureRandom;
+    private final SecureRandom mSecureRandom;
     /**
      * The minimum word length allowable
      */
-    private int mMinLength = 0;
+    private int mMinLength;
     /**
      * The maximum word length allowable
      */
@@ -99,11 +99,11 @@ public class ReservoirSampler {
      * @return a randomly chosen list of strings
      */
     private List<String> unweightedSample(final int reservoirSize, final InputStream inputStream) {
-        List<String> reservoirList = new ArrayList<>(reservoirSize);
+        final List<String> reservoirList = new ArrayList<>(reservoirSize);
         long count = 0;
-        Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
+        final Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
         while (scanner.hasNext()) {
-            String currentWord = scanner.next().split("\t")[0];
+            final String currentWord = scanner.next().split("\t")[0];
             if (currentWord.length() < mMinLength || currentWord.length() > mMaxLength) {
                 continue;
             }
@@ -111,7 +111,7 @@ public class ReservoirSampler {
             if (count < reservoirSize) {
                 reservoirList.add(currentWord);
             } else {
-                long randomNumber = nextRandomLong(count);
+                final long randomNumber = nextRandomLong(count);
                 if (randomNumber < reservoirSize) {
                     reservoirList.set((int) randomNumber, currentWord);
                     updateListener(count, reservoirList);
@@ -132,26 +132,26 @@ public class ReservoirSampler {
      * @return a randomly chosen list of strings
      */
     private List<String> weightedSample(final int reservoirSize, final InputStream inputStream) {
-        List<String> reservoirList = new ArrayList<>(reservoirSize);
+        final List<String> reservoirList = new ArrayList<>(reservoirSize);
         long count = 0;
         double totalWeight = 0;
-        Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
+        final Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
         while (scanner.hasNext()) {
-            String[] splitLine = scanner.next().split("\t");
-            String currentWord = splitLine[0];
+            final String[] splitLine = scanner.next().split("\t");
+            final String currentWord = splitLine[0];
             if (currentWord.length() < mMinLength || currentWord.length() > mMaxLength) {
                 continue;
             }
             // if there is more than one element to splitLine, assume that the second element is the weight;
             // otherwise, use 1 as a default.
-            int currentWeight = (splitLine.length > 1) ? Integer.getInteger(splitLine[1]) : 1;
+            final int currentWeight = (splitLine.length > 1) ? Integer.getInteger(splitLine[1]) : 1;
             count++;
             totalWeight += currentWeight / count;
             if (count < reservoirSize) {
                 reservoirList.add(currentWord);
             } else {
-                double probability = currentWeight / totalWeight;
-                double randomNumber = mSecureRandom.nextDouble();
+                final double probability = currentWeight / totalWeight;
+                final double randomNumber = mSecureRandom.nextDouble();
                 if (randomNumber <= probability) {
                     reservoirList.set(mSecureRandom.nextInt(reservoirSize), currentWord);
                     updateListener(count, reservoirList);

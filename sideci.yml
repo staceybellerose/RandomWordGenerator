@@ -7,3 +7,4 @@ linter:
   pmd_java:
     rulesets:
       - config/quality/pmd/pmd-ruleset.xml
+    min_priority: 3

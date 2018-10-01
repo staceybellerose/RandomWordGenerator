@@ -34,14 +34,14 @@ public class WordListDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_word_list_details);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         mRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new ListDetailsAdapter(this);
+        final RecyclerView.Adapter adapter = new ListDetailsAdapter(this);
         mRecyclerView.setAdapter(adapter);
     }
 

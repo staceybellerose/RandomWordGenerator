@@ -130,7 +130,7 @@
         <module name="ParenPad">
             <property name="option" value="nospace"/>
             <property name="tokens"
-                      value="CTOR_CALL, LPAREN, METHOD_CALL, RPAREN, SUPER_CTOR_CALL"/>
+                      value="CTOR_CALL, METHOD_CALL, SUPER_CTOR_CALL"/>
         </module>
 
         <!-- Checks the policy on the padding of parentheses for typecasts. !-->
@@ -207,7 +207,7 @@
         <!-- See http://checkstyle.sf.net/config_naming.html !-->
         <module name="LocalVariableName">
             <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-            <property name="tokens" value="VARIABLE_DEF, PARAMETER_DEF"/>
+            <property name="tokens" value="VARIABLE_DEF"/>
         </module>
 
         <!-- Checks for member variable name naming conventions. !-->
@@ -383,7 +383,6 @@
         <!-- See http://checkstyle.sf.net/config_coding.html !-->
         <module name="DeclarationOrder">
             <property name="ignoreConstructors" value="false"/>
-            <property name="ignoreMethods" value="false"/>
             <property name="ignoreModifiers" value="false"/>
         </module>
 

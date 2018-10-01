@@ -30,8 +30,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mSettings = Settings.getInstance(getActivity());
 
         if (BuildConfig.CLEAN_WORDS_ONLY) {
-            Preference cleanWordsPreference = findPreference(getString(R.string.pref_clean_words_flag));
-            PreferenceGroup preferenceGroup = (PreferenceGroup) findPreference(getString(R.string.pref_filters_header));
+            final Preference cleanWordsPreference = findPreference(getString(R.string.pref_clean_words_flag));
+            final PreferenceGroup preferenceGroup
+                    = (PreferenceGroup) findPreference(getString(R.string.pref_filters_header));
             preferenceGroup.removePreference(cleanWordsPreference);
         }
     }
