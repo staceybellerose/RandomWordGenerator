@@ -1,0 +1,11 @@
+linter:
+  checkstyle:
+    config: google
+    dir: src
+    ignore:
+      - warning
+      - info
+  pmd_java:
+    dir: src
+    rulesets:
+      - config/quality/pmd/pmd-ruleset.xml
