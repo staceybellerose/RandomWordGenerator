@@ -15,17 +15,16 @@ import com.staceybellerose.randomwordgenerator.WordListDetailsActivity;
 public class SpecialButtonListener extends SimpleLibsListener {
     @Override
     public boolean onExtraClicked(final View view, final Libs.SpecialButton specialButton) {
-        Context context = view.getContext();
+        final Context context = view.getContext();
+        Intent intent = null;
         if (specialButton == Libs.SpecialButton.SPECIAL1) {
-            Intent intent = new Intent(context, SettingsActivity.class);
-            context.startActivity(intent);
-            return true;
+            intent = new Intent(context, SettingsActivity.class);
         } else if (specialButton == Libs.SpecialButton.SPECIAL2) {
-            Intent intent = new Intent(context, WordListDetailsActivity.class);
-            context.startActivity(intent);
-            return true;
+            intent = new Intent(context, WordListDetailsActivity.class);
         } else if (specialButton == Libs.SpecialButton.SPECIAL3) {
-            Intent intent = new Intent(context, ChangelogActivity.class);
+            intent = new Intent(context, ChangelogActivity.class);
+        }
+        if (intent != null) {
             context.startActivity(intent);
             return true;
         }

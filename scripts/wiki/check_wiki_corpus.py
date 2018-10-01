@@ -15,6 +15,6 @@ args = parser.parse_args()
 while(1):
 	for lines in range(10):
 		print(args.inputfile.readline())
-	user_input = input('>>> Type \'STOP\' to quit or hit Enter key for more <<< ')
+	user_input = raw_input('>>> Type \'STOP\' to quit or hit Enter key for more <<< ')
 	if user_input == 'STOP':
 		break

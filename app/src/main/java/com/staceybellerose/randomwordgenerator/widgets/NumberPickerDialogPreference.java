@@ -89,7 +89,8 @@ public class NumberPickerDialogPreference extends DialogPreference
     public NumberPickerDialogPreference(final Context context)
     {
         super(context, null);
-        init(context, null);
+        initAttributes(context, null);
+        setLayout();
     }
 
     /**
@@ -101,18 +102,19 @@ public class NumberPickerDialogPreference extends DialogPreference
     @SuppressWarnings("unused")
     public NumberPickerDialogPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        initAttributes(context, attrs);
+        setLayout();
     }
 
     /**
-     * Initialize the preference object
+     * Initialize the preference object's attributes
      *
      * @param context The activity context
      * @param attrs The style attributes
      */
-    private void init(final Context context, final AttributeSet attrs) {
+    private void initAttributes(final Context context, final AttributeSet attrs) {
         // get attributes specified in XML
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,
+        final TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.NumberPickerDialogPreference, 0, 0);
         try
         {
@@ -124,8 +126,12 @@ public class NumberPickerDialogPreference extends DialogPreference
         {
             typedArray.recycle();
         }
+    }
 
-        // set layout
+    /**
+     * Set the layout of the preference
+     */
+    private void setLayout() {
         setDialogLayoutResource(R.layout.preference_number_picker_dialog);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
@@ -149,7 +155,7 @@ public class NumberPickerDialogPreference extends DialogPreference
     {
         super.onBindDialogView(view);
 
-        TextView dialogMessageText = view.findViewById(R.id.text_dialog_message);
+        final TextView dialogMessageText = view.findViewById(R.id.text_dialog_message);
         dialogMessageText.setText(getDialogMessage());
 
         mNumberPicker = view.findViewById(R.id.number_picker);
@@ -220,7 +226,7 @@ public class NumberPickerDialogPreference extends DialogPreference
      */
     private void setValue(final int value)
     {
-        int checkedValue = Math.max(Math.min(value, mMaxValue), mMinValue);
+        final int checkedValue = Math.max(Math.min(value, mMaxValue), mMinValue);
 
         if (checkedValue != mValue)
         {
@@ -235,10 +241,10 @@ public class NumberPickerDialogPreference extends DialogPreference
      * Set the Preference summary text based on the selected value, using
      */
     private void setSummary() {
-        if (mSummaryPlural != 0) {
-            setSummary(getContext().getResources().getQuantityString(mSummaryPlural, mValue, mValue));
-        } else {
+        if (mSummaryPlural == 0) {
             setSummary(Integer.toString(mValue));
+        } else {
+            setSummary(getContext().getResources().getQuantityString(mSummaryPlural, mValue, mValue));
         }
     }
 
@@ -250,7 +256,7 @@ public class NumberPickerDialogPreference extends DialogPreference
         // when the user selects "OK", persist the new mValue
         if (positiveResult)
         {
-            int numberPickerValue = mNumberPicker.getValue();
+            final int numberPickerValue = mNumberPicker.getValue();
             if (callChangeListener(numberPickerValue))
             {
                 setValue(numberPickerValue);
@@ -286,7 +292,7 @@ public class NumberPickerDialogPreference extends DialogPreference
         }
 
         // restore the state
-        SavedState myState = (SavedState) state;
+        final SavedState myState = (SavedState) state;
         setMinValue(myState.getMin());
         setMaxValue(myState.getMax());
         setValue(myState.getValue());

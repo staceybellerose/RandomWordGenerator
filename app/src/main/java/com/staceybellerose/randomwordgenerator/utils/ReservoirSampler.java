@@ -21,21 +21,46 @@ import java.util.Scanner;
  * Wikipedia contributors. (2018, August 28). "Reservoir sampling". Wikipedia, The Free Encyclopedia. Retrieved
  * 16:56, September 10, 2018, from https://en.wikipedia.org/w/index.php?title=Reservoir_sampling&oldid=856932419
  */
+@SuppressWarnings("unused")
 public class ReservoirSampler {
     /**
      * A listener to receive progress updates on the sampling process.
      */
-    private ReservoirUpdateListener mListener = null;
+    private ReservoirUpdateListener mListener;
     /**
      * cryptographically secure random number generator
      */
-    private SecureRandom mSecureRandom;
+    private final SecureRandom mSecureRandom;
+    /**
+     * The minimum word length allowable
+     */
+    private int mMinLength;
+    /**
+     * The maximum word length allowable
+     */
+    private int mMaxLength = Integer.MAX_VALUE;
 
     /**
      * Default constructor
      */
     public ReservoirSampler() {
         mSecureRandom = new SecureRandom();
+    }
+
+    public int getMinLength() {
+        return mMinLength;
+    }
+
+    public void setMinLength(final int mMinLength) {
+        this.mMinLength = mMinLength;
+    }
+
+    public int getMaxLength() {
+        return mMaxLength;
+    }
+
+    public void setMaxLength(final int mMaxLength) {
+        this.mMaxLength = mMaxLength;
     }
 
     /**
@@ -57,28 +82,9 @@ public class ReservoirSampler {
      */
     public List<String> sample(final int reservoirSize, final InputStream inputStream, final boolean weighted) {
         if (weighted) {
-            return weightedSample(reservoirSize, inputStream, 1, Integer.MAX_VALUE);
+            return weightedSample(reservoirSize, inputStream);
         } else {
-            return unweightedSample(reservoirSize, inputStream, 1, Integer.MAX_VALUE);
-        }
-    }
-
-    /**
-     * Use reservoir sampling to choose a random set of lines from an input stream of text.
-     *
-     * @param reservoirSize the number of lines to select
-     * @param inputStream   the data stream to sample
-     * @param weighted      flag indicating whether the sampling should be weighted or not
-     * @param minLength     the minimum string length
-     * @param maxLength     the maximum string length
-     * @return a randomly chosen list of strings
-     */
-    public List<String> sample(final int reservoirSize, final InputStream inputStream, final boolean weighted,
-                               final int minLength, final int maxLength) {
-        if (weighted) {
-            return weightedSample(reservoirSize, inputStream, minLength, maxLength);
-        } else {
-            return unweightedSample(reservoirSize, inputStream, minLength, maxLength);
+            return unweightedSample(reservoirSize, inputStream);
         }
     }
 
@@ -90,34 +96,25 @@ public class ReservoirSampler {
      *
      * @param reservoirSize the number of lines to select
      * @param inputStream   the data stream to sample
-     * @param minLength     the minimum string length
-     * @param maxLength     the maximum string length
      * @return a randomly chosen list of strings
      */
-    private List<String> unweightedSample(final int reservoirSize, final InputStream inputStream, final int minLength,
-                                          final int maxLength) {
-        List<String> reservoirList = new ArrayList<>(reservoirSize);
+    private List<String> unweightedSample(final int reservoirSize, final InputStream inputStream) {
+        final List<String> reservoirList = new ArrayList<>(reservoirSize);
         long count = 0;
-        Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
+        final Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
         while (scanner.hasNext()) {
-            String currentLine = scanner.next();
-            String currentWord = currentLine.split("\t")[0];
-            if (currentWord.length() < minLength) {
-                continue;
-            }
-            if (currentWord.length() > maxLength) {
+            final String currentWord = scanner.next().split("\t")[0];
+            if (currentWord.length() < mMinLength || currentWord.length() > mMaxLength) {
                 continue;
             }
             count++;
             if (count < reservoirSize) {
-                reservoirList.add(currentLine);
+                reservoirList.add(currentWord);
             } else {
-                long randomNumber = nextRandomLong(count);
+                final long randomNumber = nextRandomLong(count);
                 if (randomNumber < reservoirSize) {
                     reservoirList.set((int) randomNumber, currentWord);
-                    if (mListener != null) {
-                        mListener.onReservoirUpdated(count, new ArrayList<>(reservoirList));
-                    }
+                    updateListener(count, reservoirList);
                 }
             }
         }
@@ -132,46 +129,49 @@ public class ReservoirSampler {
      *
      * @param reservoirSize the number of lines to select
      * @param inputStream   the data stream to sample
-     * @param minLength     the minimum string length
-     * @param maxLength     the maximum string length
      * @return a randomly chosen list of strings
      */
-    private List<String> weightedSample(final int reservoirSize, final InputStream inputStream, final int minLength,
-                                        final int maxLength) {
-        List<String> reservoirList = new ArrayList<>(reservoirSize);
+    private List<String> weightedSample(final int reservoirSize, final InputStream inputStream) {
+        final List<String> reservoirList = new ArrayList<>(reservoirSize);
         long count = 0;
         double totalWeight = 0;
-        Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
+        final Scanner scanner = new Scanner(inputStream, "utf-8").useDelimiter("\n");
         while (scanner.hasNext()) {
-            String currentLine = scanner.next();
-            String[] splitLine = currentLine.split("\t");
-            String currentWord = splitLine[0];
-            if (currentWord.length() < minLength) {
-                continue;
-            }
-            if (currentWord.length() > maxLength) {
+            final String[] splitLine = scanner.next().split("\t");
+            final String currentWord = splitLine[0];
+            if (currentWord.length() < mMinLength || currentWord.length() > mMaxLength) {
                 continue;
             }
             // if there is more than one element to splitLine, assume that the second element is the weight;
             // otherwise, use 1 as a default.
-            int currentWeight = (splitLine.length > 1) ? Integer.getInteger(splitLine[1]) : 1;
+            final int currentWeight = (splitLine.length > 1) ? Integer.getInteger(splitLine[1]) : 1;
             count++;
             totalWeight += currentWeight / count;
             if (count < reservoirSize) {
-                reservoirList.add(currentLine);
+                reservoirList.add(currentWord);
             } else {
-                double probability = currentWeight / totalWeight;
-                double randomNumber = mSecureRandom.nextDouble();
+                final double probability = currentWeight / totalWeight;
+                final double randomNumber = mSecureRandom.nextDouble();
                 if (randomNumber <= probability) {
                     reservoirList.set(mSecureRandom.nextInt(reservoirSize), currentWord);
-                    if (mListener != null) {
-                        mListener.onReservoirUpdated(count, new ArrayList<>(reservoirList));
-                    }
+                    updateListener(count, reservoirList);
                 }
             }
         }
         scanner.close();
         return reservoirList;
+    }
+
+    /**
+     * Update the listener with the currently calculated list
+     *
+     * @param count the number of items checked
+     * @param reservoirList the current reservoir
+     */
+    private void updateListener(final long count, final List<String> reservoirList) {
+        if (mListener != null) {
+            mListener.onReservoirUpdated(count, new ArrayList<>(reservoirList));
+        }
     }
 
     /**
@@ -203,6 +203,7 @@ public class ReservoirSampler {
     /**
      * Interface to receive updates from the Sampler
      */
+    @SuppressWarnings("WeakerAccess")
     public interface ReservoirUpdateListener {
         /**
          * Send an update to the listener, containing a partially filled reservoir.

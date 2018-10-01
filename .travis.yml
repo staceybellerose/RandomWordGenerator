@@ -21,8 +21,6 @@ env:
   global:
    # install timeout in minutes (2 minutes by default)
     - ADB_INSTALL_TIMEOUT=8
-
-env:
   matrix:
     # uncomment the following lines to test the various emulators for speed
     #- API=android-15 ABI=armeabi-v7a

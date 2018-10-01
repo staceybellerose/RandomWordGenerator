@@ -2,48 +2,74 @@ package com.staceybellerose.randomwordgenerator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 
+import com.staceybellerose.randomwordgenerator.utils.Settings;
+
 /**
  * A Fragment to display the Settings
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     /**
      * The calling activity, implementing the notification interface.
      */
     private OnPreferenceChangeListener mCallback;
+    /**
+     * Utility object to manage reading our shared preferences
+     */
+    private Settings mSettings;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        Preference wordList = findPreference(getString(R.string.pref_word_list));
-        Preference.OnPreferenceChangeListener wordListChangeListener = (preference, newValue) -> {
-            mCallback.onWordListChanged();
-            return true;
-        };
+        mSettings = Settings.getInstance(getActivity());
 
-        wordList.setOnPreferenceChangeListener(wordListChangeListener);
-        Preference unrestricted = findPreference(getString(R.string.pref_unlimited_length_flag));
-        unrestricted.setOnPreferenceChangeListener(wordListChangeListener);
-        Preference maxLength = findPreference(getString(R.string.pref_max_word_length));
-        maxLength.setOnPreferenceChangeListener(wordListChangeListener);
-        Preference minLength = findPreference(getString(R.string.pref_min_word_length));
-        minLength.setOnPreferenceChangeListener(wordListChangeListener);
-
-        Preference cleanWordsPreference = findPreference(getString(R.string.pref_clean_words_flag));
         if (BuildConfig.CLEAN_WORDS_ONLY) {
-            PreferenceGroup preferenceGroup = (PreferenceGroup) findPreference(getString(R.string.pref_filters_header));
+            final Preference cleanWordsPreference = findPreference(getString(R.string.pref_clean_words_flag));
+            final PreferenceGroup preferenceGroup
+                    = (PreferenceGroup) findPreference(getString(R.string.pref_filters_header));
             preferenceGroup.removePreference(cleanWordsPreference);
-        } else {
-            cleanWordsPreference.setOnPreferenceChangeListener(((preference, newValue) -> {
-                mCallback.onCleanWordsChanged();
-                return true;
-            }));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * Called when a shared preference is changed, added, or removed. This may be called even if
+     * a preference is set to its existing value.
+     *
+     * @param sharedPreferences The SharedPreferences that received the change.
+     * @param key The key of the preference that was changed, added, or removed.
+     */
+    @Override
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+        if (key.equals(getString(R.string.pref_unlimited_length_flag))) {
+            mCallback.onWordListChanged();
+        } else if (key.equals(getString(R.string.pref_max_word_length))) {
+            mCallback.onWordListChanged();
+        } else if (key.equals(getString(R.string.pref_min_word_length))) {
+            mCallback.onWordListChanged();
+        } else if (key.equals(getString(R.string.pref_word_list))) {
+            mCallback.onWordListChanged();
+        } else if (key.equals(getString(R.string.pref_clean_words_flag))) {
+            mCallback.onCleanWordsChanged();
+        }
+        mSettings.refreshPreferences();
     }
 
     @Override

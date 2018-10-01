@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.staceybellerose.randomwordgenerator.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,20 +23,21 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     /**
      * the list to display
      */
-    private ArrayList<WordList> mWordList = new ArrayList<>();
+    private final List<WordList> mWordList = new ArrayList<>();
 
     /**
      * Constructor
      *
      * @param context the activity context
      */
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public ListDetailsAdapter(final Context context) {
-        Resources res = context.getResources();
-        String[] listNames = res.getStringArray(R.array.word_list_descriptions);
-        String[] sources = res.getStringArray(R.array.list_sources);
-        int[] counts = res.getIntArray(R.array.list_lengths);
+        final Resources res = context.getResources();
+        final String[] listNames = res.getStringArray(R.array.word_list_descriptions);
+        final String[] sources = res.getStringArray(R.array.list_sources);
+        final int[] counts = res.getIntArray(R.array.list_lengths);
         for (int i = 0; i < listNames.length; i++) {
-            String name = listNames[i];
+            final String name = listNames[i];
             String source;
             int count;
             try {
@@ -54,14 +56,15 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
 
     @Override
     public DetailsViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_list_details_item, parent, false);
+        final View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.word_list_details_item, parent, false);
         return new DetailsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final DetailsViewHolder holder, final int position) {
-        Context context = holder.getContext();
-        WordList wordList = mWordList.get(position);
+        final Context context = holder.getContext();
+        final WordList wordList = mWordList.get(position);
         holder.getListName().setText(wordList.getListName());
         holder.getSourceText().setText(wordList.getSource());
         holder.getCountText().setText(String.valueOf(wordList.getWordCount()));
@@ -213,7 +216,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
          * @return the amount of entropy
          */
         double getEntropy() {
-            double entropy = Math.log(mWordCount) / Math.log(2);
+            final double entropy = Math.log(mWordCount) / Math.log(2);
             return Math.round(entropy * 10.0) / 10.0;
         }
     }

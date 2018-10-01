@@ -39,6 +39,7 @@ import java.security.Security;
  * Cryptography Architecture primitives. A good place to invoke them is in the
  * application's {@code onCreate}.
  */
+@SuppressWarnings("PMD")
 public final class PRNGFixes {
 
     /**
@@ -83,6 +84,7 @@ public final class PRNGFixes {
 
         try {
             // Mix in the device- and invocation-specific seed.
+            //noinspection PrimitiveArrayArgumentToVarargsMethod
             Class.forName("org.apache.harmony.xnet.provider.jsse.NativeCrypto")
                     .getMethod("RAND_seed", byte[].class)
                     .invoke(null, generateSeed());
@@ -109,33 +111,25 @@ public final class PRNGFixes {
      *
      * @throws SecurityException if the fix is needed but could not be applied.
      */
-    private static void installLinuxPRNGSecureRandom()
-            throws SecurityException {
+    private static void installLinuxPRNGSecureRandom() throws SecurityException {
         if (Build.VERSION.SDK_INT > VERSION_CODE_JELLY_BEAN_MR2) {
             // No need to apply the fix
             return;
         }
 
-        // Install a Linux PRNG-based SecureRandom implementation as the
-        // default, if not yet installed.
-        Provider[] secureRandomProviders
-                = Security.getProviders("SecureRandom.SHA1PRNG");
-        if ((secureRandomProviders == null)
-                || (secureRandomProviders.length < 1)
-                || (!LinuxPRNGSecureRandomProvider.class.equals(
-                secureRandomProviders[0].getClass()))) {
+        // Install a Linux PRNG-based SecureRandom implementation as the default, if not yet installed.
+        Provider[] secureRandomProviders = Security.getProviders("SecureRandom.SHA1PRNG");
+        if ((secureRandomProviders == null) || (secureRandomProviders.length < 1)
+                || (!LinuxPRNGSecureRandomProvider.class.equals(secureRandomProviders[0].getClass()))) {
             Security.insertProviderAt(new LinuxPRNGSecureRandomProvider(), 1);
         }
 
-        // Assert that new SecureRandom() and
-        // SecureRandom.getInstance("SHA1PRNG") return a SecureRandom backed
+        // Assert that new SecureRandom() and SecureRandom.getInstance("SHA1PRNG") return a SecureRandom backed
         // by the Linux PRNG-based SecureRandom implementation.
         SecureRandom rng1 = new SecureRandom();
-        if (!LinuxPRNGSecureRandomProvider.class.equals(
-                rng1.getProvider().getClass())) {
-            throw new SecurityException(
-                    "new SecureRandom() backed by wrong Provider: "
-                            + rng1.getProvider().getClass());
+        if (!LinuxPRNGSecureRandomProvider.class.equals(rng1.getProvider().getClass())) {
+            throw new SecurityException("new SecureRandom() backed by wrong Provider: "
+                    + rng1.getProvider().getClass());
         }
 
         SecureRandom rng2;
@@ -144,11 +138,9 @@ public final class PRNGFixes {
         } catch (NoSuchAlgorithmException e) {
             throw new SecurityException("SHA1PRNG not available", e);
         }
-        if (!LinuxPRNGSecureRandomProvider.class.equals(
-                rng2.getProvider().getClass())) {
-            throw new SecurityException(
-                    "SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong"
-                            + " Provider: " + rng2.getProvider().getClass());
+        if (!LinuxPRNGSecureRandomProvider.class.equals(rng2.getProvider().getClass())) {
+            throw new SecurityException("SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong"
+                    + " Provider: " + rng2.getProvider().getClass());
         }
     }
 
@@ -221,7 +213,7 @@ public final class PRNGFixes {
         /**
          * constructor
          */
-        public LinuxPRNGSecureRandomProvider() {
+        LinuxPRNGSecureRandomProvider() {
             super("LinuxPRNG",
                     1.0,
                     "A Linux-specific random number provider that uses"
@@ -239,7 +231,7 @@ public final class PRNGFixes {
      * {@link SecureRandomSpi} which passes all requests to the Linux PRNG
      * ({@code /dev/urandom}).
      */
-    public static class LinuxPRNGSecureRandom extends SecureRandomSpi {
+    private static class LinuxPRNGSecureRandom extends SecureRandomSpi {
 
         /*
          * IMPLEMENTATION NOTE: Requests to generate bytes and to mix in a seed
@@ -316,6 +308,7 @@ public final class PRNGFixes {
                 synchronized (S_LOCK) {
                     inputStream = getUrandomInputStream();
                 }
+                //noinspection SynchronizationOnLocalVariableOrMethodParameter
                 synchronized (inputStream) {
                     inputStream.readFully(bytes);
                 }

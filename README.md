@@ -4,6 +4,8 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/staceybellerose/RandomWordGenerator/master/LICENSE)
 [![Android](https://img.shields.io/badge/platform-android-green.svg)](https://developer.android.com/develop/index.html)
 [![Latest Version](https://img.shields.io/github/release/staceybellerose/RandomWordGenerator.svg)](https://github.com/staceybellerose/RandomWordGenerator/releases)
+[![BCH compliance](https://bettercodehub.com/edge/badge/staceybellerose/RandomWordGenerator?branch=develop)](https://bettercodehub.com/)
+[![CodeFactor](https://www.codefactor.io/repository/github/staceybellerose/randomwordgenerator/badge)](https://www.codefactor.io/repository/github/staceybellerose/randomwordgenerator)
 [![Known Vulnerabilities](https://snyk.io/test/github/staceybellerose/randomwordgenerator/badge.svg)](https://snyk.io/test/github/staceybellerose/randomwordgenerator)
 
 The **Random Word Generator** Android app generates

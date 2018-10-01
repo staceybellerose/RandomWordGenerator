@@ -72,10 +72,10 @@ public class ListDetailsPreference extends ListPreference {
     @Override
     protected void onBindView(final View view) {
         super.onBindView(view);
-        ImageView helpButton = view.findViewById(R.id.help_button);
+        final ImageView helpButton = view.findViewById(R.id.help_button);
         helpButton.setOnClickListener(view1 -> {
-            Context context = view1.getContext();
-            Intent intent = new Intent(context, WordListDetailsActivity.class);
+            final Context context = view1.getContext();
+            final Intent intent = new Intent(context, WordListDetailsActivity.class);
             context.startActivity(intent);
         });
     }
