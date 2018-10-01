@@ -11,13 +11,13 @@ import sys
 from collections import Counter
 from nltk.downloader import Downloader
 
-def build_wordlist(input, lower=True):
+def build_wordlist(lines, lower=True):
 
 	"""Build a wordlist Counter from lines of the corpus file"""
 	
 	wordlist = Counter()
 	
-	for line in input:
+	for line in lines:
 		words = re.findall(r'\w+', line)
 		wordlist.update([x.lower() for x in words] if lower else words)
 	
