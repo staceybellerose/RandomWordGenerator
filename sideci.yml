@@ -1,11 +1,9 @@
 linter:
   checkstyle:
-    config: google
-    dir: src
+    config: config/quality/checkstyle/checkstyle.xml
     ignore:
       - warning
       - info
   pmd_java:
-    dir: src
     rulesets:
       - config/quality/pmd/pmd-ruleset.xml
