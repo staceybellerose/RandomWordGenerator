@@ -23,7 +23,7 @@
 <module name="Checker">
     <module name="FileLength">
         <property name="max" value="700"/>
-        <property name="fileExtensions" value=""/>
+        <property name="fileExtensions" value="java"/>
     </module>
 
     <module name="SuppressionFilter">

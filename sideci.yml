@@ -4,6 +4,10 @@ linter:
     ignore:
       - warning
       - info
+    dir:
+      - app/src
+    exclude:
+      - res
   pmd_java:
     rulesets:
       - config/quality/pmd/pmd-ruleset.xml

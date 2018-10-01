@@ -37,7 +37,17 @@ findbugs {
 task codeChecks {
     group 'verification'
     description 'Runs all code analysis checks'
-    dependsOn 'checkstyle', 'pmd', 'findbugs', 'lintDebug'
+    dependsOn 'checkstyle', 'pmd', 'findbugs'
+}
+
+android {
+    applicationVariants.all { variant ->
+        if(variant.buildType.name == 'debug') {
+            codeChecks {
+                dependsOn "lint${variant.name.capitalize()}"
+            }
+        }
+    }
 }
 
 task checkstyle(type: Checkstyle) {
