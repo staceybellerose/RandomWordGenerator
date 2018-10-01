@@ -28,16 +28,16 @@ public class DimmedPromptBackground extends PromptBackground {
     /**
      * Bounds of the dimmed shim
      */
-    private RectF mDimBounds = new RectF();
+    private final RectF mDimBounds = new RectF();
     /**
      * Paint to use when coloring the dimmed shim
      */
-    private Paint mDimPaint;
+    private final Paint mDimPaint;
 
     /**
      * The current circle centre position.
      */
-    private PointF mPosition;
+    private final PointF mPosition;
     /**
      * The current radius for the circle.
      */
@@ -45,7 +45,7 @@ public class DimmedPromptBackground extends PromptBackground {
     /**
      * The position for circle centre at 1.0 scale.
      */
-    private PointF mBasePosition;
+    private final PointF mBasePosition;
 
     /**
      * The radius for the circle at 1.0 scale.
@@ -55,7 +55,7 @@ public class DimmedPromptBackground extends PromptBackground {
     /**
      * The paint to use to render the circle.
      */
-    private Paint mPaint;
+    private final Paint mPaint;
 
     /**
      * The alpha value to use at 1.0 scale.
@@ -87,7 +87,7 @@ public class DimmedPromptBackground extends PromptBackground {
     @Override
     public void prepare(@NonNull final PromptOptions options, final boolean clipToBounds,
                         @NonNull final Rect clipBounds) {
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        final DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         mDimBounds.set(0, 0, metrics.widthPixels, metrics.heightPixels);
 
         final PromptText promptText = options.getPromptText();
@@ -115,7 +115,7 @@ public class DimmedPromptBackground extends PromptBackground {
                 Math.abs(textBounds.left - focalCentreX)
         ) + textPadding;
         // Calculate the height based on the distance from the focal centre to the furthest text y position.
-        float height = (focalBounds.height() / 2) + focalPadding + textBounds.height();
+        final float height = (focalBounds.height() / 2) + focalPadding + textBounds.height();
         // Calculate the radius based on the calculated width and height
         mBaseRadius = (float) Math.sqrt(Math.pow(length, 2) + Math.pow(height, 2));
 

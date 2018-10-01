@@ -1,0 +1,9 @@
+This app generates randomly selected words from your choice of large dictionaries and text corpora. This version of the app has no vulgar words present in its dictionary. Its inspiration was xkcd's comic "Password Strength", and by Diceware.
+
+By using a large dictionary with over 28,000 entries, a randomly selected word will have nearly 14.8 bits of entropy. A phrase made up of 6 words will have over 88.6 bits of entropy, more than enough for a very strong password.
+
+This app uses multiple word lists from different sources, which can be chosen from the Settings screen.
+
+The random number generator is cryptographically secure, using java.security.SecureRandom and /dev/urandom.
+
+Open Source: https://github.com/staceybellerose/RandomWordGenerator

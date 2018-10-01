@@ -25,33 +25,46 @@
     <exclude-pattern>.*/R.java</exclude-pattern>
     <exclude-pattern>.*/gen/.*</exclude-pattern>
 
-    <rule ref="rulesets/java/android.xml" />
-    <rule ref="rulesets/java/clone.xml" />
-    <rule ref="rulesets/java/finalizers.xml" />
-    <rule ref="rulesets/java/imports.xml">
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="PreserveStackTrace" />
+    </rule>
+    <rule ref="category/java/errorprone.xml">
+        <!-- ButterKinfe is designed this way -->
+        <exclude name="BeanMembersShouldSerialize" />
+    </rule>
+    <rule ref="category/java/multithreading.xml" />
+    <rule ref="category/java/performance.xml" />
+    <rule ref="category/java/codestyle.xml">
         <!-- Espresso is designed this way !-->
         <exclude name="TooManyStaticImports" />
-    </rule>
-    <rule ref="rulesets/java/logging-java.xml" />
-    <rule ref="rulesets/java/braces.xml" />
-    <rule ref="rulesets/java/strings.xml" />
-    <rule ref="rulesets/java/basic.xml">
-        <!-- sometimes, it is more maintainable with separate if statements -->
-        <exclude name="CollapsibleIfStatements" />
-    </rule>
-    <rule ref="rulesets/java/naming.xml">
         <!-- Android is designed this way -->
-        <exclude name="LongVariable" />
-        <!--
         <exclude name="AbstractNaming" />
-        <exclude name="ShortMethodName" />
-        <exclude name="ShortVariable" />
-        <exclude name="VariableNamingConventions" />
-        -->
+        <exclude name="AtLeastOneConstructor" />
+        <exclude name="CallSuperInConstructor" />
+        <!-- ButterKnife is designed this way -->
+        <exclude name="DefaultPackage" />
+        <exclude name="CommentDefaultAccessModifier" />
+        <!-- I like it this way -->
+        <exclude name="LongVariable" />
+        <exclude name="OnlyOneReturn" />
     </rule>
-    <rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals">
+    <rule ref="category/java/design.xml">
+        <!-- Android is designed this way -->
+        <exclude name="ExcessiveImports" />
+        <exclude name="LawOfDemeter" />
+        <!-- broken rule -->
+        <exclude name="LoosePackageCoupling" />
+    </rule>
+    <!-- Annotations are designed this way -->
+    <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
         <properties>
             <property name="skipAnnotations" value="true"/>
+        </properties>
+    </rule>
+    <!-- Android is designed this way -->
+    <rule ref="category/java/design.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="20"/>
         </properties>
     </rule>
 </ruleset>

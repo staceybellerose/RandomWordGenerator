@@ -1,0 +1,14 @@
+linter:
+  checkstyle:
+    config: config/quality/checkstyle/checkstyle.xml
+    ignore:
+      - warning
+      - info
+    dir:
+      - app/src
+    exclude:
+      - res
+  pmd_java:
+    rulesets:
+      - config/quality/pmd/pmd-ruleset.xml
+    min_priority: 3

@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     /**
      * The result intent to be used when this activity called from startActivityForResult
      */
-    private Intent mResultIntent = new Intent();
+    private final Intent mResultIntent = new Intent();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 

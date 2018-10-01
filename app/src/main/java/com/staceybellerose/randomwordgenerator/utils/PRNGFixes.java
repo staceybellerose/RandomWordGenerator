@@ -39,6 +39,7 @@ import java.security.Security;
  * Cryptography Architecture primitives. A good place to invoke them is in the
  * application's {@code onCreate}.
  */
+@SuppressWarnings("PMD")
 public final class PRNGFixes {
 
     /**

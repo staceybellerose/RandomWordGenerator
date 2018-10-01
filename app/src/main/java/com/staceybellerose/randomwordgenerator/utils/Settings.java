@@ -23,7 +23,7 @@ public final class Settings {
     /**
      * Shared preferences
      */
-    private SharedPreferences mPrefs;
+    private final SharedPreferences mPrefs;
     /**
      * Minimum word length to be displayed
      */
@@ -51,7 +51,7 @@ public final class Settings {
     /**
      * A map to translate resource IDs to their values
      */
-    private TypedMap mResourceMap = new TypedMap();
+    private final TypedMap mResourceMap = new TypedMap();
 
     /**
      * Private Constructor
@@ -80,6 +80,7 @@ public final class Settings {
      * @param context Any sort of Context
      * @return the Settings singleton
      */
+    @SuppressWarnings("PMD.AvoidSynchronizedAtMethodLevel")
     public static synchronized Settings getInstance(final Context context) {
         if (instance == null) {
             instance = new Settings(context);
@@ -91,7 +92,7 @@ public final class Settings {
      * Refresh the shared preference values.
      */
     public void refreshPreferences() {
-        getWordLengths();
+        loadWordLengths();
         mWordListName = mPrefs.getString(mResourceMap.getString(R.string.pref_word_list),
                 mResourceMap.getString(R.string.pref_word_list_default));
         mCleanWordsOnly = mPrefs.getBoolean(mResourceMap.getString(R.string.pref_clean_words_flag),
@@ -105,10 +106,11 @@ public final class Settings {
     /**
      * Get the min and max allowed word lengths from shared preferences.
      */
-    private void getWordLengths() {
-        boolean unlimitedSize = mPrefs.getBoolean(mResourceMap.getString(R.string.pref_unlimited_length_flag), true);
-        int defaultMinLength = mResourceMap.getInteger(R.integer.default_min_word_length);
-        int defaultMaxLength = mResourceMap.getInteger(R.integer.default_max_word_length);
+    private void loadWordLengths() {
+        final boolean unlimitedSize
+                = mPrefs.getBoolean(mResourceMap.getString(R.string.pref_unlimited_length_flag), true);
+        final int defaultMinLength = mResourceMap.getInteger(R.integer.default_min_word_length);
+        final int defaultMaxLength = mResourceMap.getInteger(R.integer.default_max_word_length);
         if (unlimitedSize) {
             mMinLength = defaultMinLength;
             mMaxLength = defaultMaxLength;
@@ -125,10 +127,10 @@ public final class Settings {
     private void checkWordLengths() {
         if (mMinLength > mMaxLength) {
             // swap values and store the corrected values in shared preferences
-            int temp = mMinLength;
+            final int temp = mMinLength;
             mMinLength = mMaxLength;
             mMaxLength = temp;
-            SharedPreferences.Editor editor = mPrefs.edit();
+            final SharedPreferences.Editor editor = mPrefs.edit();
             editor.putInt(mResourceMap.getString(R.string.pref_min_word_length), mMinLength);
             editor.putInt(mResourceMap.getString(R.string.pref_max_word_length), mMaxLength);
             editor.apply();

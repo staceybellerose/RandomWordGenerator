@@ -3,6 +3,7 @@ package com.staceybellerose.randomwordgenerator.utils;
 import android.annotation.SuppressLint;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility class to manage a simplified mapping that allows multiple data types in values added.
@@ -15,15 +16,15 @@ public class TypedMap {
     /**
      * Internal HashMap to manage Strings
      */
-    private HashMap<Integer, String> mStringMap;
+    private final Map<Integer, String> mStringMap;
     /**
      * Internal HashMap to manage Integers
      */
-    private HashMap<Integer, Integer> mIntegerMap;
+    private final Map<Integer, Integer> mIntegerMap;
     /**
      * Internal HashMap to manage Booleans
      */
-    private HashMap<Integer, Boolean> mBooleanMap;
+    private final Map<Integer, Boolean> mBooleanMap;
 
     /**
      * Constructor
