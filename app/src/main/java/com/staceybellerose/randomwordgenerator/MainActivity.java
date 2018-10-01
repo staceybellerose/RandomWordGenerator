@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         int iconSize = getResources().getDrawable(R.drawable.ic_arrow_down_white_24dp).getIntrinsicWidth();
-        int targetLeft = size.x / 2 - iconSize; //shift target point slightly to the left to prevent symmetric 'bubble'
+        int targetLeft = size.x / 2;
         Rect rect = new Rect();
         Window window = getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(rect);
