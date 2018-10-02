@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_justwords" />
+    <string name="library_justwords_author">Just Words!</string>
+    <string name="library_justwords_authorWebsite">http://www.gwicks.net/justwords.htm</string>
+    <string name="library_justwords_libraryName">justwords</string>
+    <string name="library_justwords_libraryDescription">Just Words! specialized in word lists, word programs and mapping data for QDOS and SMSQ-E based computers.</string>
+    <string name="library_justwords_libraryVersion">1</string>
+    <string name="library_justwords_libraryWebsite">http://www.gwicks.net/justwords.htm</string>
+    <string name="library_justwords_licenseId">JustWords</string>
+    <string name="library_justwords_isOpenSource">false</string>
+    <string name="library_justwords_repositoryLink">http://www.gwicks.net/justwords.htm</string>
+</resources>

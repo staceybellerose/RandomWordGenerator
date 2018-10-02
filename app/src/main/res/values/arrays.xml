@@ -8,17 +8,23 @@
         <item>Word Game Tournament List: American</item>
         <item>Word Game Tournament List: International</item>
         <item>Complete Works of Shakespeare Word List</item>
-        <item>European Parliament Proceedings: Danish</item>
-        <item>European Parliament Proceedings: Dutch</item>
+        <item>Europa-Parlamentet protokol: Dansk</item>
+        <item>Notulen van het Európsky Parlament: Nederlands</item>
         <item>European Parliament Proceedings: English</item>
-        <item>European Parliament Proceedings: Finnish</item>
-        <item>European Parliament Proceedings: French</item>
-        <item>European Parliament Proceedings: German</item>
-        <item>European Parliament Proceedings: Greek</item>
-        <item>European Parliament Proceedings: Italian</item>
-        <item>European Parliament Proceedings: Portuguese</item>
-        <item>European Parliament Proceedings: Spanish</item>
-        <item>European Parliament Proceedings: Swedish</item>
+        <item>Euroopan parlamentin oikeudenkäynti: Suomi</item>
+        <item>Actes du Parlement européen: Français</item>
+        <item>Verfahren des Europäisches Parlament: Deutsch</item>
+        <item>Πρακτικά του Ευρωπαϊκού Κοινοβουλίου: Ελληνικά</item>
+        <item>Atti del Parlamento europeo: Italiano</item>
+        <item>Actas do Parlamento Europeu: Português</item>
+        <item>Actas del Parlamento Europeo: Español</item>
+        <item>Europaparlamentet protokoll: Svenska</item>
+        <item>Just Words: Dansk</item>
+        <item>Just Words: Deutsch</item>
+        <item>Just Words: Español</item>
+        <item>Just Words: Français</item>
+        <item>Just Words: Italiano</item>
+        <item>Just Words: Nederlands</item>
     </string-array>
     <string-array name="word_list_resources">
         <item>wordlist</item>
@@ -39,6 +45,12 @@
         <item>wordlist_europarl_pt</item>
         <item>wordlist_europarl_es</item>
         <item>wordlist_europarl_sv</item>
+        <item>justwords_da</item>
+        <item>justwords_de</item>
+        <item>justwords_es</item>
+        <item>justwords_fr</item>
+        <item>justwords_it</item>
+        <item>justwords_nl</item>
     </string-array>
     <integer-array name="list_lengths">
         <item>29751</item>
@@ -59,6 +71,12 @@
         <item>22394</item>
         <item>23189</item>
         <item>27491</item>
+        <item>23515</item>
+        <item>166102</item>
+        <item>174846</item>
+        <item>208913</item>
+        <item>88351</item>
+        <item>70459</item>
     </integer-array>
     <string-array name="list_sources">
         <item>12dicts</item>
@@ -79,5 +97,37 @@
         <item>nltk</item>
         <item>nltk</item>
         <item>nltk</item>
+        <item>justwords</item>
+        <item>justwords</item>
+        <item>justwords</item>
+        <item>justwords</item>
+        <item>justwords</item>
+        <item>justwords</item>
+    </string-array>
+    <string-array name="list_language">
+        <item>en-US</item>
+        <item>en-US</item>
+        <item>en</item>
+        <item>en</item>
+        <item>en-US</item>
+        <item>en</item>
+        <item>en</item>
+        <item>da</item>
+        <item>nl</item>
+        <item>en</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>el</item>
+        <item>it</item>
+        <item>pt</item>
+        <item>es</item>
+        <item>sv</item>
+        <item>da</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>nl</item>
     </string-array>
 </resources>
