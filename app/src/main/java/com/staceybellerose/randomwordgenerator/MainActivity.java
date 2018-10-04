@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +18,7 @@ import android.text.TextUtils;
 import android.text.style.TabStopSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.staceybellerose.randomwordgenerator.utils.Settings;
@@ -130,23 +130,16 @@ public class MainActivity extends AppCompatActivity {
         mTourManager = new TourManager(this);
         mWordListManager = new WordListManager(this);
         mSwipeLayout.setColorSchemeColors(mColorAlternative, mColorPrimary, mColorAccent);
-        mSwipeLayout.setOnRefreshListener(() -> new Handler().postDelayed(this::refreshWords, 250));
+        mSwipeLayout.setOnRefreshListener(this::refreshWords);
 
-        if (savedInstanceState == null) {
-            new Handler().postDelayed(() -> reloadLists(true), 250);
-        } else {
-            mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORDS));
-            mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
-            new Handler().postDelayed(() -> reloadLists(false), 250);
-        }
-
-        // (re)set the tab stop for the random word content
-        mRandomContent.post(() -> {
-            mContentWidth = mRandomContent.getWidth();
-            final SpannableString newContent = new SpannableString(mRandomContent.getText().toString());
-            newContent.setSpan(new TabStopSpan.Standard(mContentWidth / 2), 0, newContent.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mRandomContent.setText(newContent);
+        final ViewTreeObserver viewTreeObserver = mToolbar.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mToolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                initListTabStop();
+                reloadLists(savedInstanceState == null);
+            }
         });
     }
 
@@ -164,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putCharSequence(STATE_WORDS, mRandomContent.getText());
         savedInstanceState.putCharSequence(STATE_WORD_LIST_TITLE, mWordListTitle.getText());
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORDS));
+        mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
     }
 
     @Override
@@ -228,6 +228,18 @@ public class MainActivity extends AppCompatActivity {
         final ClipData clipData = ClipData.newPlainText("simple text", randomWords.replace("\n", " "));
         clipboard.setPrimaryClip(clipData);
         Snackbar.make(mFab, R.string.copied, Snackbar.LENGTH_LONG).show();
+    }
+
+
+    /**
+     * Initialize the tab stop in the word list to support two columns
+     */
+    private void initListTabStop() {
+        mContentWidth = mRandomContent.getWidth();
+        final SpannableString newContent = new SpannableString(mRandomContent.getText().toString());
+        newContent.setSpan(new TabStopSpan.Standard(mContentWidth / 2), 0, newContent.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mRandomContent.setText(newContent);
     }
 
     /**
