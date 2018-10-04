@@ -53,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressWarnings("unused")
     private static final String TAG = "RandomWordGenerator";
-    /**
-     * Key to track when the help tour has been shown
-     */
-    private static final String ONCE_TOUR = "showAppTour";
 
     /**
      * the floating action button
@@ -130,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
         mTourManager = new TourManager(this);
         mWordListManager = new WordListManager(this);
         mSwipeLayout.setColorSchemeColors(mColorAlternative, mColorPrimary, mColorAccent);
+        mSwipeLayout.setSize(SwipeRefreshLayout.LARGE);
         mSwipeLayout.setOnRefreshListener(this::refreshWords);
+        initNewFeatureTour();
 
         final ViewTreeObserver viewTreeObserver = mToolbar.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -141,15 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 reloadLists(savedInstanceState == null);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, ONCE_TOUR)) {
-            mTourManager.startTour();
-            Once.markDone(ONCE_TOUR);
-        }
     }
 
     @Override
@@ -187,8 +176,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_wordlists) {
-            final Intent intent = new Intent(this, WordListDetailsActivity.class);
-            startActivity(intent);
+            showWordLists();
             return true;
         } else if (itemId == R.id.action_help) {
             mTourManager.startTour();
@@ -230,6 +218,28 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(mFab, R.string.copied, Snackbar.LENGTH_LONG).show();
     }
 
+    /**
+     * start the Word List Details activity
+     */
+    @OnClick({R.id.word_list_header, R.id.word_list_title})
+    public void showWordLists() {
+        final Intent intent = new Intent(this, WordListDetailsActivity.class);
+        startActivityForResult(intent, WordListDetailsActivity.WORD_LIST_REQUEST_CODE);
+    }
+
+    /**
+     * Set up the New Features tour
+     */
+    private void initNewFeatureTour() {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, TourManager.ONCE_TOUR)) {
+            mTourManager.startTour();
+            Once.markDone(TourManager.ONCE_TOUR);
+            Once.markDone(TourManager.NEW_FEATURES); // new features are shown at end of initial tour
+        } else if (!Once.beenDone(Once.THIS_APP_VERSION, TourManager.NEW_FEATURES)) {
+            mTourManager.startNewFeatures();
+            Once.markDone(TourManager.NEW_FEATURES);
+        }
+    }
 
     /**
      * Initialize the tab stop in the word list to support two columns

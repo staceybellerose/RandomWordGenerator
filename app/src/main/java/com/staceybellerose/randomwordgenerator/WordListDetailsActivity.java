@@ -18,6 +18,10 @@ import butterknife.ButterKnife;
 public class WordListDetailsActivity extends AppCompatActivity {
 
     /**
+     * Request code to indicate Word List Details Activity called
+     */
+    public static final int WORD_LIST_REQUEST_CODE = 314;
+    /**
      * the toolbar
      */
     @BindView(R.id.toolbar)

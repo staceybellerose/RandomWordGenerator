@@ -49,6 +49,8 @@
     <string name="tour_clipboard_secondary">Tap the button to copy your word list to the clipboard</string>
     <string name="tour_refresh_primary">Pull to Refresh</string>
     <string name="tour_refresh_secondary">To generate a new set of words, swipe down to refresh.</string>
+    <string name="tour_wordlist_primary">Easily Change Word Lists</string>
+    <string name="tour_wordlist_secondary">Tap the header to change the word list used to generate the random words.</string>
 
     <string name="word_list_title">Selected Word List</string>
     <string name="details_source">Source</string>

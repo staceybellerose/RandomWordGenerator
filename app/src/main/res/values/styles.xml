@@ -94,7 +94,7 @@
         <item name="mttp_backgroundColour">@color/help_background</item>
         <item name="mttp_focalRadius">36dp</item>
     </style>
-    
+
     <style name="MaterialTapTargetPromptTheme.Fab" parent="MaterialTapTargetPromptTheme">
         <item name="mttp_primaryText">@string/tour_clipboard_primary</item>
         <item name="mttp_secondaryText">@string/tour_clipboard_secondary</item>
@@ -102,10 +102,15 @@
         <item name="mttp_focalColour">@color/colorAccentDark</item>
     </style>
 
-
     <style name="MaterialTapTargetPromptTheme.Refresh" parent="MaterialTapTargetPromptTheme">
         <item name="mttp_primaryText">@string/tour_refresh_primary</item>
         <item name="mttp_secondaryText">@string/tour_refresh_secondary</item>
         <item name="mttp_focalColour">@color/colorPrimary</item>
+    </style>
+
+    <style name="MaterialTapTargetPromptTheme.Select" parent="MaterialTapTargetPromptTheme">
+        <item name="mttp_primaryText">@string/tour_wordlist_primary</item>
+        <item name="mttp_secondaryText">@string/tour_wordlist_secondary</item>
+        <item name="mttp_target">@id/header_area</item>
     </style>
 </resources>
