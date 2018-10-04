@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.staceybellerose.randomwordgenerator.adapters.ListDetailsAdapter;
 import com.staceybellerose.randomwordgenerator.utils.Settings;
@@ -21,7 +22,8 @@ import jonathanfinerty.once.Once;
 /**
  * Display a list of available word lists to the user and show some stats about each list.
  */
-public class WordListDetailsActivity extends AppCompatActivity implements ListDetailsAdapter.OnItemClickListener {
+public class WordListDetailsActivity extends AppCompatActivity implements ListDetailsAdapter.OnItemClickListener,
+        ViewTreeObserver.OnGlobalLayoutListener {
 
     /**
      * Request code to indicate Word List Details Activity called
@@ -46,6 +48,10 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
      */
     private ListDetailsAdapter mAdapter;
     /**
+     * Layout manager for the recycler view
+     */
+    private LinearLayoutManager mLayoutManager;
+    /**
      * Utility object to manage reading our shared preferences
      */
     private Settings mSettings;
@@ -61,18 +67,33 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
         actionBar.setDisplayHomeAsUpEnabled(true);
         setResult(RESULT_CANCELED);
         mSettings = Settings.getInstance(this);
+        initRecycler();
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, ONCE_HELP)) {
             showHelpFragment();
             Once.markDone(ONCE_HELP);
         }
 
+        final ViewTreeObserver viewTreeObserver = mRecyclerView.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(this);
+    }
+
+    /**
+     * Initialize the Recycler View
+     */
+    private void initRecycler() {
         mAdapter = new ListDetailsAdapter(this);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
-        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        mRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        scrollToSelectedItem();
     }
 
     @Override
@@ -108,4 +129,19 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
         helpFragment.show(getSupportFragmentManager(), "help_fragment");
     }
 
+    /**
+     * Scroll the recycler view to the position of the selected word list
+     */
+    private void scrollToSelectedItem() {
+        final int selectedPosition = mAdapter.getSelectedPosition();
+        if (selectedPosition == -1) {
+            return;
+        }
+        final View firstChild = mRecyclerView.getChildAt(0);
+        // Assume that items all have the same height (or close to it)
+        final int itemHeight = firstChild.getHeight();
+        final int recyclerHeight = mRecyclerView.getHeight();
+        final int offset = (recyclerHeight - itemHeight) / 4;
+        mLayoutManager.scrollToPositionWithOffset(selectedPosition, offset);
+    }
 }

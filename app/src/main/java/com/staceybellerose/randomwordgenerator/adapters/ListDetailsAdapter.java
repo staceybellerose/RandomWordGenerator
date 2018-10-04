@@ -111,6 +111,22 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     }
 
     /**
+     * Locate the selected item and return its position
+     *
+     * @return the position of the selected item, or -1 if not found
+     */
+    public int getSelectedPosition() {
+        int result = -1;
+        for (int i = 0; i < mWordListFiltered.size(); i++) {
+            if (mWordListFiltered.get(i).isSelected()) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Get a string from an array of strings
      *
      * @param strings the array to process
