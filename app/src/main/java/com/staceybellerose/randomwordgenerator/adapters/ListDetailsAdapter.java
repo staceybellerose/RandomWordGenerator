@@ -207,7 +207,6 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
                 }
             }
             final FilterResults filterResults = new FilterResults();
-            //filterResults.values = mWordListFiltered;
             filterResults.values = filteredList;
             return filterResults;
         }
