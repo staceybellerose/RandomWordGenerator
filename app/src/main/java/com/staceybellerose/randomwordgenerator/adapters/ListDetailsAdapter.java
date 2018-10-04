@@ -37,20 +37,11 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         final String[] sources = res.getStringArray(R.array.list_sources);
         final int[] counts = res.getIntArray(R.array.list_lengths);
         for (int i = 0; i < listNames.length; i++) {
-            final String name = listNames[i];
-            String source;
-            int count;
-            try {
-                source = sources[i];
-            } catch (ArrayIndexOutOfBoundsException e) {
-                source = "unknown";
-            }
-            try {
-                count = counts[i];
-            } catch (ArrayIndexOutOfBoundsException e) {
-                count = 0;
-            }
-            mWordList.add(new WordList(name, source, count));
+            final WordList wordList = new WordList();
+            wordList.setListName(listNames[i]);
+            wordList.setSource(getStringFromArray(sources, i, "unknown"));
+            wordList.setWordCount(getIntFromArray(counts, i, 0));
+            mWordList.add(wordList);
         }
     }
 
@@ -76,6 +67,39 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         return mWordList.size();
     }
 
+    /**
+     * Get a string from an array of strings
+     *
+     * @param strings the array to process
+     * @param position the position to retrieve
+     * @param defaultValue the value to use if unable to retrieve the proper string
+     * @return the strung at the provided position in the array
+     */
+    private String getStringFromArray(final String[] strings, final int position, final String defaultValue) {
+        String result = defaultValue;
+        try {
+            result = strings[position];
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
+        return result;
+    }
+
+    /**
+     * Get an integer from an array of ints
+     *
+     * @param ints the array to process
+     * @param position the position to retrieve
+     * @param defaultValue the value to use if unable to retrieve the proper integer
+     * @return the integer at the provided position in the array
+     */
+    private int getIntFromArray(final int[] ints, final int position, final int defaultValue) {
+        int result = defaultValue;
+        try {
+            result = ints[position];
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
+        return result;
+    }
     /**
      *  Describe an item view and metadata about its place within the RecyclerView
      */
@@ -154,70 +178,6 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
          */
         Context getContext() {
             return mListName.getContext();
-        }
-    }
-
-    /**
-     * Data about a word list
-     */
-    private static final class WordList {
-        /**
-         * The name of a word list
-         */
-        private final String mListName;
-        /**
-         * The source of a word list
-         */
-        private final String mSource;
-        /**
-         * The number of words in the list
-         */
-        private final int mWordCount;
-
-        /**
-         * Constructor
-         *
-         * @param listName the list name
-         * @param source the list source
-         * @param wordCount the word count
-         */
-        WordList(final String listName, final String source, final int wordCount) {
-            mListName = listName;
-            mSource = source;
-            mWordCount = wordCount;
-        }
-
-        /**
-         * Get the list name
-         * @return the list name
-         */
-        String getListName() {
-            return mListName;
-        }
-
-        /**
-         * Get the list source
-         * @return the list source
-         */
-        String getSource() {
-            return mSource;
-        }
-
-        /**
-         * Get the word count of the list
-         * @return the word count
-         */
-        int getWordCount() {
-            return mWordCount;
-        }
-
-        /**
-         * Get the amount of entropy when randomly selecting a word from the list
-         * @return the amount of entropy
-         */
-        double getEntropy() {
-            final double entropy = Math.log(mWordCount) / Math.log(2);
-            return Math.round(entropy * 10.0) / 10.0;
         }
     }
 }
