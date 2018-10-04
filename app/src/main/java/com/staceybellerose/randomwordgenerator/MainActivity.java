@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -204,16 +205,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == SETTINGS_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                mSwipeLayout.setRefreshing(true);
-                if (data.getBooleanExtra(getString(R.string.pref_word_list_changed), false)) {
-                    final String wordListName = mWordListManager.reloadWordList();
-                    mUsingDownloadedList = (wordListName.equalsIgnoreCase(getString(R.string.pref_word_list_download)));
-                    setWordListTitle(wordListName);
-                }
-                if (data.getBooleanExtra(getString(R.string.pref_clean_filter_changed), false)) {
-                    mWordListManager.reloadCleanFilter();
-                }
-                refreshWords();
+                final boolean reloadWordList = data.getBooleanExtra(getString(R.string.pref_word_list_changed), false);
+                final boolean reloadCleanFilter = data.getBooleanExtra(getString(R.string.pref_clean_filter_changed),
+                        false);
+                final RefreshTaskParams taskParams = new RefreshTaskParams(reloadWordList, reloadCleanFilter, true);
+                final RefreshTask task = new RefreshTask();
+                task.execute(taskParams);
             }
             return;
         }
@@ -239,34 +236,16 @@ public class MainActivity extends AppCompatActivity {
      * @param refreshWords Flag indicating whether to refresh the display of words as well
      */
     private void reloadLists(final boolean refreshWords) {
-        mSwipeLayout.setRefreshing(true);
-        final String wordListName = mWordListManager.reloadWordList();
-        setWordListTitle(wordListName);
-        mWordListManager.reloadCleanFilter();
-        if (refreshWords) {
-            refreshWords();
-        } else {
-            mSwipeLayout.setRefreshing(false);
-        }
+        final RefreshTaskParams taskParams = new RefreshTaskParams(true, true, refreshWords);
+        final RefreshTask task = new RefreshTask();
+        task.execute(taskParams);
     }
 
     /**
      * Set the word list title to the selected word list
-     *
-     * @param wordListName name of the selected word list, from @array/word_list_resources
      */
-    private void setWordListTitle(final String wordListName) {
-        final String[] listNames = getResources().getStringArray(R.array.word_list_resources);
-        final String[] listTitles = getResources().getStringArray(R.array.word_list_descriptions);
-        String title = null;
-        for (int i = 0; i < listNames.length; i++) {
-            if (listNames[i].equalsIgnoreCase(wordListName)) {
-                title = listTitles[i];
-            }
-        }
-        if (title == null) {
-            title = listTitles[0];
-        }
+    private void setWordListTitle() {
+        final String title = mWordListManager.getWordListDescription();
         mWordListTitle.setText(title);
     }
 
@@ -322,6 +301,72 @@ public class MainActivity extends AppCompatActivity {
                         appendText(substring, mSettings.getDisplayCount(), mSettings.isDisplayTwoColumns()),
                             Throwable::printStackTrace,
                             () -> mSwipeLayout.setRefreshing(false));
+        }
+    }
+
+    /**
+     * Parameters needed for Refresh task
+     */
+    private static class RefreshTaskParams {
+        /**
+         * Flag indicating whether the word list should be reloaded
+         */
+        private final boolean mReloadWordList;
+        /**
+         * Flag indicating whether the clean filter should be reloaded
+         */
+        private final boolean mReloadCleanFilter;
+        /**
+         * Flag indicating whether the displayed words should be refreshed
+         */
+        private final boolean mRefreshWords;
+
+        /**
+         * Constructor
+         *
+         * @param reloadWordList Flag indicating whether the word list should be reloaded
+         * @param reloadCleanFilter Flag indicating whether the clean filter should be reloaded
+         * @param refreshWords Flag indicating whether the displayed words should be refreshed
+         */
+        RefreshTaskParams(final boolean reloadWordList, final boolean reloadCleanFilter, final boolean refreshWords) {
+            mReloadWordList = reloadWordList;
+            mReloadCleanFilter = reloadCleanFilter;
+            mRefreshWords = refreshWords;
+        }
+    }
+
+    /**
+     * Word list refresh task
+     */
+    private class RefreshTask extends AsyncTask<RefreshTaskParams, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            mSwipeLayout.setRefreshing(true);
+            final String wordListName = mSettings.getWordListName();
+            mUsingDownloadedList = (wordListName.equalsIgnoreCase(getString(R.string.pref_word_list_download)));
+            setWordListTitle();
+        }
+
+        @Override
+        protected Boolean doInBackground(final RefreshTaskParams... params) {
+            final RefreshTaskParams taskParams = params[0];
+            if (taskParams.mReloadWordList) {
+                mWordListManager.reloadWordList();
+            }
+            if (taskParams.mReloadCleanFilter) {
+                mWordListManager.reloadCleanFilter();
+            }
+            return taskParams.mRefreshWords;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean shouldRefreshWords) {
+            if (shouldRefreshWords) {
+                refreshWords();
+            } else {
+                mSwipeLayout.setRefreshing(false);
+            }
         }
     }
 }
