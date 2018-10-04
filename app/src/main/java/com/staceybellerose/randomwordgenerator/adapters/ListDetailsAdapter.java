@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.staceybellerose.randomwordgenerator.R;
+import com.staceybellerose.randomwordgenerator.utils.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,10 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
      * the list to display
      */
     private final List<WordList> mWordList = new ArrayList<>();
+    /**
+     * The currently selected word list
+     */
+    private final String mSelectedItem;
 
     /**
      * Constructor
@@ -33,14 +38,23 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public ListDetailsAdapter(final Context context) {
         final Resources res = context.getResources();
+        final Settings settings = Settings.getInstance(context);
+        mSelectedItem = settings.getWordListName();
         final String[] listNames = res.getStringArray(R.array.word_list_descriptions);
+        final String[] listResources = res.getStringArray(R.array.word_list_resources);
         final String[] sources = res.getStringArray(R.array.list_sources);
+        final String[] languages = res.getStringArray(R.array.list_language);
         final int[] counts = res.getIntArray(R.array.list_lengths);
         for (int i = 0; i < listNames.length; i++) {
+            final String language = getStringFromArray(languages, i, "??");
+            final String resource = getStringFromArray(listResources, i, "");
             final WordList wordList = new WordList();
             wordList.setListName(listNames[i]);
             wordList.setSource(getStringFromArray(sources, i, "unknown"));
             wordList.setWordCount(getIntFromArray(counts, i, 0));
+            wordList.setLanguage(language);
+            wordList.setResource(resource);
+            wordList.setIsSelected(mSelectedItem.equals(resource));
             mWordList.add(wordList);
         }
     }
@@ -56,10 +70,15 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     public void onBindViewHolder(final DetailsViewHolder holder, final int position) {
         final Context context = holder.getContext();
         final WordList wordList = mWordList.get(position);
-        holder.getListName().setText(wordList.getListName());
-        holder.getSourceText().setText(wordList.getSource());
+        final TextView listNameView = holder.getListName();
+        listNameView.setText(wordList.getListName());
+        holder.getLanguageText().setText(wordList.getLanguageText());
+        holder.getSourceText().setText(wordList.getAuthor(context));
         holder.getCountText().setText(String.valueOf(wordList.getWordCount()));
         holder.getEntropyText().setText(context.getString(R.string.label_entropy, wordList.getEntropy()));
+        if (wordList.getResource().equals(mSelectedItem)) {
+            listNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_favorite_green_500_36dp, 0);
+        }
     }
 
     @Override
@@ -111,6 +130,11 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         @BindView(R.id.word_list_name)
         TextView mListName;
         /**
+         * Text view containing the language of the word list
+         */
+        @BindView(R.id.language_text)
+        TextView mLanguageText;
+        /**
          * Text view containing the word list source
          */
         @BindView(R.id.source_text)
@@ -142,6 +166,14 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
          */
         TextView getListName() {
             return mListName;
+        }
+
+        /**
+         * Get the TextView displaying the language
+         * @return the language TextView
+         */
+        TextView getLanguageText() {
+            return mLanguageText;
         }
 
         /**

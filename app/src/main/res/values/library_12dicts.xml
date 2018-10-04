@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="define_int_12dicts" />
-    <string name="library_12dicts_author">Alan Beale</string>
+    <string name="library_12dicts_author">Alan Beale, 12dicts</string>
     <string name="library_12dicts_authorWebsite">http://wordlist.aspell.net/12dicts/</string>
     <string name="library_12dicts_libraryName">12dicts</string>
     <string name="library_12dicts_libraryDescription">12dicts is a collection of English word lists.</string>

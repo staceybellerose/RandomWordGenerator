@@ -60,6 +60,7 @@
     </string>
 
     <string name="word_list_title">Selected Word List</string>
+    <string name="details_language">Language</string>
     <string name="details_source">Source</string>
     <string name="details_count">Word Count</string>
     <string name="details_entropy">Entropy</string>
