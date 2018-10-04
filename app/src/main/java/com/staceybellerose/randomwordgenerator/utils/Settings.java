@@ -49,6 +49,10 @@ public final class Settings {
      */
     private boolean mDisplayTwoColumns;
     /**
+     * Langugage to use to filter word lists
+     */
+    private String mSearchLanguage;
+    /**
      * A map to translate resource IDs to their values
      */
     private final TypedMap mResourceMap = new TypedMap();
@@ -71,6 +75,7 @@ public final class Settings {
         mResourceMap.put(R.integer.default_min_word_length, getInteger(context, R.integer.default_min_word_length));
         mResourceMap.put(R.integer.default_max_word_length, getInteger(context, R.integer.default_max_word_length));
         mResourceMap.put(R.bool.pref_two_column_default, getBoolean(context, R.bool.pref_two_column_default));
+        mResourceMap.put(R.string.pref_search_language, getString(context, R.string.pref_search_language));
         refreshPreferences();
     }
 
@@ -101,6 +106,7 @@ public final class Settings {
                 mResourceMap.getInteger(R.integer.default_display_count));
         mDisplayTwoColumns = mPrefs.getBoolean(mResourceMap.getString(R.string.pref_two_column),
                 mResourceMap.getBoolean(R.bool.pref_two_column_default));
+        mSearchLanguage = mPrefs.getString(mResourceMap.getString(R.string.pref_search_language), "");
     }
 
     /**
@@ -207,6 +213,10 @@ public final class Settings {
         return mDisplayTwoColumns;
     }
 
+    public String getSearchLanguage() {
+        return mSearchLanguage;
+    }
+
     /**
      * Set the word list resource name
      *
@@ -220,5 +230,19 @@ public final class Settings {
         final SharedPreferences.Editor editor = prefs.edit();
         editor.putString(mResourceMap.getString(R.string.pref_word_list), wordListName);
         editor.commit();
+    }
+
+    /**
+     * Set the search language, used when filtering word lists
+     *
+     * @param context the context
+     * @param language the chosen language
+     */
+    public void setSearchLanguage(final Context context, final String language) {
+        mSearchLanguage = language;
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(mResourceMap.getString(R.string.pref_search_language), language);
+        editor.apply();
     }
 }

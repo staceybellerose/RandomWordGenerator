@@ -105,16 +105,16 @@
         <item>justwords</item>
     </string-array>
     <string-array name="list_language">
-        <item>en-US</item>
-        <item>en-US</item>
+        <item>en_US</item>
+        <item>en_US</item>
+        <item>en_UK</item>
         <item>en</item>
-        <item>en</item>
-        <item>en-US</item>
-        <item>en</item>
+        <item>en_US</item>
+        <item>en_UK</item>
         <item>en</item>
         <item>da</item>
         <item>nl</item>
-        <item>en</item>
+        <item>en_UK</item>
         <item>fi</item>
         <item>fr</item>
         <item>de</item>

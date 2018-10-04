@@ -7,13 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.staceybellerose.randomwordgenerator.adapters.ListDetailsAdapter;
 import com.staceybellerose.randomwordgenerator.utils.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +31,7 @@ import jonathanfinerty.once.Once;
  * Display a list of available word lists to the user and show some stats about each list.
  */
 public class WordListDetailsActivity extends AppCompatActivity implements ListDetailsAdapter.OnItemClickListener,
-        ViewTreeObserver.OnGlobalLayoutListener {
+        AdapterView.OnItemSelectedListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     /**
      * Request code to indicate Word List Details Activity called
@@ -51,6 +59,10 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
      * Layout manager for the recycler view
      */
     private LinearLayoutManager mLayoutManager;
+    /**
+     * List of available languages
+     */
+    private List<String> mLanguages;
     /**
      * Utility object to manage reading our shared preferences
      */
@@ -88,6 +100,8 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mLanguages = new ArrayList<>(mAdapter.getLanguageSet());
+        mLanguages.add(0, getString(R.string.action_list_filter).toUpperCase(Locale.getDefault()));
     }
 
     @Override
@@ -99,6 +113,20 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_filter);
+        final Spinner spinner = (Spinner) item.getActionView();
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mLanguages);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+        final String searchLanguage = mSettings.getSearchLanguage();
+        if (!TextUtils.isEmpty(searchLanguage)) {
+            final int position = adapter.getPosition(searchLanguage);
+            spinner.setSelection(position);
+        }
         return true;
     }
 
@@ -143,5 +171,18 @@ public class WordListDetailsActivity extends AppCompatActivity implements ListDe
         final int recyclerHeight = mRecyclerView.getHeight();
         final int offset = (recyclerHeight - itemHeight) / 4;
         mLayoutManager.scrollToPositionWithOffset(selectedPosition, offset);
+    }
+
+    @Override
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long ident) {
+        final String searchString = (position == 0) ? "" : mLanguages.get(position);
+        mAdapter.getFilter().filter(searchString);
+        mSettings.setSearchLanguage(this, searchString);
+    }
+
+    @Override
+    public void onNothingSelected(final AdapterView<?> parent) {
+        mAdapter.getFilter().filter(null);
+        mSettings.setSearchLanguage(this, "");
     }
 }

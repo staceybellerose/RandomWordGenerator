@@ -3,9 +3,12 @@ package com.staceybellerose.randomwordgenerator.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.staceybellerose.randomwordgenerator.R;
@@ -13,6 +16,8 @@ import com.staceybellerose.randomwordgenerator.utils.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,11 +25,20 @@ import butterknife.ButterKnife;
 /**
  * Provide a binding from an app-specific data set to views that are displayed within a RecyclerView
  */
-public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.DetailsViewHolder> {
+public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.DetailsViewHolder>
+        implements Filterable {
     /**
-     * the list to display
+     * the full list of word lists
      */
     private final List<WordList> mWordList = new ArrayList<>();
+    /**
+     * the filtered list to display
+     */
+    private final List<WordList> mWordListFiltered = new ArrayList<>();
+    /**
+     * the set of languages available
+     */
+    private final Set<String> mLanguageSet = new TreeSet<>();
     /**
      * item click listener
      */
@@ -60,7 +74,9 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             wordList.setResource(resource);
             wordList.setIsSelected(mSelectedItem.equals(resource));
             mWordList.add(wordList);
+            mLanguageSet.add(language);
         }
+        mWordListFiltered.addAll(mWordList);
     }
 
     @Override
@@ -73,7 +89,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     @Override
     public void onBindViewHolder(final DetailsViewHolder holder, final int position) {
         final Context context = holder.getContext();
-        final WordList wordList = mWordList.get(position);
+        final WordList wordList = mWordListFiltered.get(holder.getAdapterPosition());
         final TextView listNameView = holder.getListName();
         listNameView.setText(wordList.getListName());
         holder.getLanguageText().setText(wordList.getLanguageText());
@@ -88,7 +104,11 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
 
     @Override
     public int getItemCount() {
-        return mWordList.size();
+        return mWordListFiltered.size();
+    }
+
+    public Set<String> getLanguageSet() {
+        return mLanguageSet;
     }
 
     /**
@@ -159,6 +179,48 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         }
         return result;
     }
+
+    @Override
+    public Filter getFilter() {
+        return new LanguageFilter();
+    }
+
+    private class LanguageFilter extends Filter {
+        @SuppressWarnings("Convert2streamapi")
+        @Override
+        protected FilterResults performFiltering(final CharSequence constraint) {
+            final String searchString = constraint.toString();
+            final List<WordList> filteredList = new ArrayList<>();
+            if (TextUtils.isEmpty(searchString)) {
+                filteredList.addAll(mWordList);
+            } else {
+                for (final WordList list : mWordList) {
+                    final String language = list.getLanguage();
+                    if (searchString.equals(language)) {
+                        filteredList.add(list);
+                    } else if (language.contains("_") && !searchString.contains("_")
+                            && language.startsWith(searchString + "_")) {
+                        // filter of language codes without country codes should match languages with country codes
+                        // this finds "en_US" and "en_UK" when filtering on "en"
+                        filteredList.add(list);
+                    }
+                }
+            }
+            final FilterResults filterResults = new FilterResults();
+            //filterResults.values = mWordListFiltered;
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(final CharSequence constraint, final FilterResults results) {
+            mWordListFiltered.clear();
+            mWordListFiltered.addAll((ArrayList<WordList>) results.values);
+            notifyDataSetChanged();
+        }
+    }
+
     /**
      *  Describe an item view and metadata about its place within the RecyclerView
      */
