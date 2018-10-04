@@ -22,6 +22,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="AppTheme.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:colorBackground">@color/card_background</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="textColorPrimary">@color/md_primary_text_light</item>
+        <item name="textColorSecondary">@color/md_secondary_text_light</item>
+        <item name="textColorTertiary">@color/md_disabled_text_light</item>
+    </style>
     <style name="AppTheme.TextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/textColorPrimary</item>
     </style>
@@ -53,6 +62,10 @@
 
     <style name="AppTheme.TextAppearance.Body.Tight" parent="AppTheme.TextAppearance.Body">
         <item name="android:paddingBottom">@dimen/text_margin_body_tight</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Help" parent="AppTheme.TextAppearance.Body">
+        <item name="android:textSize">@dimen/text_size_help</item>
     </style>
 
     <style name="AppTheme.TextAppearance.FabText" parent="AppTheme.TextAppearance">

@@ -42,6 +42,7 @@
     <string name="action_about">About</string>
     <string name="action_changelog">Change Log</string>
     <string name="action_wordlists">Word Lists</string>
+    <string name="action_list_help">Help</string>
 
     <string name="changelog_row_bullet">\u25cf</string>
 
@@ -51,6 +52,12 @@
     <string name="tour_refresh_secondary">To generate a new set of words, swipe down to refresh.</string>
     <string name="tour_wordlist_primary">Easily Change Word Lists</string>
     <string name="tour_wordlist_secondary">Tap the header to change the word list used to generate the random words.</string>
+
+    <string name="word_list_help_title">Help</string>
+    <string name="word_list_help_text">To select a word list for use, simply tap on the one you wish to use.
+        The currently selected word list will show a ❤ symbol in the upper right corner of its information card.
+        \n\nTo see only those lists of a certain language, use the drop down list in the top bar to select a language.
+    </string>
 
     <string name="word_list_title">Selected Word List</string>
     <string name="details_source">Source</string>
