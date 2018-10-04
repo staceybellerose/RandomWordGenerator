@@ -26,6 +26,10 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
      */
     private final List<WordList> mWordList = new ArrayList<>();
     /**
+     * item click listener
+     */
+    private OnItemClickListener mItemClickListener;
+    /**
      * The currently selected word list
      */
     private final String mSelectedItem;
@@ -76,6 +80,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         holder.getSourceText().setText(wordList.getAuthor(context));
         holder.getCountText().setText(String.valueOf(wordList.getWordCount()));
         holder.getEntropyText().setText(context.getString(R.string.label_entropy, wordList.getEntropy()));
+        holder.setItemClickListener(mItemClickListener);
         if (wordList.getResource().equals(mSelectedItem)) {
             listNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_favorite_green_500_36dp, 0);
         }
@@ -84,6 +89,25 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     @Override
     public int getItemCount() {
         return mWordList.size();
+    }
+
+    /**
+     * Register a callback to be invoked when an item in this Adapter has been clicked.
+     *
+     * @param itemClickListener The callback that will be invoked. This value may be null.
+     */
+    public void setOnItemClickListener(final OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
+
+    /**
+     * Gets the data associated with the specified position in the list
+     *
+     * @param position Which data to get
+     * @return The data associated with the specified position in the list
+     */
+    public WordList getItem(final int position) {
+        return mWordListFiltered.get(position);
     }
 
     /**
@@ -122,7 +146,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     /**
      *  Describe an item view and metadata about its place within the RecyclerView
      */
-    static class DetailsViewHolder extends RecyclerView.ViewHolder {
+    static class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /**
          * Text view containing the word list name
@@ -149,6 +173,10 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
          */
         @BindView(R.id.entropy_text)
         TextView mEntropyText;
+        /**
+         * A listener for item clicks
+         */
+        private OnItemClickListener mItemClickListener;
 
         /**
          * Constructor
@@ -158,6 +186,23 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         DetailsViewHolder(final View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(final View view) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(getAdapterPosition(), view);
+            }
+        }
+
+        /**
+         * Register a callback to be invoked when an item in this Adapter has been clicked.
+         *
+         * @param itemClickListener The callback that will be invoked. This value may be null.
+         */
+        void setItemClickListener(final OnItemClickListener itemClickListener) {
+            mItemClickListener = itemClickListener;
         }
 
         /**
@@ -211,5 +256,18 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         Context getContext() {
             return mListName.getContext();
         }
+    }
+
+    /**
+     * Interface definition for a callback to be invoked when an item in this Adapter has been clicked.
+     */
+    public interface OnItemClickListener {
+        /**
+         * Callback method to be invoked when an item in this Adapter has been clicked.
+         *
+         * @param position The position of the view in the adapter.
+         * @param view The view within the AdapterView that was clicked (this will be a view provided by the adapter)
+         */
+        void onItemClick(int position, View view);
     }
 }

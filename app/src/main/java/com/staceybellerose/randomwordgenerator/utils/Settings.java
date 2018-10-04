@@ -206,4 +206,19 @@ public final class Settings {
     public boolean isDisplayTwoColumns() {
         return mDisplayTwoColumns;
     }
+
+    /**
+     * Set the word list resource name
+     *
+     * @param context the context
+     * @param wordListName the value to use
+     */
+    @SuppressLint("ApplySharedPref")
+    public void setWordListName(final Context context, final String wordListName) {
+        mWordListName = wordListName;
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(mResourceMap.getString(R.string.pref_word_list), wordListName);
+        editor.commit();
+    }
 }
