@@ -37,10 +37,6 @@ import jonathanfinerty.once.Once;
  */
 public class MainActivity extends AppCompatActivity {
     /**
-     * Request code to indicate Settings Activity called
-     */
-    private static final int SETTINGS_REQUEST_CODE = 42;
-    /**
      * key used for saving selected words to instance state
      */
     private static final String STATE_WORDS = "stateWords";
@@ -166,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         final int itemId = item.getItemId();
         if (itemId == R.id.action_settings) {
             final Intent intent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(intent, SETTINGS_REQUEST_CODE);
+            startActivityForResult(intent, SettingsActivity.SETTINGS_REQUEST_CODE);
             return true;
         } else if (itemId == R.id.action_refresh) {
             refreshWords();
@@ -191,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == SETTINGS_REQUEST_CODE) {
+        if (requestCode == SettingsActivity.SETTINGS_REQUEST_CODE
+                || requestCode == WordListDetailsActivity.WORD_LIST_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 final boolean reloadWordList = data.getBooleanExtra(getString(R.string.pref_word_list_changed), false);
                 final boolean reloadCleanFilter = data.getBooleanExtra(getString(R.string.pref_clean_filter_changed),

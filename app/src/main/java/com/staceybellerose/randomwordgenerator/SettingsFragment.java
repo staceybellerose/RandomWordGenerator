@@ -2,6 +2,7 @@ package com.staceybellerose.randomwordgenerator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -9,6 +10,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 
 import com.staceybellerose.randomwordgenerator.utils.Settings;
+import com.staceybellerose.randomwordgenerator.utils.WordListManager;
 
 /**
  * A Fragment to display the Settings
@@ -19,15 +21,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
      */
     private OnPreferenceChangeListener mCallback;
     /**
-     * Utility object to manage reading our shared preferences
+     * Preference containing the word list we wish to display
      */
-    private Settings mSettings;
+    private Preference mListPreference;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        mSettings = Settings.getInstance(getActivity());
 
         if (BuildConfig.CLEAN_WORDS_ONLY) {
             final Preference cleanWordsPreference = findPreference(getString(R.string.pref_clean_words_flag));
@@ -35,12 +36,22 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     = (PreferenceGroup) findPreference(getString(R.string.pref_filters_header));
             preferenceGroup.removePreference(cleanWordsPreference);
         }
+
+        mListPreference = findPreference(getString(R.string.pref_word_list));
+        mListPreference.setOnPreferenceClickListener((preference) -> {
+            final Activity activity = getActivity();
+            final Intent intent = new Intent(activity, WordListDetailsActivity.class);
+            activity.startActivityForResult(intent, WordListDetailsActivity.WORD_LIST_REQUEST_CODE);
+            return true;
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        final String listDescription = mCallback.getWordListManager().getWordListDescription();
+        mListPreference.setSummary(listDescription);
     }
 
     @Override
@@ -69,7 +80,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         } else if (key.equals(getString(R.string.pref_clean_words_flag))) {
             mCallback.onCleanWordsChanged();
         }
-        mSettings.refreshPreferences();
+        mCallback.getSettings().refreshPreferences();
     }
 
     @Override
@@ -112,5 +123,19 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
          * This method is called when the shared preference for clean words is changed.
          */
         void onCleanWordsChanged();
+
+        /**
+         * Get the Setttings from the activity
+         *
+         * @return the settings object
+         */
+        Settings getSettings();
+
+        /**
+         * Get the Word List Manager
+         *
+         * @return the word list manager
+         */
+        WordListManager getWordListManager();
     }
 }

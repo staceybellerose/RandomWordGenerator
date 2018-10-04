@@ -41,6 +41,7 @@ public class WordListDetailsActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+        setResult(RESULT_CANCELED);
 
         mRecyclerView.setHasFixedSize(true);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
