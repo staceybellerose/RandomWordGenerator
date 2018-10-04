@@ -11,6 +11,7 @@
     <!-- Text sizes and margins -->
     <dimen name="text_size_header">20sp</dimen>
     <dimen name="text_size_subhead">18sp</dimen>
+    <dimen name="text_size_help">16sp</dimen>
     <dimen name="text_size_body">14sp</dimen>
     <dimen name="text_size_button">14sp</dimen>
     <dimen name="text_size_changelog_row">16sp</dimen>

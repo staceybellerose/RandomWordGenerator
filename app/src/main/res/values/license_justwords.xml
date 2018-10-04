@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_license_JustWords" />
+    <string name="license_JustWords_licenseName">JustWords</string>
+    <string name="license_JustWords_licenseWebsite">http://www.gwicks.net/justwords.htm</string>
+    <string name="license_JustWords_licenseShortDescription">
+        <![CDATA[
+        JUST WORDS! freeware and dictionaries may be freely copied and distributed<br>
+        provided no financial transaction occurs other than a nominal copy fee for a<br>
+        software library. The copyright of the software remains with the author.
+        ]]>
+    </string>
+    <string name="license_JustWords_licenseDescription">
+        <![CDATA[
+        JUST WORDS! freeware and dictionaries may be freely copied and distributed<br>
+        provided no financial transaction occurs other than a nominal copy fee for a<br>
+        software library. The copyright of the software remains with the author.
+        ]]>
+    </string>
+</resources>

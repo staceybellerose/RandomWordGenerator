@@ -1,10 +1,10 @@
 package com.staceybellerose.randomwordgenerator.widgets;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Window;
 
@@ -18,16 +18,24 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
  */
 public class TourManager {
     /**
+     * Key to track when the app help tour has been shown
+     */
+    public static final String ONCE_TOUR = "showAppTour";
+    /**
+     * Key to track when the new version help tour has been shown
+     */
+    public static final String NEW_FEATURES = "newFeatures";
+    /**
      * the calling activity
      */
-    private final Activity mActivity;
+    private final AppCompatActivity mActivity;
 
     /**
      * Constructor
      *
      * @param activity the calling activity
      */
-    public TourManager(final Activity activity) {
+    public TourManager(final AppCompatActivity activity) {
         mActivity = activity;
     }
 
@@ -60,6 +68,12 @@ public class TourManager {
                 .setIcon(R.drawable.ic_arrow_down_white_24dp)
                 .setIconDrawableTintMode(null)
                 .setPromptBackground(new DimmedPromptBackground())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                        startNewFeatures();
+                    }
+                })
                 .show();
     }
 
@@ -80,7 +94,7 @@ public class TourManager {
         final Window window = mActivity.getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(rect);
         final int statusBarHeight = rect.top;
-        final ActionBar actionBar = mActivity.getActionBar();
+        final ActionBar actionBar = mActivity.getSupportActionBar();
         int toolbarHeight;
         if (actionBar == null) {
             toolbarHeight = 0;
@@ -91,4 +105,13 @@ public class TourManager {
         return new Point(targetLeft, targetTop);
     }
 
+    /**
+     * Start the New Features tour
+     */
+    public void startNewFeatures() {
+        new MaterialTapTargetPrompt.Builder(mActivity, R.style.MaterialTapTargetPromptTheme_Select)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptBackground(new DimmedPromptBackground())
+                .show();
+    }
 }
