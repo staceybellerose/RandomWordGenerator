@@ -11,7 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode gitVersion.version
-        versionName "2.0.0." + gitVersion.name
+        versionName "2.1.0." + gitVersion.name
         vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
