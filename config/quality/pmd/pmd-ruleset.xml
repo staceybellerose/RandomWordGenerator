@@ -35,7 +35,10 @@
         <exclude name="AssignmentInOperand" />
     </rule>
     <rule ref="category/java/multithreading.xml" />
-    <rule ref="category/java/performance.xml" />
+    <rule ref="category/java/performance.xml">
+        <!-- Android doesn't support Files.newInputStream, et al. -->
+        <exclude name="AvoidFileStream" />
+    </rule>
     <rule ref="category/java/codestyle.xml">
         <!-- Espresso is designed this way !-->
         <exclude name="TooManyStaticImports" />
