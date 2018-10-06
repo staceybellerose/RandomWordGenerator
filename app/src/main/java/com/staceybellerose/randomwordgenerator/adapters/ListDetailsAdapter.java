@@ -2,6 +2,7 @@ package com.staceybellerose.randomwordgenerator.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.mikepenz.aboutlibraries.util.RippleForegroundListener;
 import com.staceybellerose.randomwordgenerator.R;
 import com.staceybellerose.randomwordgenerator.utils.Settings;
 
@@ -227,6 +229,11 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     static class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /**
+         * The Card
+         */
+        @BindView(R.id.card_view)
+        CardView mCard;
+        /**
          * Text view containing the word list name
          */
         @BindView(R.id.word_list_name)
@@ -265,6 +272,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             super(view);
             ButterKnife.bind(this, view);
             view.setOnClickListener(this);
+            mCard.setOnTouchListener(new RippleForegroundListener(R.id.card_view));
         }
 
         @Override
