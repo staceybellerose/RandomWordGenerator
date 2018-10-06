@@ -1,9 +1,9 @@
 package com.staceybellerose.randomwordgenerator;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -68,7 +68,8 @@ public class MyLibsActivity extends AppCompatActivity {
                 .withAboutSpecial3(mChangelogActivityTitle)
                 .withListener(new SpecialButtonListener())
                 .withExcludedLibraries("AndroidIconics")
-                .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "rxandroid", "nltk", "europarl")
+                .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "rxandroid", "nltk", "europarl",
+                        "oanc", "bnc")
                 .withLicenseShown(true)
                 .withOwnLibsActivityClass(MyLibsActivity.class)
                 .supportFragment();

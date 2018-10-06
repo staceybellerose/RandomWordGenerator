@@ -25,6 +25,8 @@
         <item>Just Words: Français</item>
         <item>Just Words: Italiano</item>
         <item>Just Words: Nederlands</item>
+        <item>Open American National Corpus</item>
+        <item>British National Corpus</item>
     </string-array>
     <string-array name="word_list_resources">
         <item>wordlist</item>
@@ -51,6 +53,8 @@
         <item>justwords_fr</item>
         <item>justwords_it</item>
         <item>justwords_nl</item>
+        <item>oanc</item>
+        <item>bnc</item>
     </string-array>
     <integer-array name="list_lengths">
         <item>29751</item>
@@ -77,6 +81,8 @@
         <item>208913</item>
         <item>88351</item>
         <item>70459</item>
+        <item>239195</item>
+        <item>114312</item>
     </integer-array>
     <string-array name="list_sources">
         <item>12dicts</item>
@@ -103,11 +109,13 @@
         <item>justwords</item>
         <item>justwords</item>
         <item>justwords</item>
+        <item>oanc</item>
+        <item>bnc</item>
     </string-array>
     <string-array name="list_language">
         <item>en_US</item>
         <item>en_US</item>
-        <item>en_UK</item>
+        <item>en</item>
         <item>en</item>
         <item>en_US</item>
         <item>en_UK</item>
@@ -129,5 +137,7 @@
         <item>fr</item>
         <item>it</item>
         <item>nl</item>
+        <item>en_US</item>
+        <item>en_UK</item>
     </string-array>
 </resources>
