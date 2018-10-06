@@ -99,6 +99,8 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         holder.setItemClickListener(mItemClickListener);
         if (wordList.getResource().equals(mSelectedItem)) {
             listNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_favorite_green_500_36dp, 0);
+        } else {
+            listNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
     }
 
