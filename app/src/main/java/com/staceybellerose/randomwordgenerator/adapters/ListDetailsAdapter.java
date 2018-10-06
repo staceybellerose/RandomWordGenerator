@@ -53,7 +53,6 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
      *
      * @param context the activity context
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public ListDetailsAdapter(final Context context) {
         final Resources res = context.getResources();
         final Settings settings = Settings.getInstance(context);
@@ -66,6 +65,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         for (int i = 0; i < listNames.length; i++) {
             final String language = getStringFromArray(languages, i, "??");
             final String resource = getStringFromArray(listResources, i, "");
+            @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
             final WordList wordList = new WordList();
             wordList.setListName(listNames[i]);
             wordList.setSource(getStringFromArray(sources, i, "unknown"));
@@ -188,7 +188,6 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     }
 
     private class LanguageFilter extends Filter {
-        @SuppressWarnings("Convert2streamapi")
         @Override
         protected FilterResults performFiltering(final CharSequence constraint) {
             final String searchString = constraint.toString();
@@ -213,8 +212,8 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             return filterResults;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
+        @SuppressWarnings("unchecked")
         protected void publishResults(final CharSequence constraint, final FilterResults results) {
             mWordListFiltered.clear();
             mWordListFiltered.addAll((ArrayList<WordList>) results.values);

@@ -82,11 +82,11 @@ public class TourManager {
      *
      * @return a Point containing the target location
      */
-    @SuppressWarnings("deprecation")
     private Point calculateRefreshTourTarget() {
         final Display display = mActivity.getWindowManager().getDefaultDisplay();
         final Point size = new Point();
         display.getSize(size);
+        @SuppressWarnings("deprecation")
         final int iconSize = mActivity.getResources()
                 .getDrawable(R.drawable.ic_arrow_down_white_24dp).getIntrinsicWidth();
         final int targetLeft = size.x / 2;

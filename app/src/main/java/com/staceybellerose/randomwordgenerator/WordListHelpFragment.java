@@ -50,7 +50,6 @@ public class WordListHelpFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    @SuppressWarnings("PMD.NullAssignment")
     public void onDestroy() {
         SdkLeakFixer.clearTextLineCache(); // prevent memory leak
         super.onDestroy();
@@ -72,8 +71,8 @@ public class WordListHelpFragment extends BottomSheetDialogFragment {
     /**
      * Click method for help text and header
      */
-    @SuppressWarnings("unused")
     @OnClick({R.id.help_text, R.id.help_header})
+    @SuppressWarnings("unused")
     public void onClick() {
         dismiss();
     }

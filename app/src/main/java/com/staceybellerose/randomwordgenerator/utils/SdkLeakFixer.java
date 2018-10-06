@@ -14,7 +14,6 @@ public final class SdkLeakFixer {
 
     static {
         Field textLineCached = null;
-        //noinspection TryWithIdenticalCatches
         try {
             textLineCached = Class.forName("android.text.TextLine").getDeclaredField("sCached");
             textLineCached.setAccessible(true);

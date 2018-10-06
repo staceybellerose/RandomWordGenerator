@@ -77,7 +77,7 @@ public final class PrngFixes {
      *
      * @throws SecurityException if the fix is needed but could not be applied.
      */
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PrimitiveArrayArgumentToVarargsMethod"})
     private static void applyOpenSSLFix() throws SecurityException {
         if ((Build.VERSION.SDK_INT < VERSION_CODE_JELLY_BEAN)
                 || (Build.VERSION.SDK_INT > VERSION_CODE_JELLY_BEAN_MR2)) {
@@ -87,7 +87,6 @@ public final class PrngFixes {
 
         try {
             // Mix in the device- and invocation-specific seed.
-            //noinspection PrimitiveArrayArgumentToVarargsMethod
             Class.forName("org.apache.harmony.xnet.provider.jsse.NativeCrypto")
                     .getMethod("RAND_seed", byte[].class)
                     .invoke(null, generateSeed());
@@ -178,7 +177,6 @@ public final class PrngFixes {
     private static String getDeviceSerialNumber() {
         // We're using the Reflection API because Build.SERIAL is only available
         // since API Level 9 (Gingerbread, Android 2.3).
-        //noinspection TryWithIdenticalCatches
         try {
             return (String) Build.class.getField("SERIAL").get(null);
         } catch (NoSuchFieldException ignored) {
@@ -213,12 +211,12 @@ public final class PrngFixes {
      * {@code Provider} of {@code SecureRandom} engines which pass through
      * all requests to the Linux PRNG.
      */
-    @SuppressWarnings("PMD.FieldNamingConventions")
     private static class LinuxPRNGSecureRandomProvider extends Provider {
 
         /**
          * Unique ID used in Serializable
          */
+        @SuppressWarnings("PMD.FieldNamingConventions")
         private static final long serialVersionUID = 314159265359L;
         /**
          * constructor
@@ -241,7 +239,6 @@ public final class PrngFixes {
      * {@link SecureRandomSpi} which passes all requests to the Linux PRNG
      * ({@code /dev/urandom}).
      */
-    @SuppressWarnings("PMD.FieldNamingConventions")
     private static class LinuxPRNGSecureRandom extends SecureRandomSpi {
 
         /*
@@ -259,6 +256,7 @@ public final class PrngFixes {
         /**
          * Unique ID used in Serializable
          */
+        @SuppressWarnings("PMD.FieldNamingConventions")
         private static final long serialVersionUID = 271828182846L;
         /**
          * Linux PRNG file
@@ -312,6 +310,7 @@ public final class PrngFixes {
         }
 
         @Override
+        @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
         protected void engineNextBytes(final byte[] bytes) {
             if (!mSeeded) {
                 // Mix in the device- and invocation-specific seed.
@@ -323,7 +322,6 @@ public final class PrngFixes {
                 synchronized (S_LOCK) {
                     inputStream = getUrandomInputStream();
                 }
-                //noinspection SynchronizationOnLocalVariableOrMethodParameter
                 synchronized (inputStream) {
                     inputStream.readFully(bytes);
                 }
