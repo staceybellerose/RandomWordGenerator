@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.staceybellerose.randomwordgenerator.utils.SdkLeakFixer;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,7 +52,7 @@ public class WordListHelpFragment extends BottomSheetDialogFragment {
     @Override
     @SuppressWarnings("PMD.NullAssignment")
     public void onDestroy() {
-        mImageSpan = null; // prevent context leakage
+        SdkLeakFixer.clearTextLineCache(); // prevent memory leak
         super.onDestroy();
     }
 
