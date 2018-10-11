@@ -27,6 +27,7 @@
         <item>Just Words: Nederlands</item>
         <item>Open American National Corpus</item>
         <item>British National Corpus</item>
+        <item>Hungarian Webcorpus</item>
     </string-array>
     <string-array name="word_list_resources">
         <item>wordlist</item>
@@ -55,34 +56,36 @@
         <item>justwords_nl</item>
         <item>oanc</item>
         <item>bnc</item>
+        <item>hungarian_webcorpus</item>
     </string-array>
     <integer-array name="list_lengths">
-        <item>29751</item>
-        <item>81901</item>
-        <item>64597</item>
-        <item>20008</item>
-        <item>178690</item>
-        <item>267752</item>
-        <item>27988</item>
-        <item>25393</item>
-        <item>21203</item>
-        <item>14250</item>
-        <item>49788</item>
-        <item>20084</item>
-        <item>28897</item>
-        <item>30654</item>
-        <item>22737</item>
-        <item>22394</item>
-        <item>23189</item>
-        <item>27491</item>
-        <item>23515</item>
-        <item>166102</item>
-        <item>174846</item>
-        <item>208913</item>
-        <item>88351</item>
-        <item>70459</item>
-        <item>239195</item>
-        <item>114312</item>
+        <item>29751</item><!-- wordlist -->
+        <item>81901</item><!-- words_inf -->
+        <item>64597</item><!-- words_intl -->
+        <item>20008</item><!-- words_esl -->
+        <item>178690</item><!-- twl06 -->
+        <item>267752</item><!-- sowpods -->
+        <item>27988</item><!-- shakespeare -->
+        <item>25393</item><!-- wordlist_europarl_da -->
+        <item>21203</item><!-- wordlist_europarl_nl -->
+        <item>14250</item><!-- wordlist_europarl_en -->
+        <item>49788</item><!-- wordlist_europarl_fi -->
+        <item>20084</item><!-- wordlist_europarl_fr -->
+        <item>28897</item><!-- wordlist_europarl_de -->
+        <item>30654</item><!-- wordlist_europarl_el -->
+        <item>22637</item><!-- wordlist_europarl_it -->
+        <item>22394</item><!-- wordlist_europarl_pt -->
+        <item>23189</item><!-- wordlist_europarl_es -->
+        <item>27491</item><!-- wordlist_europarl_sv -->
+        <item>23515</item><!-- justwords_da -->
+        <item>166102</item><!-- justwords_de -->
+        <item>174846</item><!-- justwords_es -->
+        <item>208913</item><!-- justwords_fr -->
+        <item>88351</item><!-- justwords_it -->
+        <item>70459</item><!-- justwords_nl -->
+        <item>239195</item><!-- oanc -->
+        <item>114312</item><!-- bnc -->
+        <item>73675</item><!-- hungarian_webcorpus -->
     </integer-array>
     <string-array name="list_sources">
         <item>12dicts</item>
@@ -111,6 +114,7 @@
         <item>justwords</item>
         <item>oanc</item>
         <item>bnc</item>
+        <item>magyar_webcorpus</item>
     </string-array>
     <string-array name="list_language">
         <item>en_US</item>
@@ -139,5 +143,6 @@
         <item>nl</item>
         <item>en_US</item>
         <item>en_UK</item>
+        <item>hu</item>
     </string-array>
 </resources>
