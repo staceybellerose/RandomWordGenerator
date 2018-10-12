@@ -168,6 +168,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="8dp"
+            android:paddingBottom="16dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/source_label"
             app:layout_constraintHorizontal_weight="60"
             app:layout_constraintLeft_toRightOf="@+id/source_label"

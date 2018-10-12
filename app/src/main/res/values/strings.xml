@@ -2,15 +2,14 @@
 <resources>
     <string name="app_name">Random Word Generator</string>
     <string name="app_header">Your Generated Words</string>
-    <string name="app_long_desc"><![CDATA[<p>The inspiration for this app was xkcd\'s comic
+    <string name="app_long_desc"><![CDATA[The inspiration for this app was xkcd\'s comic
         <a href="https://m.xkcd.com/936/">"Password Strength"</a>, and by
-        <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>.</p>
-        <p>By using a large word list with over 28,000 entries, a randomly
-        selected word will have nearly 14.8 bits of entropy. A phrase made up of 6 words will
-        have over 88.6 bits of entropy, more than enough for a very strong password.</p>
-        <p>This app uses multiple word lists from different sources.
-        The random number generator uses the cryptographically secure java.security.SecureRandom
-        class.</p>
+        <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>.<br><br>
+        By using a large word list with over 28,000 entries, a randomly selected word will
+        have nearly 14.8 bits of entropy. A phrase made up of 6 words will have over 88.6
+        bits of entropy, more than enough for a very strong password.<br><br>
+        This app uses multiple word lists from different sources. The random number generator
+        uses the cryptographically secure java.security.SecureRandom class.
         ]]></string>
 
     <string name="sample_words">
@@ -34,6 +33,7 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_word_lists">Word Lists</string>
     <string name="title_activity_word_list_info">Word Lists</string>
+    <string name="title_activity_sources">Word List Sources</string>
     <string name="title_tour_help">Show Help</string>
     <string name="header_libraries">Third Party Libraries</string>
 
@@ -44,6 +44,7 @@
     <string name="action_wordlists">Word Lists</string>
     <string name="action_list_filter">Language</string>
     <string name="action_list_help">Help</string>
+    <string name="button_show_sources">Show Sources</string>
 
     <string name="changelog_row_bullet">\u25cf</string>
 
@@ -59,6 +60,8 @@
         The currently selected word list will show a ❤ symbol in the upper right corner of its information card.
         \n\nTo see only those lists of a certain language, use the drop down list in the top bar to select a language.
     </string>
+    <string name="sources_description">The word lists included in this app have been collected
+        from a variety of sources.</string>
 
     <string name="word_list_title">Selected Word List</string>
     <string name="details_language">Language</string>
