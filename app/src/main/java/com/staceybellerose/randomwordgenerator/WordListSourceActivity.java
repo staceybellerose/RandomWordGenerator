@@ -32,15 +32,23 @@ public class WordListSourceActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final LibsSupportFragment fragment = new LibsBuilder()
+        final LibsSupportFragment fragment = getAboutFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
+    }
+
+    /**
+     * get the About fragment
+     *
+     * @return the About fragment
+     */
+    private LibsSupportFragment getAboutFragment() {
+        return new LibsBuilder()
                 .withAutoDetect(false)
                 .withLibraries("12dicts", "nltk", "europarl", "oanc", "bnc")
                 .withExcludedLibraries("AndroidIconics", "AboutLibraries", "fastadapter")
                 .withLicenseShown(true)
                 .withOwnLibsActivityClass(WordListSourceActivity.class)
                 .supportFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_container, fragment).commit();
     }
 }

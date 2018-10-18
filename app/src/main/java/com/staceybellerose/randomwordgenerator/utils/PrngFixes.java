@@ -97,9 +97,7 @@ public final class PrngFixes {
                     .getMethod("RAND_load_file", String.class, long.class)
                     .invoke(null, "/dev/urandom", URANDOM_BUFFER_SIZE);
             if (bytesRead != URANDOM_BUFFER_SIZE) {
-                throw new IOException(
-                        "Unexpected number of bytes read from Linux PRNG: "
-                                + bytesRead);
+                throw new IOException("Unexpected number of bytes read from Linux PRNG: " + bytesRead);
             }
         } catch (Exception e) {
             throw new SecurityException("Failed to seed OpenSSL PRNG", e);
@@ -127,14 +125,31 @@ public final class PrngFixes {
             Security.insertProviderAt(new LinuxPRNGSecureRandomProvider(), 1);
         }
 
-        // Assert that new SecureRandom() and SecureRandom.getInstance("SHA1PRNG") return a SecureRandom backed
-        // by the Linux PRNG-based SecureRandom implementation.
+        validateSecureRandom();
+        validateSecureRandomInstance();
+    }
+
+    /**
+     * Assert that new SecureRandom() returns a SecureRandom backed
+     * by the Linux PRNG-based SecureRandom implementation.
+     *
+     * @throws SecurityException if SecureRandom uses the wrong provider
+     */
+    private static void validateSecureRandom() throws SecurityException {
         final SecureRandom rng1 = new SecureRandom();
         if (!LinuxPRNGSecureRandomProvider.class.equals(rng1.getProvider().getClass())) {
             throw new SecurityException("new SecureRandom() backed by wrong Provider: "
                     + rng1.getProvider().getClass());
         }
+    }
 
+    /**
+     * Assert that new SecureRandom.getInstance("SHA1PRNG") returns a SecureRandom backed
+     * by the Linux PRNG-based SecureRandom implementation.
+     *
+     * @throws SecurityException if SecureRandom uses the wrong provider
+     */
+    private static void validateSecureRandomInstance() throws SecurityException {
         SecureRandom rng2;
         try {
             rng2 = SecureRandom.getInstance("SHA1PRNG");
