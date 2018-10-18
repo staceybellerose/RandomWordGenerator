@@ -40,6 +40,11 @@
             android:label="@string/title_activity_word_list_info"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".WordListSourceActivity"
+            android:label="Word List Sources"
+            android:parentActivityName=".WordListDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

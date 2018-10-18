@@ -10,7 +10,8 @@
         <item name="textColorPrimary">@color/md_primary_text_light</item>
         <item name="textColorSecondary">@color/md_secondary_text_light</item>
         <item name="textColorTertiary">@color/md_disabled_text_light</item>
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
+        <item name="buttonStyle">@style/AppTheme.ButtonStyle</item>
         <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner</item>
         <item name="android:spinnerItemStyle">@style/AppTheme.SpinnerItem</item>
         <item name="android:spinnerDropDownItemStyle">@style/AppTheme.SpinnerDropDownItem</item>
@@ -29,10 +30,14 @@
         <item name="android:colorBackground">@color/card_background</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="textColorPrimary">@color/md_primary_text_light</item>
         <item name="textColorSecondary">@color/md_secondary_text_light</item>
         <item name="textColorTertiary">@color/md_disabled_text_light</item>
+        <item name="buttonStyle">@style/AppTheme.ButtonStyle</item>
+    </style>
+
+    <style name="AppTheme.ButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance.Button</item>
     </style>
 
     <style name="AppTheme.SpinnerItem" parent="Widget.AppCompat.TextView.SpinnerItem">
@@ -42,6 +47,7 @@
 
     <style name="AppTheme.SpinnerDropDownItem" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:textSize">@dimen/text_size_help</item>
+        <item name="android:textColor">@color/md_primary_text_light</item>
         <item name="android:background">@color/card_background</item>
         <item name="android:paddingLeft">@dimen/keyline</item>
         <item name="android:paddingRight">@dimen/keyline</item>

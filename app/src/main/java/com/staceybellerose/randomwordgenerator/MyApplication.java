@@ -3,7 +3,7 @@ package com.staceybellerose.randomwordgenerator;
 import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
-import com.staceybellerose.randomwordgenerator.utils.PRNGFixes;
+import com.staceybellerose.randomwordgenerator.utils.PrngFixes;
 
 import jonathanfinerty.once.Once;
 
@@ -21,6 +21,6 @@ public class MyApplication extends Application {
         }
         LeakCanary.install(this);
         Once.initialise(this);
-        PRNGFixes.apply();
+        PrngFixes.apply();
     }
 }

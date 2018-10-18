@@ -22,6 +22,18 @@
         style="@style/AppTheme.TextAppearance.Help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline"
+        android:layout_marginLeft="@dimen/keyline"
+        android:layout_marginRight="@dimen/keyline"
+        android:layout_marginTop="@dimen/keyline"
         android:text="@string/word_list_help_text"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/keyline"
+        android:layout_marginLeft="@dimen/keyline"
+        android:layout_marginBottom="@dimen/keyline"
+        android:text="@string/button_show_sources"/>
 </LinearLayout>

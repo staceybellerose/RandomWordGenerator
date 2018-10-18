@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ import com.staceybellerose.randomwordgenerator.utils.WordListManager;
 import com.staceybellerose.randomwordgenerator.widgets.TourManager;
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -85,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @BindColor(R.color.colorAccent)
     int mColorAccent;
+    /**
+     * the current git branch
+     */
+    @BindString(R.string.git_branch)
+    String mGitBranch;
     /**
      * a third color for the app, used in the swipe to refresh progress animation
      */
@@ -174,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.action_wordlists) {
             showWordLists();
             return true;
+        } else if (itemId == R.id.action_github) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_url, mGitBranch)));
+            startActivity(intent);
         } else if (itemId == R.id.action_help) {
             mTourManager.startTour();
             return true;

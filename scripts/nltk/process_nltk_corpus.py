@@ -49,12 +49,15 @@ def download_corpus(name):
 parser = argparse.ArgumentParser('process_nltk_corpus', description='Convert an NLTK corpus to a word list')
 parser.add_argument('corpus', help='NLTK corpus module')
 parser.add_argument('outputfile', help='generated word list file', type=argparse.FileType('w', encoding='utf-8'))
-parser.add_argument('-f', '--fileid', help='individual file identifier within the corpus')
+parser.add_argument('-f', '--fileid', help='individual file identifier within the corpus', default=None)
 args = parser.parse_args()
 
 print('Processing started at  ' + time.ctime())
 download_corpus(args.corpus)
 corpus = import_corpus(args.corpus)
-wordlist = build_wordlist(corpus.words(args.fileid))
+if args.fileid is None:
+	wordlist = build_wordlist(corpus.words())
+else:
+	wordlist = build_wordlist(corpus.words(args.fileid))
 write_wordlist(wordlist, args.outputfile)
 print('Processing complete at ' + time.ctime())

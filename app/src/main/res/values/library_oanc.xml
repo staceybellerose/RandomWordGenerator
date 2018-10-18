@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_oanc" />
+    <string name="library_oanc_author">ANC Project</string>
+    <string name="library_oanc_authorWebsite">http://anc.org/</string>
+    <string name="library_oanc_libraryName">American National Corpus</string>
+    <string name="library_oanc_libraryDescription">The Open American National Corpus is a roughly 15 million word subset of the ANC Second Release that is unrestricted in terms of usage and redistribution.</string>
+    <string name="library_oanc_libraryVersion">Second Release</string>
+    <string name="library_oanc_libraryWebsite">http://anc.org/</string>
+    <string name="library_oanc_licenseId">open_data</string>
+    <string name="library_oanc_isOpenSource">true</string>
+    <string name="library_oanc_repositoryLink">http://www.anc.org/data/oanc/download/</string>
+</resources>

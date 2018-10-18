@@ -1,5 +1,6 @@
 package com.staceybellerose.randomwordgenerator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -9,7 +10,10 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.staceybellerose.randomwordgenerator.utils.SdkLeakFixer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +29,11 @@ public class WordListHelpFragment extends BottomSheetDialogFragment {
      */
     @BindView(R.id.help_text)
     TextView mTextView;
+    /**
+     * Button to access list of sources
+     */
+    @BindView(R.id.button)
+    Button mButton;
     /**
      * A span which attaches an icon to the Text View
      */
@@ -48,9 +57,8 @@ public class WordListHelpFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    @SuppressWarnings("PMD.NullAssignment")
     public void onDestroy() {
-        mImageSpan = null; // prevent context leakage
+        SdkLeakFixer.clearTextLineCache(); // prevent memory leak
         super.onDestroy();
     }
 
@@ -70,9 +78,18 @@ public class WordListHelpFragment extends BottomSheetDialogFragment {
     /**
      * Click method for help text and header
      */
-    @SuppressWarnings("unused")
     @OnClick({R.id.help_text, R.id.help_header})
-    public void onClick() {
+    @SuppressWarnings("unused")
+    public void onTextClick() {
         dismiss();
+    }
+
+    /**
+     * Click method for button
+     */
+    @OnClick(R.id.button)
+    @SuppressWarnings("unused")
+    public void onButtonClick() {
+        startActivity(new Intent(getActivity(), WordListSourceActivity.class));
     }
 }

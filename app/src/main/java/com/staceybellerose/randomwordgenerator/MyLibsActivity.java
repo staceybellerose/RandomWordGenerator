@@ -1,14 +1,15 @@
 package com.staceybellerose.randomwordgenerator;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 import com.staceybellerose.randomwordgenerator.listeners.SpecialButtonListener;
+
+import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -23,10 +24,6 @@ public class MyLibsActivity extends AppCompatActivity {
      */
     @BindView(R.id.toolbar) Toolbar mToolbar;
     /**
-     * Changelog Activity title string
-     */
-    @BindString(R.string.title_activity_changelog) String mChangelogActivityTitle;
-    /**
      * The app name
      */
     @BindString(R.string.app_name) String mAppName;
@@ -35,45 +32,44 @@ public class MyLibsActivity extends AppCompatActivity {
      */
     @BindString(R.string.app_long_desc) String mAppLongDesc;
     /**
-     * Title string for the Settings activity
+     * Aaction text to view source on GitHub
      */
-    @BindString(R.string.title_activity_settings) String mSettingsActivityTitle;
-    /**
-     * Title string for the Word List Details activity
-     */
-    @BindString(R.string.title_activity_word_lists) String mWordListsActivityTitle;
+    @BindString(R.string.action_github) String mGitHub;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libraries);
         ButterKnife.bind(this);
-
-        mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setSubtitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
         final ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final LibsSupportFragment fragment = new LibsBuilder()
+        final LibsSupportFragment fragment = getAboutFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
+    }
+
+    /**
+     * get the About fragment
+     *
+     * @return the About fragment
+     */
+    private LibsSupportFragment getAboutFragment() {
+        return new LibsBuilder()
                 .withFields(R.string.class.getFields())
                 .withAutoDetect(true)
                 .withAboutAppName(mAppName)
                 .withAboutIconShown(true)
                 .withAboutVersionShownName(true)
                 .withAboutDescription(mAppLongDesc)
-                .withAboutSpecial1(mSettingsActivityTitle)
-                .withAboutSpecial2(mWordListsActivityTitle)
-                .withAboutSpecial3(mChangelogActivityTitle)
+                .withAboutSpecial1(mGitHub.toUpperCase(Locale.getDefault()))
                 .withListener(new SpecialButtonListener())
                 .withExcludedLibraries("AndroidIconics")
-                .withLibraries("12dicts", "gradle-retrolambda", "retrolambda", "rxandroid", "nltk", "europarl")
+                .withLibraries("gradle-retrolambda", "retrolambda", "rxandroid")
                 .withLicenseShown(true)
                 .withOwnLibsActivityClass(MyLibsActivity.class)
                 .supportFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_container, fragment).commit();
     }
 }

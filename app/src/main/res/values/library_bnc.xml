@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_bnc" />
+    <string name="library_bnc_author">University of Oxford</string>
+    <string name="library_bnc_authorWebsite">http://www.natcorp.ox.ac.uk/</string>
+    <string name="library_bnc_libraryName">British National Corpus</string>
+    <string name="library_bnc_libraryDescription">The British National Corpus is a 100 million word collection of samples of written and spoken language from a wide range of sources, designed to represent a wide cross-section of British English, both spoken and written, from the late twentieth century.</string>
+    <string name="library_bnc_libraryVersion">BNC World Edition</string>
+    <string name="library_bnc_libraryWebsite">https://www.kilgarriff.co.uk/bnc-readme.html</string>
+    <string name="library_bnc_repositoryLink">https://www.kilgarriff.co.uk/bnc-readme.html</string>
+</resources>

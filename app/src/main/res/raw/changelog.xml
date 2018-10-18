@@ -2,9 +2,19 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="October 18, 2018"
+        versionName="2.1">
+        <changelogimprovement>Added ability to filter word lists by language</changelogimprovement>
+        <changelogimprovement>Added ability to click on word list name to choose alternatives</changelogimprovement>
+        <changelogimprovement>Improved selection of word list in Settings</changelogimprovement>
+        <changelogtext>New word lists added</changelogtext>
+        <changelogbug>Increased performance of reading word lists</changelogbug>
+    </changelogversion>
+
+    <changelogversion
         changeDate="September 20, 2018"
         versionName="2.0">
-        <changelogimprovement>Added many new dictionaries to choose from: see Settings for list</changelogimprovement>
+        <changelogimprovement>Added many new word lists to choose from: see Settings for list</changelogimprovement>
         <changelogimprovement>Option to display random words in two columns</changelogimprovement>
         <changelogimprovement>Added optional filtering of vulgar words to all word lists</changelogimprovement>
         <changelogimprovement>Added ability to copy individual words as well as the full list</changelogimprovement>

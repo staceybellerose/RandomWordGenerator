@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_magyar_webcorpus"/>
+    <string name="library_magyar_webcorpus_author">Media Research and Education Centre</string>
+    <string name="library_magyar_webcorpus_authorWebsite">http://mokk.bme.hu/en/</string>
+    <string name="library_magyar_webcorpus_libraryName">Hungarian Webcorpus</string>
+    <string name="library_magyar_webcorpus_libraryDescription"><![CDATA[
+        With over 1.48 billion words unfiltered (589m words fully filtered), this
+        is by far the largest Hungarian language corpus, and is available in its
+        entirety under a permissive Open Content license.<br><br>
+        Cite: Halácsy Péter, Kornai András, Németh László, Rung András,
+        Szakadát István, Trón Viktor. Creating open language resources for
+        Hungarian. In: Proceedings of the 4th international conference on
+        Language Resources and Evaluation (LREC2004), 2004.<br><br>
+        Cite: Kornai, A, Halácsy, P, Nagy, V, Oravecz, Cs, Trón, V, and Varga, D (2006).
+        Web-based frequency dictionaries for medium density languages.
+        In: Proceedings of the 2nd International Workshop on Web as Corpus,
+        edited by Adam Kilgarriff, Marco Baroni  ACL-06, pages 1—9.
+    ]]></string>
+    <string name="library_magyar_webcorpus_libraryWebsite">http://mokk.bme.hu/en/resources/webcorpus/</string>
+    <string name="library_magyar_webcorpus_licenseId">cc20_by</string>
+    <string name="library_magyar_webcorpus_isOpenSource">true</string>
+    <string name="library_magyar_webcorpus_repositoryLink">http://mokk.bme.hu/en/resources/webcorpus/</string>
+</resources>

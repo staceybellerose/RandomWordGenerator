@@ -11,7 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode gitVersion.version
-        versionName "2.0.0." + gitVersion.name
+        versionName "2.1.0." + gitVersion.name
         vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
@@ -71,6 +71,7 @@ android {
         }
         def applicationId = [variant.mergedFlavor.applicationId, variant.mergedFlavor.applicationIdSuffix, variant.buildType.applicationIdSuffix].findAll().join()
         variant.resValue "string", "application_id", "${applicationId}"
+        variant.resValue "string", "git_branch", "${gitVersion.branchName}"
         task "open${variant.name.capitalize()}" {
             group = 'verification'
             description 'Open the launcher activity of the app on a connected device via adb'
@@ -82,9 +83,6 @@ android {
                 }
             }
         }
-    }
-    lintOptions {
-        disable 'InvalidPackage', 'OldTargetApi', 'GoogleAppIndexingWarning', 'InconsistentArrays', 'VectorRaster', 'ResourceAsColor'
     }
 }
 

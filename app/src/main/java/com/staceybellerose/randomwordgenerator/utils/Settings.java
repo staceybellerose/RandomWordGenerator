@@ -14,7 +14,6 @@ import com.staceybellerose.randomwordgenerator.R;
 /**
  * Utility singleton class to manage shared preferences.
  */
-@SuppressLint("UseSparseArrays")
 public final class Settings {
     /**
      * the singleton instance
@@ -85,12 +84,13 @@ public final class Settings {
      * @param context Any sort of Context
      * @return the Settings singleton
      */
-    @SuppressWarnings("PMD.AvoidSynchronizedAtMethodLevel")
-    public static synchronized Settings getInstance(final Context context) {
-        if (instance == null) {
-            instance = new Settings(context);
+    public static Settings getInstance(final Context context) {
+        synchronized (Settings.class) {
+            if (instance == null) {
+                instance = new Settings(context);
+            }
+            return instance;
         }
-        return instance;
     }
 
     /**

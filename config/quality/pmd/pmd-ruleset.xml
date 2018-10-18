@@ -35,7 +35,10 @@
         <exclude name="AssignmentInOperand" />
     </rule>
     <rule ref="category/java/multithreading.xml" />
-    <rule ref="category/java/performance.xml" />
+    <rule ref="category/java/performance.xml">
+        <!-- Android doesn't support Files.newInputStream, et al. -->
+        <exclude name="AvoidFileStream" />
+    </rule>
     <rule ref="category/java/codestyle.xml">
         <!-- Espresso is designed this way !-->
         <exclude name="TooManyStaticImports" />
@@ -43,6 +46,8 @@
         <exclude name="AbstractNaming" />
         <exclude name="AtLeastOneConstructor" />
         <exclude name="CallSuperInConstructor" />
+        <!-- Android only supports this after API 19 -->
+        <exclude name="IdenticalCatchBranches" />
         <!-- ButterKnife is designed this way -->
         <exclude name="DefaultPackage" />
         <exclude name="CommentDefaultAccessModifier" />
@@ -73,6 +78,11 @@
     <rule ref="category/java/codestyle.xml/ConfusingTernary">
         <properties>
             <property name="ignoreElseIf" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+        <properties>
+            <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+(Utils?|Helper|Fixer)"/>
         </properties>
     </rule>
 </ruleset>

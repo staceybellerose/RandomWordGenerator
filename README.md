@@ -7,6 +7,7 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/staceybellerose/RandomWordGenerator?branch=develop)](https://bettercodehub.com/)
 [![CodeFactor](https://www.codefactor.io/repository/github/staceybellerose/randomwordgenerator/badge)](https://www.codefactor.io/repository/github/staceybellerose/randomwordgenerator)
 [![Known Vulnerabilities](https://snyk.io/test/github/staceybellerose/randomwordgenerator/badge.svg)](https://snyk.io/test/github/staceybellerose/randomwordgenerator)
+[![Donate using PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GKFCDXWX5Z46E)
 
 The **Random Word Generator** Android app generates
 randomly selected words from large word lists derived
@@ -32,9 +33,15 @@ The app is available for download on Google Play.
 
 Help us keep _RandomWordGenerator_ open and inclusive. Please read and follow our [Code of Conduct](https://github.com/staceybellerose/RandomWordGenerator/blob/master/CODE_OF_CONDUCT.md).
 
+## Support
+
+If you would like to contribute towards my project, and allow me to create more open source apps, you can donate using the PayPal button below.
+
+[![Donate using PayPal](button.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GKFCDXWX5Z46E)
+
 ## License
 
-    Copyright 2017 Stacey Adams
+    Copyright 2017-2018 Stacey Adams
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_license_open_data" />
+    <string name="license_open_data_licenseName">Open Data</string>
+    <string name="license_open_data_licenseShortDescription">
+        <![CDATA[
+        The OANC is a community resource that is freely available for download and use for
+        research and development, including commercial development.
+        ]]>
+    </string>
+    <string name="license_open_data_licenseDescription">
+        <![CDATA[
+        The OANC is a community resource that is freely available for download and use for
+        research and development, including commercial development.<br><br>
+        The philosophy behind the OANC is one of collaborative community development, wherein members of the
+        community can freely use all of our data and resources without restriction (including commercial use),
+        with the expectation that they will contribute derived data and annotations when possible. We also hope
+        that the community will contribute additional data to be included in the OANC in the future.
+        ]]>
+    </string>
+</resources>

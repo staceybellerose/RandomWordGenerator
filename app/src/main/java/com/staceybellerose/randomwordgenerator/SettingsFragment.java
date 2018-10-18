@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.support.annotation.Nullable;
 
 import com.staceybellerose.randomwordgenerator.utils.Settings;
 import com.staceybellerose.randomwordgenerator.utils.WordListManager;
@@ -38,6 +39,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
 
         mListPreference = findPreference(getString(R.string.pref_word_list));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        final String listDescription = mCallback.getWordListManager().getWordListDescription();
+        mListPreference.setSummary(listDescription);
         mListPreference.setOnPreferenceClickListener((preference) -> {
             final Activity activity = getActivity();
             final Intent intent = new Intent(activity, WordListDetailsActivity.class);
@@ -47,17 +56,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        final String listDescription = mCallback.getWordListManager().getWordListDescription();
-        mListPreference.setSummary(listDescription);
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        mListPreference.setOnPreferenceClickListener(null);
     }
 
     /**
@@ -84,16 +86,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-        setCallback(activity);
-    }
-
-    @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-        setCallback(context);
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setCallback(getActivity());
     }
 
     /**
