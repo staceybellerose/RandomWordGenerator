@@ -7,6 +7,9 @@ import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
+import com.staceybellerose.randomwordgenerator.listeners.SpecialButtonListener;
+
+import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -28,6 +31,10 @@ public class MyLibsActivity extends AppCompatActivity {
      * Long description for the app
      */
     @BindString(R.string.app_long_desc) String mAppLongDesc;
+    /**
+     * Aaction text to view source on GitHub
+     */
+    @BindString(R.string.action_github) String mGitHub;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -57,6 +64,8 @@ public class MyLibsActivity extends AppCompatActivity {
                 .withAboutIconShown(true)
                 .withAboutVersionShownName(true)
                 .withAboutDescription(mAppLongDesc)
+                .withAboutSpecial1(mGitHub.toUpperCase(Locale.getDefault()))
+                .withListener(new SpecialButtonListener())
                 .withExcludedLibraries("AndroidIconics")
                 .withLibraries("gradle-retrolambda", "retrolambda", "rxandroid")
                 .withLicenseShown(true)

@@ -35,6 +35,8 @@ ext {
     appName = "RandomWordsGenerator"
 }
 ext.gitVersioner = [
+        defaultBranch            : "develop",
+        stableBranches           : "master",
         snapshotEnabled          : false,
         localChangesCountEnabled : false
 ]

@@ -11,6 +11,7 @@
         This app uses multiple word lists from different sources. The random number generator
         uses the cryptographically secure java.security.SecureRandom class.
         ]]></string>
+    <string name="app_url">https://github.com/staceybellerose/RandomWordGenerator/blob/%s/README.md</string>
 
     <string name="sample_words">
         lorem
@@ -44,6 +45,7 @@
     <string name="action_wordlists">Word Lists</string>
     <string name="action_list_filter">Language</string>
     <string name="action_list_help">Help</string>
+    <string name="action_github">View Source on GitHub</string>
     <string name="button_show_sources">Show Sources</string>
 
     <string name="changelog_row_bullet">\u25cf</string>
