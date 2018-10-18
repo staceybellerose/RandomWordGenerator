@@ -31,9 +31,9 @@ def tokenize(line):
 	return [word.strip('-') for word in words if re.search(r'\w', word) and not re.search(r'\d', word)]
 
 def build_words(filename):
-	file = open(filename, 'r', encoding='utf-8')
+	infile = open(filename, 'r', encoding='utf-8')
 	words = []
-	for line in file:
+	for line in infile:
 		# line starts with XML tag, skip it
 		if line[0] == '<':
 			continue
@@ -41,7 +41,7 @@ def build_words(filename):
 		if re.match(r'\A\([A-Z]{2}\) ', line):
 			line = line[5:]
 		words += tokenize(line)
-	file.close()
+	infile.close()
 	return words
 
 def process_files(filenames, tempfile):
@@ -62,12 +62,12 @@ def process_tempfile(tempfile):
 	tempfile.close()
 	return counter
 
-def write_wordlist(wordlist, wordlist_file, dict, dict_en):
+def write_wordlist(wordlist, wordlist_file, dict_local, dict_en):
 	for item in wordlist.most_common():
 		word, count = item
 		# skip any English words that are not found in target dictionary
-		if dict != None:
-			if dict_en.spell(word) and not dict.spell(word):
+		if dict_local != None:
+			if dict_en.spell(word) and not dict_local.spell(word):
 				continue
 		wordlist_file.write(word + '\t' + str(count) + '\n')
 	wordlist_file.close()
@@ -78,9 +78,9 @@ def main():
 	dict_en = hunspell.HunSpell('../dicts/en_US.dic', '../dicts/en_US.aff')
 	if args.dictionary[0:2] == 'en':
 		print('No dictionary checks')
-		dict = None
+		dict_local = None
 	else:
-		dict = hunspell.HunSpell('../dicts/' + args.dictionary + '.dic', '../dicts/' + args.dictionary + '.aff')
+		dict_local = hunspell.HunSpell('../dicts/' + args.dictionary + '.dic', '../dicts/' + args.dictionary + '.aff')
 	tempfile = NamedTemporaryFile(mode='w+', encoding='utf-8', suffix=".tmp", prefix="tmp_")
 
 	print('Processing started at  ' + time.ctime())
@@ -88,7 +88,7 @@ def main():
 	print('Building wordlist at   ' + time.ctime())
 	counter = process_tempfile(tempfile)
 	print('Writing wordlist at    ' + time.ctime())
-	write_wordlist(counter, args.outputfile, dict, dict_en)
+	write_wordlist(counter, args.outputfile, dict_local, dict_en)
 	print('Processing complete at ' + time.ctime())
 
 if __name__ == '__main__':

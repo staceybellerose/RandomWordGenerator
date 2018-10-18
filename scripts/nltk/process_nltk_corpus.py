@@ -55,7 +55,7 @@ args = parser.parse_args()
 print('Processing started at  ' + time.ctime())
 download_corpus(args.corpus)
 corpus = import_corpus(args.corpus)
-if args.fileid == None:
+if args.fileid is None:
 	wordlist = build_wordlist(corpus.words())
 else:
 	wordlist = build_wordlist(corpus.words(args.fileid))
