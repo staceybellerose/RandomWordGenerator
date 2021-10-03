@@ -2,16 +2,16 @@
 <resources>
     <string name="app_name">Random Word Generator</string>
     <string name="app_header">Your Generated Words</string>
-    <string name="app_long_desc"><![CDATA[<p>The inspiration for this app was xkcd\'s comic
+    <string name="app_long_desc"><![CDATA[The inspiration for this app was xkcd\'s comic
         <a href="https://m.xkcd.com/936/">"Password Strength"</a>, and by
-        <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>.</p>
-        <p>By using a large word list with over 28,000 entries, a randomly
-        selected word will have nearly 14.8 bits of entropy. A phrase made up of 6 words will
-        have over 88.6 bits of entropy, more than enough for a very strong password.</p>
-        <p>This app uses multiple word lists from different sources.
-        The random number generator uses the cryptographically secure java.security.SecureRandom
-        class.</p>
+        <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>.<br><br>
+        By using a large word list with over 28,000 entries, a randomly selected word will
+        have nearly 14.8 bits of entropy. A phrase made up of 6 words will have over 88.6
+        bits of entropy, more than enough for a very strong password.<br><br>
+        This app uses multiple word lists from different sources. The random number generator
+        uses the cryptographically secure java.security.SecureRandom class.
         ]]></string>
+    <string name="app_url">https://github.com/staceybellerose/RandomWordGenerator/blob/%s/README.md</string>
 
     <string name="sample_words">
         lorem
@@ -33,8 +33,9 @@
     <string name="title_activity_changelog">Change Log</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_word_lists">Word Lists</string>
-    <string name="title_activity_word_list_info">Word List Details</string>
-    <string name="title_tour_help">Help</string>
+    <string name="title_activity_word_list_info">Word Lists</string>
+    <string name="title_activity_sources">Word List Sources</string>
+    <string name="title_tour_help">Show Help</string>
     <string name="header_libraries">Third Party Libraries</string>
 
     <string name="action_settings">Settings</string>
@@ -42,6 +43,10 @@
     <string name="action_about">About</string>
     <string name="action_changelog">Change Log</string>
     <string name="action_wordlists">Word Lists</string>
+    <string name="action_list_filter">Language</string>
+    <string name="action_list_help">Help</string>
+    <string name="action_github">View Source on GitHub</string>
+    <string name="button_show_sources">Show Sources</string>
 
     <string name="changelog_row_bullet">\u25cf</string>
 
@@ -49,8 +54,19 @@
     <string name="tour_clipboard_secondary">Tap the button to copy your word list to the clipboard</string>
     <string name="tour_refresh_primary">Pull to Refresh</string>
     <string name="tour_refresh_secondary">To generate a new set of words, swipe down to refresh.</string>
+    <string name="tour_wordlist_primary">Easily Change Word Lists</string>
+    <string name="tour_wordlist_secondary">Tap the header to change the word list used to generate the random words.</string>
+
+    <string name="word_list_help_title">Help</string>
+    <string name="word_list_help_text">To select a word list for use, simply tap on the one you wish to use.
+        The currently selected word list will show a ❤ symbol in the upper right corner of its information card.
+        \n\nTo see only those lists of a certain language, use the drop down list in the top bar to select a language.
+    </string>
+    <string name="sources_description">The word lists included in this app have been collected
+        from a variety of sources.</string>
 
     <string name="word_list_title">Selected Word List</string>
+    <string name="details_language">Language</string>
     <string name="details_source">Source</string>
     <string name="details_count">Word Count</string>
     <string name="details_entropy">Entropy</string>
@@ -66,6 +82,7 @@
     <string name="pref_word_list_changed">WORD_LIST_CHANGED</string>
     <string name="pref_clean_filter_changed">CLEAN_FILTER_CHANGED</string>
     <string name="pref_two_column">TWO_COLUMN</string>
+    <string name="pref_search_language">LANGUAGE</string>
 
     <bool name="pref_clean_words_default">false</bool>
     <bool name="pref_two_column_default">true</bool>

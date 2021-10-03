@@ -10,7 +10,11 @@
         <item name="textColorPrimary">@color/md_primary_text_light</item>
         <item name="textColorSecondary">@color/md_secondary_text_light</item>
         <item name="textColorTertiary">@color/md_disabled_text_light</item>
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
+        <item name="buttonStyle">@style/AppTheme.ButtonStyle</item>
+        <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/AppTheme.SpinnerItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/AppTheme.SpinnerDropDownItem</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -21,6 +25,33 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:colorBackground">@color/card_background</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="textColorPrimary">@color/md_primary_text_light</item>
+        <item name="textColorSecondary">@color/md_secondary_text_light</item>
+        <item name="textColorTertiary">@color/md_disabled_text_light</item>
+        <item name="buttonStyle">@style/AppTheme.ButtonStyle</item>
+    </style>
+
+    <style name="AppTheme.ButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance.Button</item>
+    </style>
+
+    <style name="AppTheme.SpinnerItem" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/md_primary_text_dark</item>
+        <item name="android:textSize">@dimen/text_size_help</item>
+    </style>
+
+    <style name="AppTheme.SpinnerDropDownItem" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:textSize">@dimen/text_size_help</item>
+        <item name="android:textColor">@color/md_primary_text_light</item>
+        <item name="android:background">@color/card_background</item>
+        <item name="android:paddingLeft">@dimen/keyline</item>
+        <item name="android:paddingRight">@dimen/keyline</item>
+    </style>
 
     <style name="AppTheme.TextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/textColorPrimary</item>
@@ -53,6 +84,10 @@
 
     <style name="AppTheme.TextAppearance.Body.Tight" parent="AppTheme.TextAppearance.Body">
         <item name="android:paddingBottom">@dimen/text_margin_body_tight</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Help" parent="AppTheme.TextAppearance.Body">
+        <item name="android:textSize">@dimen/text_size_help</item>
     </style>
 
     <style name="AppTheme.TextAppearance.FabText" parent="AppTheme.TextAppearance">
@@ -94,7 +129,7 @@
         <item name="mttp_backgroundColour">@color/help_background</item>
         <item name="mttp_focalRadius">36dp</item>
     </style>
-    
+
     <style name="MaterialTapTargetPromptTheme.Fab" parent="MaterialTapTargetPromptTheme">
         <item name="mttp_primaryText">@string/tour_clipboard_primary</item>
         <item name="mttp_secondaryText">@string/tour_clipboard_secondary</item>
@@ -102,10 +137,15 @@
         <item name="mttp_focalColour">@color/colorAccentDark</item>
     </style>
 
-
     <style name="MaterialTapTargetPromptTheme.Refresh" parent="MaterialTapTargetPromptTheme">
         <item name="mttp_primaryText">@string/tour_refresh_primary</item>
         <item name="mttp_secondaryText">@string/tour_refresh_secondary</item>
         <item name="mttp_focalColour">@color/colorPrimary</item>
+    </style>
+
+    <style name="MaterialTapTargetPromptTheme.Select" parent="MaterialTapTargetPromptTheme">
+        <item name="mttp_primaryText">@string/tour_wordlist_primary</item>
+        <item name="mttp_secondaryText">@string/tour_wordlist_secondary</item>
+        <item name="mttp_target">@id/header_area</item>
     </style>
 </resources>

@@ -4,8 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.text.TextUtils;
 import android.text.style.TabStopSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.staceybellerose.randomwordgenerator.utils.Settings;
@@ -25,6 +27,7 @@ import com.staceybellerose.randomwordgenerator.utils.WordListManager;
 import com.staceybellerose.randomwordgenerator.widgets.TourManager;
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,10 +38,6 @@ import jonathanfinerty.once.Once;
  * The main activity for this app
  */
 public class MainActivity extends AppCompatActivity {
-    /**
-     * Request code to indicate Settings Activity called
-     */
-    private static final int SETTINGS_REQUEST_CODE = 42;
     /**
      * key used for saving selected words to instance state
      */
@@ -52,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressWarnings("unused")
     private static final String TAG = "RandomWordGenerator";
-    /**
-     * Key to track when the help tour has been shown
-     */
-    private static final String ONCE_TOUR = "showAppTour";
 
     /**
      * the floating action button
@@ -93,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
     @BindColor(R.color.colorAccent)
     int mColorAccent;
     /**
+     * the current git branch
+     */
+    @BindString(R.string.git_branch)
+    String mGitBranch;
+    /**
      * a third color for the app, used in the swipe to refresh progress animation
      */
     @BindColor(R.color.colorAlternative)
@@ -129,33 +129,19 @@ public class MainActivity extends AppCompatActivity {
         mTourManager = new TourManager(this);
         mWordListManager = new WordListManager(this);
         mSwipeLayout.setColorSchemeColors(mColorAlternative, mColorPrimary, mColorAccent);
-        mSwipeLayout.setOnRefreshListener(() -> new Handler().postDelayed(this::refreshWords, 250));
+        mSwipeLayout.setSize(SwipeRefreshLayout.LARGE);
+        mSwipeLayout.setOnRefreshListener(this::refreshWords);
+        initNewFeatureTour();
 
-        if (savedInstanceState == null) {
-            new Handler().postDelayed(() -> reloadLists(true), 250);
-        } else {
-            mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORDS));
-            mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
-            new Handler().postDelayed(() -> reloadLists(false), 250);
-        }
-
-        // (re)set the tab stop for the random word content
-        mRandomContent.post(() -> {
-            mContentWidth = mRandomContent.getWidth();
-            final SpannableString newContent = new SpannableString(mRandomContent.getText().toString());
-            newContent.setSpan(new TabStopSpan.Standard(mContentWidth / 2), 0, newContent.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mRandomContent.setText(newContent);
+        final ViewTreeObserver viewTreeObserver = mToolbar.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mToolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                initListTabStop();
+                reloadLists(savedInstanceState == null);
+            }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, ONCE_TOUR)) {
-            mTourManager.startTour();
-            Once.markDone(ONCE_TOUR);
-        }
     }
 
     @Override
@@ -163,6 +149,13 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putCharSequence(STATE_WORDS, mRandomContent.getText());
         savedInstanceState.putCharSequence(STATE_WORD_LIST_TITLE, mWordListTitle.getText());
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRandomContent.setText(savedInstanceState.getCharSequence(STATE_WORDS));
+        mWordListTitle.setText(savedInstanceState.getCharSequence(STATE_WORD_LIST_TITLE));
     }
 
     @Override
@@ -176,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         final int itemId = item.getItemId();
         if (itemId == R.id.action_settings) {
             final Intent intent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(intent, SETTINGS_REQUEST_CODE);
+            startActivityForResult(intent, SettingsActivity.SETTINGS_REQUEST_CODE);
             return true;
         } else if (itemId == R.id.action_refresh) {
             refreshWords();
@@ -186,9 +179,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_wordlists) {
-            final Intent intent = new Intent(this, WordListDetailsActivity.class);
-            startActivity(intent);
+            showWordLists();
             return true;
+        } else if (itemId == R.id.action_github) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_url, mGitBranch)));
+            startActivity(intent);
         } else if (itemId == R.id.action_help) {
             mTourManager.startTour();
             return true;
@@ -202,18 +197,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == SETTINGS_REQUEST_CODE) {
+        if (requestCode == SettingsActivity.SETTINGS_REQUEST_CODE
+                || requestCode == WordListDetailsActivity.WORD_LIST_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                mSwipeLayout.setRefreshing(true);
-                if (data.getBooleanExtra(getString(R.string.pref_word_list_changed), false)) {
-                    final String wordListName = mWordListManager.reloadWordList();
-                    mUsingDownloadedList = (wordListName.equalsIgnoreCase(getString(R.string.pref_word_list_download)));
-                    setWordListTitle(wordListName);
-                }
-                if (data.getBooleanExtra(getString(R.string.pref_clean_filter_changed), false)) {
-                    mWordListManager.reloadCleanFilter();
-                }
-                refreshWords();
+                final boolean reloadWordList = data.getBooleanExtra(getString(R.string.pref_word_list_changed), false);
+                final boolean reloadCleanFilter = data.getBooleanExtra(getString(R.string.pref_clean_filter_changed),
+                        false);
+                final RefreshTaskParams taskParams = new RefreshTaskParams(reloadWordList, reloadCleanFilter, true);
+                final RefreshTask task = new RefreshTask();
+                task.execute(taskParams);
             }
             return;
         }
@@ -234,39 +226,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * start the Word List Details activity
+     */
+    @OnClick({R.id.word_list_header, R.id.word_list_title})
+    public void showWordLists() {
+        final Intent intent = new Intent(this, WordListDetailsActivity.class);
+        startActivityForResult(intent, WordListDetailsActivity.WORD_LIST_REQUEST_CODE);
+    }
+
+    /**
+     * Set up the New Features tour
+     */
+    private void initNewFeatureTour() {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, TourManager.ONCE_TOUR)) {
+            mTourManager.startTour();
+            Once.markDone(TourManager.ONCE_TOUR);
+            Once.markDone(TourManager.NEW_FEATURES); // new features are shown at end of initial tour
+        } else if (!Once.beenDone(Once.THIS_APP_VERSION, TourManager.NEW_FEATURES)) {
+            mTourManager.startNewFeatures();
+            Once.markDone(TourManager.NEW_FEATURES);
+        }
+    }
+
+    /**
+     * Initialize the tab stop in the word list to support two columns
+     */
+    private void initListTabStop() {
+        mContentWidth = mRandomContent.getWidth();
+        final SpannableString newContent = new SpannableString(mRandomContent.getText().toString());
+        newContent.setSpan(new TabStopSpan.Standard(mContentWidth / 2), 0, newContent.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mRandomContent.setText(newContent);
+    }
+
+    /**
      * Reload the word lists and optionally the word display.
      *
      * @param refreshWords Flag indicating whether to refresh the display of words as well
      */
     private void reloadLists(final boolean refreshWords) {
-        mSwipeLayout.setRefreshing(true);
-        final String wordListName = mWordListManager.reloadWordList();
-        setWordListTitle(wordListName);
-        mWordListManager.reloadCleanFilter();
-        if (refreshWords) {
-            refreshWords();
-        } else {
-            mSwipeLayout.setRefreshing(false);
-        }
+        final RefreshTaskParams taskParams = new RefreshTaskParams(true, true, refreshWords);
+        final RefreshTask task = new RefreshTask();
+        task.execute(taskParams);
     }
 
     /**
      * Set the word list title to the selected word list
-     *
-     * @param wordListName name of the selected word list, from @array/word_list_resources
      */
-    private void setWordListTitle(final String wordListName) {
-        final String[] listNames = getResources().getStringArray(R.array.word_list_resources);
-        final String[] listTitles = getResources().getStringArray(R.array.word_list_descriptions);
-        String title = null;
-        for (int i = 0; i < listNames.length; i++) {
-            if (listNames[i].equalsIgnoreCase(wordListName)) {
-                title = listTitles[i];
-            }
-        }
-        if (title == null) {
-            title = listTitles[0];
-        }
+    private void setWordListTitle() {
+        final String title = mWordListManager.getWordListDescription();
         mWordListTitle.setText(title);
     }
 
@@ -322,6 +330,72 @@ public class MainActivity extends AppCompatActivity {
                         appendText(substring, mSettings.getDisplayCount(), mSettings.isDisplayTwoColumns()),
                             Throwable::printStackTrace,
                             () -> mSwipeLayout.setRefreshing(false));
+        }
+    }
+
+    /**
+     * Parameters needed for Refresh task
+     */
+    private static class RefreshTaskParams {
+        /**
+         * Flag indicating whether the word list should be reloaded
+         */
+        private final boolean mReloadWordList;
+        /**
+         * Flag indicating whether the clean filter should be reloaded
+         */
+        private final boolean mReloadCleanFilter;
+        /**
+         * Flag indicating whether the displayed words should be refreshed
+         */
+        private final boolean mRefreshWords;
+
+        /**
+         * Constructor
+         *
+         * @param reloadWordList Flag indicating whether the word list should be reloaded
+         * @param reloadCleanFilter Flag indicating whether the clean filter should be reloaded
+         * @param refreshWords Flag indicating whether the displayed words should be refreshed
+         */
+        RefreshTaskParams(final boolean reloadWordList, final boolean reloadCleanFilter, final boolean refreshWords) {
+            mReloadWordList = reloadWordList;
+            mReloadCleanFilter = reloadCleanFilter;
+            mRefreshWords = refreshWords;
+        }
+    }
+
+    /**
+     * Word list refresh task
+     */
+    private class RefreshTask extends AsyncTask<RefreshTaskParams, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            mSwipeLayout.setRefreshing(true);
+            final String wordListName = mSettings.getWordListName();
+            mUsingDownloadedList = (wordListName.equalsIgnoreCase(getString(R.string.pref_word_list_download)));
+            setWordListTitle();
+        }
+
+        @Override
+        protected Boolean doInBackground(final RefreshTaskParams... params) {
+            final RefreshTaskParams taskParams = params[0];
+            if (taskParams.mReloadWordList) {
+                mWordListManager.reloadWordList();
+            }
+            if (taskParams.mReloadCleanFilter) {
+                mWordListManager.reloadCleanFilter();
+            }
+            return taskParams.mRefreshWords;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean shouldRefreshWords) {
+            if (shouldRefreshWords) {
+                refreshWords();
+            } else {
+                mSwipeLayout.setRefreshing(false);
+            }
         }
     }
 }

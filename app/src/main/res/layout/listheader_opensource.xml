@@ -103,7 +103,7 @@
         android:paddingRight="@dimen/keyline"
         android:paddingStart="@dimen/keyline"
         android:paddingTop="0dp"
-        tools:text="About description" />
+        tools:text="@string/app_long_desc"/>
 
     <View
         android:layout_width="match_parent"

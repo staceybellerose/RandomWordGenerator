@@ -5,14 +5,13 @@ import android.support.annotation.RawRes;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.github.davidmoten.rx2.Strings;
 import com.staceybellerose.randomwordgenerator.BuildConfig;
 import com.staceybellerose.randomwordgenerator.R;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +69,31 @@ public class WordListManager {
     }
 
     /**
+     * Get the description of the word list
+     *
+     * @return the word list description
+     */
+    public String getWordListDescription() {
+        final String wordListName = mSettings.getWordListName();
+        final String[] listNames = mContext.getResources().getStringArray(R.array.word_list_resources);
+        final String[] listDescriptions = mContext.getResources().getStringArray(R.array.word_list_descriptions);
+        String result = null;
+        for (int i = 0; i < listNames.length; i++) {
+            final String listName = listNames[i];
+            String description;
+            try {
+                description = listDescriptions[i];
+                if (wordListName.equals(listName)) {
+                    result = description;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+                // since we don't have a proper entry, it can't match our list name
+            }
+        }
+        return result;
+    }
+
+    /**
      * Reload the word list based on the one set in shared preferences.
      *
      * @return the word list name
@@ -109,22 +133,15 @@ public class WordListManager {
                                       final int maxLength) {
         final ArrayList<String> wordList = new ArrayList<>();
         final InputStream inputStream = mContext.getResources().openRawResource(wordListResource);
-        InputStreamReader reader = null;
         try {
-            reader = new InputStreamReader(inputStream, "UTF8");
-        } catch (UnsupportedEncodingException exception) {
-            Log.e(TAG, exception.getMessage(), exception);
-        }
-        Strings.split(Strings.from(reader), "\n")
-                .filter(substring -> !TextUtils.isEmpty(substring))
-                .map(substring -> substring.split("\t")[0])
-                .filter(substring -> substring.length() >= minLength)
-                .filter(substring -> substring.length() <= maxLength)
-                .subscribe(wordList::add);
-        try {
-            if (reader != null) {
-                reader.close();
+            final InputStreamReader reader = new InputStreamReader(inputStream, "UTF8");
+            final BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                processWord(wordList, line, minLength, maxLength);
             }
+            bufferedReader.close();
+            reader.close();
             inputStream.close();
         } catch (IOException exception) {
             Log.e(TAG, exception.getMessage(), exception);
@@ -133,14 +150,35 @@ public class WordListManager {
     }
 
     /**
+     * Process a word to determine if it should be added to the word list
+     *
+     * @param wordlist The word list to which the word should be added
+     * @param checkWord the word to check
+     * @param minLength the minimum length of allowed words
+     * @param maxLength the maximum length of allowed words
+     */
+    private void processWord(final List<String> wordlist, final String checkWord, final int minLength,
+                             final int maxLength) {
+        final String word = checkWord.split("\t")[0];
+        if (TextUtils.isEmpty(word)) {
+            return;
+        }
+        if (word.length() < minLength || word.length() > maxLength) {
+            return;
+        }
+        wordlist.add(word);
+    }
+
+    /**
      * Refresh the list of random words.
+     *
      * @return a Flowable with the randomly selected words
      */
     public Flowable<String> refreshWords() {
         return Flowable.interval(TIME_BETWEEN_WORD_DISPLAY_MS, TimeUnit.MILLISECONDS, Schedulers.io())
                 .map(number -> mSecureRandom.nextInt(mWordList.size()))
                 .map(mWordList::get)
-                .filter(substring -> substring != null)
+                .filter(substring -> !TextUtils.isEmpty(substring))
                 .filter(substring -> mFilterList.indexOf(substring) == -1)
                 .filter(substring -> (mCleanFilter == null) || mCleanFilter.indexOf(substring) == -1)
                 .distinct()

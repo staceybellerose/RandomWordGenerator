@@ -1,7 +1,5 @@
 package com.staceybellerose.randomwordgenerator.utils;
 
-import android.annotation.SuppressLint;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +8,7 @@ import java.util.Map;
  * Does not implement all methods required for a Map, or manage all data types. Currently handles
  * Strings, Integers, and Booleans.
  */
-@SuppressWarnings("WeakerAccess")
-@SuppressLint("UseSparseArrays")
-public class TypedMap {
+class TypedMap {
     /**
      * Internal HashMap to manage Strings
      */
@@ -29,7 +25,7 @@ public class TypedMap {
     /**
      * Constructor
      */
-    public TypedMap() {
+    TypedMap() {
         mStringMap = new HashMap<>();
         mIntegerMap = new HashMap<>();
         mBooleanMap = new HashMap<>();
@@ -42,7 +38,7 @@ public class TypedMap {
      * @param resourceId key with which the specified value is to be associated
      * @param contents value to be associated with the specified key
      */
-    public void put(final int resourceId, final String contents) {
+    void put(final int resourceId, final String contents) {
         mStringMap.put(resourceId, contents);
     }
 
@@ -53,7 +49,7 @@ public class TypedMap {
      * @param resourceId key with which the specified value is to be associated
      * @param contents value to be associated with the specified key
      */
-    public void put(final int resourceId, final int contents) {
+    void put(final int resourceId, final int contents) {
         mIntegerMap.put(resourceId, contents);
     }
 
@@ -64,7 +60,7 @@ public class TypedMap {
      * @param resourceId key with which the specified value is to be associated
      * @param contents value to be associated with the specified key
      */
-    public void put(final int resourceId, final boolean contents) {
+    void put(final int resourceId, final boolean contents) {
         mBooleanMap.put(resourceId, contents);
     }
 
@@ -76,7 +72,7 @@ public class TypedMap {
      * @return the value to which the specified key is mapped, or null if this map contains
      * no mapping for the key
      */
-    public String getString(final int resourceId) {
+    String getString(final int resourceId) {
         return mStringMap.get(resourceId);
     }
 
@@ -88,7 +84,7 @@ public class TypedMap {
      * @return the value to which the specified key is mapped, or null if this map contains
      * no mapping for the key
      */
-    public int getInteger(final int resourceId) {
+    int getInteger(final int resourceId) {
         return mIntegerMap.get(resourceId);
     }
 
@@ -100,7 +96,7 @@ public class TypedMap {
      * @return the value to which the specified key is mapped, or null if this map contains
      * no mapping for the key
      */
-    public boolean getBoolean(final int resourceId) {
+    boolean getBoolean(final int resourceId) {
         return mBooleanMap.get(resourceId);
     }
 

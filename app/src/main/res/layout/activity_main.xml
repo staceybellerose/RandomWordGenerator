@@ -44,18 +44,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/AppTheme.TextAppearance.Header.Tight"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/header_area"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/word_list_title"/>
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/word_list_title"
-                    style="@style/AppTheme.TextAppearance.Body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="American English Dictionary (no Inflections)"/>
+                    <TextView
+                        android:id="@+id/word_list_header"
+                        style="@style/AppTheme.TextAppearance.Header.Tight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/word_list_title"
+                        android:foreground="?selectableItemBackground"/>
+
+                    <TextView
+                        android:id="@+id/word_list_title"
+                        style="@style/AppTheme.TextAppearance.Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="American English Dictionary (no Inflections)"
+                        android:foreground="?selectableItemBackground"/>
+                </LinearLayout>
 
                 <TextView
                     style="@style/AppTheme.TextAppearance.Header"
