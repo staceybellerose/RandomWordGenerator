@@ -2,6 +2,7 @@ package com.staceybellerose.randomwordgenerator.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.mikepenz.aboutlibraries.util.RippleForegroundListener;
 import com.staceybellerose.randomwordgenerator.R;
 import com.staceybellerose.randomwordgenerator.utils.Settings;
 
@@ -53,7 +55,6 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
      *
      * @param context the activity context
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public ListDetailsAdapter(final Context context) {
         final Resources res = context.getResources();
         final Settings settings = Settings.getInstance(context);
@@ -66,6 +67,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         for (int i = 0; i < listNames.length; i++) {
             final String language = getStringFromArray(languages, i, "??");
             final String resource = getStringFromArray(listResources, i, "");
+            @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
             final WordList wordList = new WordList();
             wordList.setListName(listNames[i]);
             wordList.setSource(getStringFromArray(sources, i, "unknown"));
@@ -99,6 +101,8 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         holder.setItemClickListener(mItemClickListener);
         if (wordList.getResource().equals(mSelectedItem)) {
             listNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_favorite_green_500_36dp, 0);
+        } else {
+            listNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
     }
 
@@ -186,7 +190,6 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
     }
 
     private class LanguageFilter extends Filter {
-        @SuppressWarnings("Convert2streamapi")
         @Override
         protected FilterResults performFiltering(final CharSequence constraint) {
             final String searchString = constraint.toString();
@@ -211,8 +214,8 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             return filterResults;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
+        @SuppressWarnings("unchecked")
         protected void publishResults(final CharSequence constraint, final FilterResults results) {
             mWordListFiltered.clear();
             mWordListFiltered.addAll((ArrayList<WordList>) results.values);
@@ -225,6 +228,11 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
      */
     static class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        /**
+         * The Card
+         */
+        @BindView(R.id.card_view)
+        CardView mCard;
         /**
          * Text view containing the word list name
          */
@@ -264,6 +272,7 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             super(view);
             ButterKnife.bind(this, view);
             view.setOnClickListener(this);
+            mCard.setOnTouchListener(new RippleForegroundListener(R.id.card_view));
         }
 
         @Override

@@ -40,6 +40,12 @@ task codeChecks {
     dependsOn 'checkstyle', 'pmd', 'findbugs'
 }
 
+task codeChecksStatic {
+    group 'verification'
+    description 'Runs static code analysis checks'
+    dependsOn 'checkstyle', 'pmd'
+}
+
 android {
     applicationVariants.all { variant ->
         if(variant.buildType.name == 'debug') {

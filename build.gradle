@@ -3,9 +3,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'https://maven.google.com'
-        }
+        maven { url 'https://maven.google.com' }
         mavenCentral()
     }
     dependencies {
@@ -24,9 +22,7 @@ plugins {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url 'https://maven.google.com'
-        }
+        maven { url 'https://maven.google.com' }
         mavenCentral()
     }
 }
@@ -39,6 +35,8 @@ ext {
     appName = "RandomWordsGenerator"
 }
 ext.gitVersioner = [
+        defaultBranch            : "develop",
+        stableBranches           : "master",
         snapshotEnabled          : false,
         localChangesCountEnabled : false
 ]
